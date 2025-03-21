@@ -1,5 +1,7 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { LandingPage } from '../pages/LandingPage/LandingPage';
+import { GuestLayout } from '../features/GuestLayout/GuestLayout';
 
 export const GuestRoutes = () => {
   return (
@@ -20,7 +22,9 @@ export const GuestRoutes = () => {
           </FormDataProvider>
         }
       /> */}
+      <Route path="/" element={<GuestLayout />}>
+        <Route path="main" element={<LandingPage />} />
+      </Route>
     </Routes>
-
   )
 }
