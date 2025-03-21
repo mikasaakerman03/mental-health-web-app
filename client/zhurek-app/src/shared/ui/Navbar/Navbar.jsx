@@ -31,15 +31,15 @@ export const Navbar = () => {
   const contactDetails = [
     {
       icon: locationIcon,
-      details: ["456 Oak Avenue", "Springfield, IL"],
+      details: ["Сатпаева, 22", "050013, Алматы"],
     },
     {
       icon: callIcon2,
-      details: ["+(555) 123-4567", "+(123) 456-789-000"],
+      details: ["+7 776 856 8556", "+7 776 920 0807"],
     },
     {
       icon: bagIcon2,
-      details: ["inquiries@freud.ai", "work@freud.ai"],
+      details: ["mikasaakerman03@gmail.com", "work@freud.ai"],
     },
   ];
 
@@ -66,8 +66,14 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex flex-row gap-x-3 items-center">
-                  <button onClick={() => i18n.changeLanguage("ru")} className="text-[24px] text-white font-light hover:font-bold">RU</button>
-                  <button onClick={() => i18n.changeLanguage("kk")} className="text-[24px] text-white font-light hover:font-bold">KK</button>
+                  <button onClick={() => i18n.changeLanguage("ru")} className={clsx(
+                    "text-[24px] text-white hover:underline transition-all",
+                    i18n.language === "ru" && "font-bold"
+                  )}>RU</button>
+                  <button onClick={() => i18n.changeLanguage("kk")} className={clsx(
+                    "text-[24px] text-white hover:underline transition-all",
+                    i18n.language === "kk" && "font-bold"
+                  )}>KK</button>
                   <p className="text-[24px] text-white font-light">Меню</p>
                   <img src={menuIcon} alt="menu icon" onClick={() => setToggle(false)} />
                 </div>
@@ -92,8 +98,14 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex flex-row gap-x-3 items-center">
-                  <button onClick={() => i18n.changeLanguage("ru")} className="text-[24px] text-[#4F3422] font-light hover:font-bold">RU</button>
-                  <button onClick={() => i18n.changeLanguage("kk")} className="text-[24px] text-[#4F3422] font-light hover:font-bold">KK</button>
+                  <button onClick={() => i18n.changeLanguage("ru")} className={clsx(
+                    "text-[24px] text-[#4F3422] hover:underline transition-all",
+                    i18n.language === "ru" && "font-bold"
+                  )}>RU</button>
+                  <button onClick={() => i18n.changeLanguage("kk")} className={clsx(
+                    "text-[24px] text-[#4F3422] hover:underline transition-all",
+                    i18n.language === "kk" && "font-bold"
+                  )}>KK</button>
                   <p className="text-[24px] text-[#4F3422] font-light">Меню</p>
                   <img src={menuGrayIcon} alt="menu icon" onClick={() => setToggle(true)} />
                 </div>
