@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from "react-i18next";
 import clsx from 'clsx';
 
 import callIcon from '../../assets/icons/call_brown.png';
@@ -11,20 +12,20 @@ import locationIcon from "../../assets/icons/location.png";
 import callIcon2 from "../../assets/icons/call_white.png";
 import bagIcon2 from "../../assets/icons/bag_white.png";
 import arrowRightIcon from "../../assets/icons/arrowright_white.png";
-import downloadIcon from "../../assets/icons/download.png";
 
 import logo from '../../assets/images/logo.png';
 
 export const Navbar = () => {
+  const { t, i18n } = useTranslation();
   const [toggle, setToggle] = useState(true);
 
   const menuItems = [
-    { name: "Home", active: true },
-    { name: "Platform", active: false },
-    { name: "Assessment", active: false },
-    { name: "About Us", active: false },
-    { name: "Blog", active: false },
-    { name: "Contact Us", active: false }
+    { key: "home", active: true },
+    { key: "platform", active: false },
+    { key: "assessment", active: false },
+    { key: "aboutUs", active: false },
+    { key: "blog", active: false },
+    { key: "contactUs", active: false },
   ];
 
   const contactDetails = [
@@ -47,7 +48,7 @@ export const Navbar = () => {
     <div className="relative w-full">
       {/* Темная версия (основное меню) */}
       <div
-        className={`absolute top-0 left-0 w-full transition-all duration-500 ease-in-out ${toggle ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+        className={`fixed bg-white top-0 left-0 w-full transition-all duration-500 ease-in-out ${toggle ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
       >
         <div className="w-full">
@@ -65,6 +66,8 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex flex-row gap-x-3 items-center">
+                  <button onClick={() => i18n.changeLanguage("ru")} className="text-[24px] text-white font-light hover:font-bold">RU</button>
+                  <button onClick={() => i18n.changeLanguage("kk")} className="text-[24px] text-white font-light hover:font-bold">KK</button>
                   <p className="text-[24px] text-white font-light">Меню</p>
                   <img src={menuIcon} alt="menu icon" onClick={() => setToggle(false)} />
                 </div>
@@ -76,7 +79,7 @@ export const Navbar = () => {
 
       {/* Светлая версия (открытое меню) */}
       <div
-        className={`absolute z-50 top-0 left-0 bg-[#4F3422] w-full transition-all duration-500 ease-in-out ${!toggle ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+        className={`fixed z-50 top-0 left-0 bg-[#4F3422] w-full transition-all duration-500 ease-in-out ${!toggle ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
       >
         <div className="w-full bg-[#4F3422]">
@@ -89,6 +92,8 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex flex-row gap-x-3 items-center">
+                  <button onClick={() => i18n.changeLanguage("ru")} className="text-[24px] text-[#4F3422] font-light hover:font-bold">RU</button>
+                  <button onClick={() => i18n.changeLanguage("kk")} className="text-[24px] text-[#4F3422] font-light hover:font-bold">KK</button>
                   <p className="text-[24px] text-[#4F3422] font-light">Меню</p>
                   <img src={menuGrayIcon} alt="menu icon" onClick={() => setToggle(true)} />
                 </div>
@@ -111,7 +116,7 @@ export const Navbar = () => {
                       )}
                     >
                       {item.active && <span className="w-2 h-2 bg-[#9BB167] rounded-full mr-2"></span>}
-                      {item.name}
+                      {t(`menu.${item.key}`)}
                     </li>
                   ))}
                 </ul>
@@ -119,17 +124,17 @@ export const Navbar = () => {
 
               <div className="w-full flex flex-col p-3 justify-between py-auto">
                 <div className='flex flex-row items-center'>
-                  <p className='text-white font-medium text-[12px]'>Terms & conditions</p>
+                  <p className='text-white font-medium text-[12px]'>{t("footer.terms")}</p>
                   <span className="w-2 h-2 bg-[#926247] rounded-full mx-2"></span>
-                  <p className='text-white font-medium text-[12px]'>Privacy Policy</p>
+                  <p className='text-white font-medium text-[12px]'>{t("footer.privacy")}</p>
                 </div>
 
                 <div className=''>
-                  <p className='text-white font-bold text-[36px]'>Harnessing the power of AI technology to revolutionize mental health.</p>
+                  <p className='text-white font-bold text-[36px]'>{t("footer.slogan")}</p>
                 </div>
 
-                <div>
-                  <div className="flex justify-between bg-[#4F3422] text-white p-6">
+                <div className='flex flex-col'>
+                  <div className="flex justify-between bg-[#4F3422] text-white mb-4">
                     {contactDetails.map((item, index) => (
                       <div key={index} className="flex flex-col items-center text-center">
                         <img src={item.icon} alt="icon" className="mb-2" />
@@ -142,14 +147,14 @@ export const Navbar = () => {
                   <div className="flex mt-4 gap-4">
                     {/* Кнопка "Get In Touch" */}
                     <button className="flex items-center gap-2 bg-[#9BB26D] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80">
-                      Get In Touch
+                      {t("buttons.getInTouch")}
                       <img src={arrowRightIcon} alt="arrow right" className="w-5 h-5" />
                     </button>
 
                     {/* Кнопка "Download App" */}
                     <button className="flex items-center gap-2 bg-[#FB8728] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80">
-                      Download App
-                      <img src={downloadIcon} alt="download icon" className="w-5 h-5" />
+                      {t("buttons.downloadApp")}
+                      <img src={arrowRightIcon} alt="download icon" className="w-5 h-5" />
                     </button>
                   </div>
                 </div>

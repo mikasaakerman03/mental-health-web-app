@@ -1,18 +1,22 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import ruTranslation from "../lib/i18n/ru/ru.json";
+import kkTranslation from "../lib/i18n/kk/kk.json";
 
-import trans from '../lib/i18n/index';
-
-const initOptions = {
-  fallbackLng: 'ru',
-  resources: trans,
-  lng: 'ru',
-  debug: false,
-  backend: {
-    loadPath: '../lib/i18n/{{lng}}/{{lng}}.json',
-  },
-};
-
-i18n.use(initReactI18next).init(initOptions);
+i18n
+  .use(initReactI18next)
+  .init({
+    resources: {
+      ru: { translation: ruTranslation },
+      kk: { translation: kkTranslation },
+    },
+    lng: "ru",
+    fallbackLng: "ru",
+    interpolation: { escapeValue: false },
+    debug: false,
+    backend: {
+      loadPath: '../lib/i18n/{{lng}}/{{lng}}.json',
+    },
+  });
 
 export default i18n;
