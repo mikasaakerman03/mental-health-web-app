@@ -7,7 +7,7 @@ export const GuestLayout = () => {
   return (
     <div className="flex flex-col flex-auto w-full min-w-0">
       <Navbar />
-      <div className="flex flex-col flex-auto w-[70%] mx-auto overflow-y-auto mt-[105px]">
+      <div className="flex flex-col flex-auto overflow-y-auto mt-[105px] w-full">
         <Outlet />
       </div>
     </div>

@@ -6,3 +6,41 @@
 body {
   font-family: 'Urbanist', sans-serif;
 }
+
+.shape {
+  position: absolute;
+  width: 1500px;
+  height: 1500px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  z-index: -1;
+  clip-path: circle(50% at center); 
+  mask-image: radial-gradient(circle, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+.shape-1 {
+  top: 80%;
+  left: 10%;
+  width: 2000px;
+  height: 2000px;
+  background: #372315;
+  clip-path: circle(60% at center);
+}
+
+.shape-2 {
+  top: -90%;
+  left: -50%;
+  width: 1200px;
+  height: 1200px;
+  background: #372315;
+  clip-path: circle(50% at center);
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20px);
+  }
+}

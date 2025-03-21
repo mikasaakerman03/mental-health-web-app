@@ -12,7 +12,6 @@ import locationIcon from "../../assets/icons/location.png";
 import callIcon2 from "../../assets/icons/call_white.png";
 import bagIcon2 from "../../assets/icons/bag_white.png";
 import arrowRightIcon from "../../assets/icons/arrowright_white.png";
-
 import logo from '../../assets/images/logo.png';
 
 export const Navbar = () => {
@@ -39,7 +38,7 @@ export const Navbar = () => {
     },
     {
       icon: bagIcon2,
-      details: ["mikasaakerman03@gmail.com", "work@freud.ai"],
+      details: ["mikasaakerman03@gmail.com", "meruertsajlauova@gmail.com"],
     },
   ];
 
@@ -83,20 +82,25 @@ export const Navbar = () => {
         </div>
       </div>
 
+
       {/* Светлая версия (открытое меню) */}
       <div
         className={`fixed z-50 top-0 left-0 bg-[#4F3422] w-full transition-all duration-500 ease-in-out ${!toggle ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
       >
-        <div className="w-full bg-[#4F3422]">
-          <div className="m-3">
+
+        <div className="w-full bg-[#4F3422] relative z-0 overflow-hidden">
+          <div className="absolute inset-0 flex justify-center z-0">
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+          </div>
+          <div className="relative m-3 z-10">
             <div className="w-full rounded-[1234px] bg-white p-3">
               <div className="w-full flex flex-row items-center justify-between">
                 <div className="flex flex-row gap-x-3">
                   <img src={callOrangeIcon} alt="call icon" />
                   <img src={bagGreenIcon} alt="bag icon" />
                 </div>
-
                 <div className="flex flex-row gap-x-3 items-center">
                   <button onClick={() => i18n.changeLanguage("ru")} className={clsx(
                     "text-[24px] text-[#4F3422] hover:underline transition-all",
@@ -114,7 +118,7 @@ export const Navbar = () => {
           </div>
 
           {/* Меню со списком */}
-          <div className='p-10  w-full flex items-center justify-between h-full'>
+          <div className='relative z-10 p-10  w-full flex items-center justify-between h-full'>
             <div className='mx-auto w-[70%] flex flex-row justify-between'>
               <div className="w-full">
                 <ul className='w-full flex flex-col gap-y-6'>
