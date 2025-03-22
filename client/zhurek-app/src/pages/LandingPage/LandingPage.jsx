@@ -1,11 +1,12 @@
 import React from 'react'
 import arrowRightIcon from "../../shared/assets/icons/arrowright_white.png";
+import { PartnersCarousel } from '../../entities/PartnersCarousel/PartnersCarousel';
 
 
 export const LandingPage = () => {
   return (
-    <div className='relative min-h-[100vh] w-full flex item-center h-full font-bold overflow-hidden'>
-
+    <div className='relative min-h-[100vh] w-full flex flex-col h-full font-bold overflow-hidden'>
+      {/* Block 1 */}
       <div className='relative w-full h-[80vh] z-10 overflow-hidden'>
         <div className="absolute -top-3 -right-[45%] w-[1500px] h-[1500px] bg-[#E1E1E0] rounded-full opacity-30 z-0"></div>
         <div className="w-full p-[100px] relative z-10">
@@ -45,6 +46,13 @@ export const LandingPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Block 2 */}
+      <div className='my-7'>
+        <PartnersCarousel />
+      </div>
+
+      {/* Block 3 */}
     </div>
   )
 }

@@ -12,7 +12,12 @@ import locationIcon from "../../assets/icons/location.png";
 import callIcon2 from "../../assets/icons/call_white.png";
 import bagIcon2 from "../../assets/icons/bag_white.png";
 import arrowRightIcon from "../../assets/icons/arrowright_white.png";
+import ytIcon from "../../assets/icons/yt_white.png";
+import twIcon from '../../assets/icons/tw_white.png';
+import fbIcon from "../../assets/icons/fb_white.png";
+import igIcon from "../../assets/icons/ig_white.png";
 import logo from '../../assets/images/logo.png';
+import './styles.css';
 
 export const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -44,7 +49,7 @@ export const Navbar = () => {
 
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full z-50">
       {/* Темная версия (основное меню) */}
       <div
         className={`fixed bg-white top-0 left-0 w-full transition-all duration-500 ease-in-out ${toggle ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
@@ -175,6 +180,14 @@ export const Navbar = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="relative z-10 mx-auto pb-5 w-full flex flex-row justify-between">
+            <div className="mx-auto flex flex-row justify-between gap-x-4">
+              <img src={fbIcon} alt="fb icon" />
+              <img src={ytIcon} alt="yt icon" />
+              <img src={igIcon} alt="ig icon" />
+              <img src={twIcon} alt="tw icon" />
             </div>
           </div>
         </div>
