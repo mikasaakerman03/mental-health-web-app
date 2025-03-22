@@ -6,6 +6,7 @@ import i18n from '../shared/helpers/i18n';
 import { AdminRoutes } from './AdminRoutes';
 import { GuestRoutes } from './GuestRoutes';
 import { UserRoutes } from './UserRoutes';
+import { NotFoundPage } from '../pages/NotFoundPage/NotFoundPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/guest/*" element={<GuestRoutes />} />
           <Route path="/admin" element={<AdminRoutes />} />
           <Route path="/*" element={<UserRoutes />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </I18nextProvider>
