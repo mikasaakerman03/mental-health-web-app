@@ -178,7 +178,6 @@ export const LandingPage = () => {
       </div>
 
       {/* Block 6 */}
-      {/* Block 6 */}
       <div className="mt-10 h-[80vh] flex flex-col-reverse md:flex-row items-center justify-between gap-12 p-[80px]">
         {/* Left image with orange circle */}
         <div className="w-full md:w-1/2 relative flex items-center justify-center">
@@ -212,6 +211,40 @@ export const LandingPage = () => {
               ✅ <span className="font-[600]">Track your progress and gain insights</span>
             </li>
           </ul>
+        </div>
+      </div>
+
+      {/* Block 7 */}
+      <div className="mt-10 h-[80vh] flex flex-col md:flex-row items-center justify-between gap-12 p-[80px]">
+        {/* Left content */}
+        <div className="w-full md:w-1/2">
+          <p className="text-[#736B66] max-w-max p-2 px-4 rounded-full border border-[#736B66] text-xl mb-8">
+            Main Benefit #3
+          </p>
+          <h2 className="text-[#4F3422] text-4xl font-extrabold mb-9">
+            Emotional Support <br /> Chatbot
+          </h2>
+          <p className="text-[#736B66] text-lg mb-7 w-4/5">
+            Empower yourself with a range of self-care tools and resources.
+          </p>
+          <p className="text-[#736B66] text-lg mb-10 w-4/5">
+            Access personalized self-help modules, educational materials, and interactive exercises to foster your emotional growth and well-being.
+          </p>
+
+          {/* Статистика */}
+          <div>
+            <p className="text-3xl text-[#4F3422] font-extrabold">99.987%</p>
+            <div className="w-[150px] h-[6px] bg-[#D9D9D9] mt-2 mb-1 rounded-full">
+              <div className="h-full bg-[#4F3422] w-[95%] rounded-full"></div>
+            </div>
+            <p className="text-[#736B66] tracking-wide uppercase text-sm">Mental Health AI Accuracy</p>
+          </div>
+        </div>
+
+        {/* Right image */}
+        <div className="w-full md:w-1/2 relative flex items-center justify-center">
+          <div className="w-[650px] h-[650px] bg-[#9BB167] rounded-full absolute"></div>
+          {/* <img src="/assets/images/support_mock.png" alt="Support Chatbot" className="relative z-10 w-[320px] rounded-2xl shadow-lg" /> */}
         </div>
       </div>
 
