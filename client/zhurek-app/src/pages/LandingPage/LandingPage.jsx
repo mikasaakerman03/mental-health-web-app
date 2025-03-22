@@ -113,11 +113,11 @@ export const LandingPage = () => {
             </div>
 
             <div className="mt-10 flex flex-row justify-between gap-4">
-              <button className="flex items-center gap-2 px-6 py-3 border border-[#FB8728] text-[#FB8728] rounded-full text-sm bg-[#FFF5EE]">
+              <button className="flex items-center gap-2 px-6 py-3 border border-[#FB8728] text-[#FB8728] rounded-full text-xl bg-[#FFF5EE]">
                 <span className="text-xl">⚠️</span> Where do we get the numbers? No idea.
               </button>
 
-              <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4F3422] text-white font-semibold text-sm">
+              <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4F3422] text-white font-semibold text-xl">
                 See All Statistics
                 <img src={arrowRightIcon} className="w-4 h-4" alt="arrow icon" />
               </button>
@@ -128,10 +128,10 @@ export const LandingPage = () => {
 
       {/* Block 4 */}
       <div className="bg-[#9BB167] m-3 rounded-3xl">
-        <div className="mx-auto w-full  p-[80px] flex flex-col">
+        <div className="w-full  p-[80px] flex flex-col">
           <p className='text-white max-w-max p-3 mb-7 rounded-3xl border border-white'>Our Core Features</p>
           <p className='text-white pb-10 text-5xl font-[800]'>Zhurek Features</p>
-          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
               <div key={index} className="w-full">
                 <FeatureCard {...feature} />
@@ -140,6 +140,81 @@ export const LandingPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Block 5 */}
+      <div className="h-[80vh] flex flex-col md:flex-row items-center justify-between gap-12 p-[80px]">
+        {/* Left content */}
+        <div className="w-full md:w-1/2">
+          <p className="text-[#736B66] max-w-max p-2 px-4 rounded-full border border-[#736B66] text-xl mb-8">
+            Main Benefit #1
+          </p>
+          <h2 className="text-[#4F3422] text-4xl font-extrabold mb-9">
+            AI-Powered <br /> Assessment
+          </h2>
+          <p className="text-[#736B66] text-lg mb-7 w-2/3">
+            Gain valuable insights into your mental well-being through our advanced AI-powered assessments.
+          </p>
+          <p className="text-[#736B66] text-lg mb-10 w-2/3">
+            Our intelligent algorithms analyze your responses to provide personalized assessments and recommendations for improvement.
+          </p>
+
+          <div className="flex gap-10 mt-4">
+            <div>
+              <p className="text-3xl text-[#4F3422] font-extrabold">99.5%</p>
+              <p className="text-[#736B66] tracking-wide uppercase text-xl">Connect Rate</p>
+            </div>
+            <div>
+              <p className="text-3xl text-[#4F3422] font-extrabold">25K*</p>
+              <p className="text-[#736B66] tracking-wide uppercase text-xl">AI Models</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right image */}
+        <div className="w-full md:w-1/2 relative flex items-center justify-center">
+          <div className="w-[650px] h-[650px] bg-[#4F3422] rounded-full absolute"></div>
+          {/* <img src="/assets/images/assessment_mock.png" alt="Assessment" className="relative z-10 w-[320px] rounded-2xl shadow-lg" /> */}
+        </div>
+      </div>
+
+      {/* Block 6 */}
+      {/* Block 6 */}
+      <div className="mt-10 h-[80vh] flex flex-col-reverse md:flex-row items-center justify-between gap-12 p-[80px]">
+        {/* Left image with orange circle */}
+        <div className="w-full md:w-1/2 relative flex items-center justify-center">
+          <div className="w-[650px] h-[650px] bg-[#FB8728] rounded-full absolute"></div>
+          {/* <img src="/assets/images/selfcare_mock.png" alt="Self Care" className="relative z-10 w-[320px] rounded-2xl shadow-lg" /> */}
+        </div>
+
+        {/* Right content */}
+        <div className="w-full md:w-1/2">
+          <p className="text-[#736B66] max-w-max p-2 px-4 rounded-full border border-[#736B66] text-xl mb-8">
+            Main Benefit #2
+          </p>
+          <h2 className="text-[#4F3422] text-4xl font-extrabold mb-9">
+            Self-Care Tools and <br /> Resources
+          </h2>
+          <p className="text-[#736B66] text-lg mb-7 w-4/5">
+            Access professional support anytime, anywhere with our virtual therapy sessions.
+          </p>
+          <p className="text-[#736B66] text-lg mb-10 w-4/5">
+            Connect with licensed therapists through secure video calls and receive personalized counseling tailored to your specific needs.
+          </p>
+
+          <ul className="space-y-4">
+            <li className="flex items-center gap-2 text-[#4F3422] font-semibold text-xl">
+              ✅ <span className="font-[600]">Access personalized mental health</span>
+            </li>
+            <li className="flex items-center gap-2 text-[#4F3422] font-semibold text-xl">
+              ✅ <span className="font-[600]">Connect with licensed therapists</span>
+            </li>
+            <li className="flex items-center gap-2 text-[#4F3422] font-semibold text-xl">
+              ✅ <span className="font-[600]">Track your progress and gain insights</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   )
 }
