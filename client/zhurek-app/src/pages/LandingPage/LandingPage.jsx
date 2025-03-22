@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import arrowRightIcon from "../../shared/assets/icons/arrowright_white.png";
 import img1 from "../../shared/assets/images/img1.png";
@@ -18,6 +19,7 @@ import { Footer } from '../../shared/ui/Footer/Footer';
 
 export const LandingPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const features = [
     {
@@ -74,13 +76,15 @@ export const LandingPage = () => {
 
             <div className="flex mt-4 gap-4">
               {/* Кнопка "Get In Touch" */}
-              <button className="flex items-center gap-2 bg-[#4F3422] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80">
-                {t('landing.tryDemo')}
+              <button className="flex items-center gap-2 bg-[#4F3422] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80"
+                onClick={() => { navigate('/guest/sign-in') }}>
+                {t("buttons.getInTouch")}
                 <img src={arrowRightIcon} alt="arrow right" className="w-5 h-5" />
               </button>
 
               {/* Кнопка "Download App" */}
-              <button className="flex items-center gap-2 bg-[#F7F4F2] text-[#4F3422] font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80">
+              <button className="flex items-center gap-2 bg-[#F7F4F2] text-[#4F3422] font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80"
+                onClick={() => { navigate('/guest/sign-up') }}>
                 {t('landing.register')}
                 <img src={arrowRightIcon} alt="download icon" className="w-5 h-5" />
               </button>
@@ -111,8 +115,8 @@ export const LandingPage = () => {
             </div>
 
             <div className="mt-10 flex flex-row justify-between gap-4">
-              <button className="flex items-center gap-2 px-6 py-3 border border-[#FB8728] text-[#FB8728] rounded-full text-xl bg-[#FFF5EE]">
-                <span className="text-xl">⚠️</span> {t('landing.fakeStatsNote')}
+              <button className="flex text-transparent items-center gap-2 px-6 py-3 rounded-full text-xl">
+                <span className="text-xl text-transparent">⚠️</span> {t('landing.fakeStatsNote')}
               </button>
 
               <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4F3422] text-white font-semibold text-xl">
@@ -282,12 +286,14 @@ export const LandingPage = () => {
             <h2 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6" dangerouslySetInnerHTML={{ __html: t('landing.appBlockTitle') }} />
 
             <div className="flex flex-wrap gap-4 mt-6">
-              <button className="flex items-center gap-2 bg-[#4F3422] text-white font-bold px-6 py-3 rounded-full text-lg hover:opacity-90">
-                {t('landing.contact')}
+              <button className="flex items-center gap-2 bg-[#4F3422] text-white font-bold px-6 py-3 rounded-full text-lg hover:opacity-90"
+                onClick={() => { navigate('/guest/sign-in') }}>
+                {t('buttons.getInTouch')}
                 <img src={arrowRightIcon} alt="arrow right" className="w-5 h-5" />
               </button>
 
-              <button className="flex items-center gap-2 bg-[#FB8728] text-white font-bold px-6 py-3 rounded-full text-lg hover:opacity-90">
+              <button className="flex items-center gap-2 bg-[#FB8728] text-white font-bold px-6 py-3 rounded-full text-lg hover:opacity-90"
+                onClick={() => { navigate('/guest/sign-up') }}>
                 {t('landing.signUp')}
                 <img src={arrowRightIcon} alt="arrow right" className="w-5 h-5" />
               </button>

@@ -1,11 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 import hospitalImg from "../../shared/assets/images/mental_health.jpg";
 import logo from "../../shared/assets/images/logo.png";
 
 export const SignUpPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <div className="m-3">
@@ -62,7 +64,7 @@ export const SignUpPage = () => {
 
               <p className="text-center text-sm">
                 {t("signup.hasAccount")}{" "}
-                <span className="text-[#9BB167] cursor-pointer hover:underline">
+                <span aria-hidden className="text-[#9BB167] cursor-pointer hover:underline" onClick={() => { navigate('/guest/sign-in') }}>
                   {t("signup.signin")}
                 </span>
               </p>

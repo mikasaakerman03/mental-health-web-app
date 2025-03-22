@@ -1,11 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 import aiImg from "../../shared/assets/images/ai_women.png";
 import logo from '../../shared/assets/images/logo.png';
 
 export const SignInPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <div className="m-3">
@@ -61,7 +63,7 @@ export const SignInPage = () => {
               </button>
 
               <p className="text-center text-sm">
-                {t("signin.noAccount")} <span className="text-[#9BB167] cursor-pointer hover:underline">{t("signin.signup")}</span>
+                {t("signin.noAccount")} <span aria-hidden className="text-[#9BB167] cursor-pointer hover:underline" onClick={() => { navigate('/guest/sign-up') }}>{t("signin.signup")}</span>
               </p>
             </div>
           </div>

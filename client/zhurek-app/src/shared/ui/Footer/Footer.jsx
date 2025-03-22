@@ -78,10 +78,18 @@ export const Footer = () => {
 
         {/* Social Icons */}
         <div className="flex gap-6 mb-8">
-          <img src={igIcon} alt="Instagram" className="w-6 h-6 hover:scale-110 transition" />
-          <img src={fbIcon} alt="Facebook" className="w-6 h-6 hover:scale-110 transition" />
-          <img src={ytIcon} alt="YouTube" className="w-6 h-6 hover:scale-110 transition" />
-          <img src={twIcon} alt="Twitter" className="w-6 h-6 hover:scale-110 transition" />
+          <a href="https://www.facebook.com/satbayev.university/" target="_blank" rel="noopener noreferrer">
+            <img src={fbIcon} alt="facebook" className="hover:opacity-80 transition" />
+          </a>
+          <a href="https://www.youtube.com/@satbayevuniversity" target="_blank" rel="noopener noreferrer">
+            <img src={ytIcon} alt="youtube" className="hover:opacity-80 transition" />
+          </a>
+          <a href="https://www.instagram.com/satbayev.university/" target="_blank" rel="noopener noreferrer">
+            <img src={igIcon} alt="instagram" className="hover:opacity-80 transition" />
+          </a>
+          <a href="https://twitter.com/satbayev_univer" target="_blank" rel="noopener noreferrer">
+            <img src={twIcon} alt="twitter" className="hover:opacity-80 transition" />
+          </a>
         </div>
 
         {/* Footer Bottom */}

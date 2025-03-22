@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import callIcon from '../../assets/icons/call_brown.png';
@@ -21,6 +22,7 @@ import './styles.css';
 
 export const Navbar = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [toggle, setToggle] = useState(true);
 
   const menuItems = [
@@ -61,10 +63,10 @@ export const Navbar = () => {
               <div className="w-full flex flex-row items-center justify-between">
                 <div className="flex flex-row gap-x-3">
                   <img src={callIcon} alt="call icon" />
-                  <img src={bagIcon} alt="bag icon" />
+                  <img src={bagIcon} alt="bag icon" className='cursor-pointer' aria-hidden onClick={() => { navigate('/guest/sign-in') }} />
                 </div>
 
-                <div className="flex flex-row gap-x-3 items-center">
+                <div className="flex flex-row gap-x-3 items-center cursor-pointer" aria-hidden onClick={() => { navigate('/guest/main')}}>
                   <img className="w-[40px] h-[40px]" src={logo} alt="logo icon" />
                   <p className="font-bold text-[40px] text-white">zhurek</p>
                 </div>
@@ -167,13 +169,15 @@ export const Navbar = () => {
                   </div>
                   <div className="flex mt-4 gap-4">
                     {/* Кнопка "Get In Touch" */}
-                    <button className="flex items-center gap-2 bg-[#9BB26D] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80">
+                    <button className="flex items-center gap-2 bg-[#9BB26D] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80"
+                      onClick={() => { navigate('/guest/sign-in') }}>
                       {t("buttons.getInTouch")}
                       <img src={arrowRightIcon} alt="arrow right" className="w-5 h-5" />
                     </button>
 
                     {/* Кнопка "Download App" */}
-                    <button className="flex items-center gap-2 bg-[#FB8728] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80">
+                    <button className="flex items-center gap-2 bg-[#FB8728] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80"
+                      onClick={() => { navigate('/guest/sign-up') }}>
                       {t("buttons.downloadApp")}
                       <img src={arrowRightIcon} alt="download icon" className="w-5 h-5" />
                     </button>
@@ -184,10 +188,18 @@ export const Navbar = () => {
           </div>
           <div className="relative z-10 mx-auto pb-5 w-full flex flex-row justify-between">
             <div className="mx-auto flex flex-row justify-between gap-x-4">
-              <img src={fbIcon} alt="fb icon" />
-              <img src={ytIcon} alt="yt icon" />
-              <img src={igIcon} alt="ig icon" />
-              <img src={twIcon} alt="tw icon" />
+              <a href="https://www.facebook.com/satbayev.university/" target="_blank" rel="noopener noreferrer">
+                <img src={fbIcon} alt="facebook" className="hover:opacity-80 transition" />
+              </a>
+              <a href="https://www.youtube.com/@satbayevuniversity" target="_blank" rel="noopener noreferrer">
+                <img src={ytIcon} alt="youtube" className="hover:opacity-80 transition" />
+              </a>
+              <a href="https://www.instagram.com/satbayev.university/" target="_blank" rel="noopener noreferrer">
+                <img src={igIcon} alt="instagram" className="hover:opacity-80 transition" />
+              </a>
+              <a href="https://twitter.com/satbayev_univer" target="_blank" rel="noopener noreferrer">
+                <img src={twIcon} alt="twitter" className="hover:opacity-80 transition" />
+              </a>
             </div>
           </div>
         </div>
