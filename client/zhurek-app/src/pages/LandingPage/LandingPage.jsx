@@ -1,10 +1,56 @@
 import React from 'react'
 import arrowRightIcon from "../../shared/assets/icons/arrowright_white.png";
-import { PartnersCarousel } from '../../entities/PartnersCarousel/PartnersCarousel';
+import img1 from "../../shared/assets/images/img1.png";
+import img2 from "../../shared/assets/images/img2.png";
+import img3 from "../../shared/assets/images/img3.png";
+import img4 from "../../shared/assets/images/img4.png";
+import img5 from "../../shared/assets/images/img5.png";
+import img6 from "../../shared/assets/images/img6.png";
 import { StatCard } from "../../shared/ui/StatCard/StatCard";
+import { FeatureCard } from "../../shared/ui/FeatureCard/FeatureCard";
+import { PartnersCarousel } from '../../entities/PartnersCarousel/PartnersCarousel';
 
 
 export const LandingPage = () => {
+  const features = [
+    {
+      image: img1,
+      title: "Emotional Support",
+      description:
+        "Receive empathetic and compassionate guidance tailored to your unique mental health needs, helping you navigate challenges with confidence.",
+    },
+    {
+      image: img2,
+      title: "Personalized Insights",
+      description:
+        "Gain deep insights into your thoughts, emotions, and behaviors with our personalized AI-powered analysis.",
+    },
+    {
+      image: img3,
+      title: "Self-Discovery",
+      description:
+        "Unlock a deeper understanding of yourself through reflective exercises, empowering you to make positive changes and growth.",
+    },
+    {
+      image: img4,
+      title: "Cognitive Enhancement",
+      description:
+        "Receive empathetic and compassionate guidance tailored to your unique mental health needs, helping you navigate challenges with confidence.",
+    },
+    {
+      image: img5,
+      title: "24/7 Accessibility",
+      description:
+        "Access support anytime, anywhere, allowing you to address your mental well-being at your own pace and convenience.",
+    },
+    {
+      image: img6,
+      title: "Confidential and Secure",
+      description:
+        "Rest assured knowing that your privacy and data security are our top priorities, ensuring a safe space for your journey to healing.",
+    },
+  ];
+
   return (
     <div className='relative min-h-[100vh] w-full flex flex-col h-full font-bold overflow-hidden'>
       {/* Block 1 */}
@@ -73,10 +119,24 @@ export const LandingPage = () => {
 
               <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4F3422] text-white font-semibold text-sm">
                 See All Statistics
-                <img src={arrowRightIcon} className="w-4 h-4" alt="arrow icon"/>
+                <img src={arrowRightIcon} className="w-4 h-4" alt="arrow icon" />
               </button>
             </div>
+          </div>
+        </div>
+      </div>
 
+      {/* Block 4 */}
+      <div className="bg-[#9BB167] m-3 rounded-3xl">
+        <div className="mx-auto w-full  p-[80px] flex flex-col">
+          <p className='text-white max-w-max p-3 mb-7 rounded-3xl border border-white'>Our Core Features</p>
+          <p className='text-white pb-10 text-5xl font-[800]'>Zhurek Features</p>
+          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, index) => (
+              <div key={index} className="w-full">
+                <FeatureCard {...feature} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
