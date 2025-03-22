@@ -1,6 +1,7 @@
 import React from 'react'
 import arrowRightIcon from "../../shared/assets/icons/arrowright_white.png";
 import { PartnersCarousel } from '../../entities/PartnersCarousel/PartnersCarousel';
+import { StatCard } from "../../shared/ui/StatCard/StatCard";
 
 
 export const LandingPage = () => {
@@ -48,11 +49,37 @@ export const LandingPage = () => {
       </div>
 
       {/* Block 2 */}
-      <div className='my-7'>
+      <div className='my-7 mx-3'>
         <PartnersCarousel />
       </div>
 
       {/* Block 3 */}
+      <div className='bg-[#F7F4F2] m-3 rounded-3xl'>
+        <div className="mx-auto w-full  p-[80px] flex flex-col">
+          <div className="w-full">
+            <p className='text-[#736B66] max-w-max mx-auto text-center p-3 rounded-3xl border border-[#736B66]'>Our Singular Purpose</p>
+            <p className='text-[#4F3422] w-2/3 mx-auto text-center py-10 text-5xl'>We design empathic <span className='text-[#966A51]'>AI Wellness</span> chatbot platform for everyone.</p>
+            <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl justify-items-center">
+              <StatCard value="100,000" highlight="+" label="Lives Impacted" />
+              <StatCard value="78.2" highlight="K" label="Advanced AI Models" />
+              <StatCard value="550" highlight="M" label="Data LLMs Trained" />
+              <StatCard value="99.8" highlight="%" label="User Satisfaction" />
+            </div>
+
+            <div className="mt-10 flex flex-row justify-between gap-4">
+              <button className="flex items-center gap-2 px-6 py-3 border border-[#FB8728] text-[#FB8728] rounded-full text-sm bg-[#FFF5EE]">
+                <span className="text-xl">⚠️</span> Where do we get the numbers? No idea.
+              </button>
+
+              <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4F3422] text-white font-semibold text-sm">
+                See All Statistics
+                <img src={arrowRightIcon} className="w-4 h-4" alt="arrow icon"/>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
