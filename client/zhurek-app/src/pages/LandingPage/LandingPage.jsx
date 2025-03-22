@@ -1,4 +1,5 @@
 import React from 'react'
+
 import arrowRightIcon from "../../shared/assets/icons/arrowright_white.png";
 import img1 from "../../shared/assets/images/img1.png";
 import img2 from "../../shared/assets/images/img2.png";
@@ -6,6 +7,7 @@ import img3 from "../../shared/assets/images/img3.png";
 import img4 from "../../shared/assets/images/img4.png";
 import img5 from "../../shared/assets/images/img5.png";
 import img6 from "../../shared/assets/images/img6.png";
+import chatbotImg from "../../shared/assets/images/chatbot-screen.png";
 import { StatCard } from "../../shared/ui/StatCard/StatCard";
 import { FeatureCard } from "../../shared/ui/FeatureCard/FeatureCard";
 import { PartnersCarousel } from '../../entities/PartnersCarousel/PartnersCarousel';
@@ -128,7 +130,7 @@ export const LandingPage = () => {
 
       {/* Block 4 */}
       <div className="bg-[#9BB167] m-3 rounded-3xl">
-        <div className="w-full  p-[80px] flex flex-col">
+        <div className="w-full p-[80px] flex flex-col">
           <p className='text-white max-w-max p-3 mb-7 rounded-3xl border border-white'>Our Core Features</p>
           <p className='text-white pb-10 text-5xl font-[800]'>Zhurek Features</p>
           <div className=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -245,6 +247,32 @@ export const LandingPage = () => {
         <div className="w-full md:w-1/2 relative flex items-center justify-center">
           <div className="w-[650px] h-[650px] bg-[#9BB167] rounded-full absolute"></div>
           {/* <img src="/assets/images/support_mock.png" alt="Support Chatbot" className="relative z-10 w-[320px] rounded-2xl shadow-lg" /> */}
+        </div>
+      </div>
+
+      {/* Block 8 */}
+      <div className="bg-[#F7F4F2] mt-10 m-3 rounded-3xl">
+        <div className="w-full px-[80px] py-[100px]">
+          <div className="flex flex-col items-center justify-center text-center">
+            <h2 className="text-[#4F3422] text-4xl font-extrabold mb-4">
+              Start Your Mental Health <br /> Journey!
+            </h2>
+            <p className="text-[#736B66] text-lg max-w-2xl mb-8">
+              Get started on your mental health journey today! Download the Freud.ai app and experience the benefits of our innovative solutions:
+            </p>
+
+            {/* Tabs */}
+            <div className="flex gap-4 mb-10">
+              <button className="px-6 py-2 rounded-full bg-[#EAEAEA] text-[#4F3422] font-semibold">For Individuals</button>
+              <button className="px-6 py-2 rounded-full bg-[#D9D9D9] text-[#4F3422] font-semibold">For Therapist</button>
+              <button className="px-6 py-2 rounded-full bg-[#D9D9D9] text-[#4F3422] font-semibold">For Professionals</button>
+            </div>
+          </div>
+
+          {/* Bottom image block */}
+          <div className="w-full flex items-center justify-center mt-10">
+            <img src={chatbotImg} alt="Chat Mock" className="rounded-2xl shadow-lg max-w-full h-auto" />
+          </div>
         </div>
       </div>
 
