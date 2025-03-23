@@ -6,7 +6,7 @@ import hospitalImg from "../../shared/assets/images/mental_health.jpg";
 import logo from "../../shared/assets/images/logo.png";
 import document from "../../shared/assets/files/zhurek_terms_and_policy_long.pdf";
 
-export const SignUpPage = () => {
+export const SignupMobile = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(false);
@@ -29,16 +29,16 @@ export const SignUpPage = () => {
 
   return (
     <div className="m-3">
-      <div className="w-full h-[calc(100vh-140px)] flex items-center justify-center">
-        <div className="flex w-full h-full bg-white rounded-3xl overflow-hidden">
+      <div className="w-full h-full">
+        <div className="flex flex-col-reverse w-full h-full bg-white rounded-3xl overflow-hidden">
           {/* Left Side (Form) */}
-          <div className="w-1/2 px-12 py-10 my-auto flex flex-col justify-between">
+          <div className="w-full px-12 py-10 my-auto flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 bg-[#4F3422] rounded-full flex items-center justify-center mb-5">
-                <img src={logo} alt="Logo" className="w-4 h-4" />
+              <div className="w-12 h-12 mx-auto bg-[#4F3422] rounded-full flex items-center justify-center mb-5">
+                <img src={logo} alt="Logo" className="w-4 h-4 " />
               </div>
-              <h2 className="text-2xl font-bold text-[#4F3422] mb-2">{t("signup.title")}</h2>
-              <p className="text-gray-500 mb-6">{t("signup.subtitle")}</p>
+              <h2 className="text-2xl text-center font-bold text-[#4F3422] mb-2">{t("signup.title")}</h2>
+              <p className="text-gray-500 text-center mb-6">{t("signup.subtitle")}</p>
 
               {/* Email */}
               <label className="text-sm text-gray-700 mb-1 block">{t("signup.email")}</label>
@@ -97,14 +97,8 @@ export const SignUpPage = () => {
           </div>
 
           {/* Right Side */}
-          <div className="w-1/2 h-full relative">
-            <img src={hospitalImg} alt="Hospital" className="w-full h-full object-cover" />
-            <div className="absolute bottom-6 left-6 right-6 bg-[#4F3422] text-white text-sm p-4 rounded-2xl shadow-md">
-              <p className="mb-4 italic">“{t('signin.testimonial.text')}”</p>
-              <div className="text-yellow-400 text-lg mb-2">★★★★★</div>
-              <p className="font-semibold">{t('signin.testimonial.name')}</p>
-              <p className="text-xs">{t('signin.testimonial.role')}</p>
-            </div>
+          <div className="w-full h-1/3 relative">
+            <img src={hospitalImg} alt="Hospital" className="w-full h-full rounded-2xl" />
           </div>
         </div>
       </div>

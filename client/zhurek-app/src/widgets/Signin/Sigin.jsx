@@ -11,20 +11,20 @@ export const SignInPage = () => {
 
   return (
     <div className="m-3">
-      <div className="w-full h-[calc(100vh-140px)] flex items-center justify-center ">
-        <div className="flex w-full h-full bg-white rounded-3xl overflow-hidden">
+      <div className="w-full h-full flex items-center justify-center ">
+        <div className="flex flex-col-reverse w-full h-full bg-white rounded-3xl overflow-hidden">
           {/* Left Side (Form) */}
-          <div className="w-1/2 px-12 py-10 my-auto flex flex-col justify-between">
+          <div className="w-full px-12 py-10 my-auto flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 bg-[#4F3422] rounded-full flex items-center justify-center mb-5">
+              <div className="w-12 h-12 mx-auto bg-[#4F3422] rounded-full flex items-center justify-center mb-5">
                 <img
                   src={logo}
                   alt="AI"
                   className="w-4 h-4"
                 />
               </div>
-              <h2 className="text-2xl font-bold text-[#4F3422] mb-2">{t("signin.title")}</h2>
-              <p className="text-gray-500 mb-6">{t("signin.subtitle")}</p>
+              <h2 className="text-2xl text-center font-bold text-[#4F3422] mb-2">{t("signin.title")}</h2>
+              <p className="text-gray-500 text-center mb-6">{t("signin.subtitle")}</p>
 
               {/* Email Input */}
               <label className="text-sm text-gray-700 mb-1 block">{t("signin.email")}</label>
@@ -50,12 +50,12 @@ export const SignInPage = () => {
                 />
               </div>
 
-              <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
+              <div className="flex flex-col justify-start gap-y-2 text-sm text-gray-500 mb-4">
                 <label className="flex items-center gap-2">
                   <input type="checkbox" className="accent-green-600" />
                   {t("signin.remember")}
                 </label>
-                <button className="text-[#9BB167] hover:underline">{t("signin.forgot")}</button>
+                <button className="text-[#9BB167] self-start hover:underline">{t("signin.forgot")}</button>
               </div>
 
               <button className="w-full bg-[#9BB167] hover:opacity-90 text-white py-3 rounded-full font-semibold text-lg mb-6">
@@ -69,18 +69,12 @@ export const SignInPage = () => {
           </div>
 
           {/* Right Side (Image Full Height) */}
-          <div className="w-1/2 h-full relative">
+          <div className="w-full h-full relative">
             <img
               src={aiImg}
               alt="AI"
-              className="w-full h-full object-cover"
+              className="w-full h-full rounded-2xl"
             />
-            <div className="absolute bottom-6 left-6 right-6 bg-[#4F3422] text-white text-sm p-4 rounded-2xl shadow-md">
-              <p className="mb-4 italic">“{t('signin.testimonial.text')}”</p>
-              <div className="text-yellow-400 text-lg mb-2">★★★★★</div>
-              <p className="font-semibold">{t('signin.testimonial.name')}</p>
-              <p className="text-xs">{t('signin.testimonial.role')}</p>
-            </div>
           </div>
         </div>
       </div>

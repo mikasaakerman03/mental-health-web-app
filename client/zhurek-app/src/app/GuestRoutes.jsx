@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 
 import { GuestLayout } from '../features/GuestLayout/GuestLayout';
 import { LandingPage } from '../pages/LandingPage/LandingPage';
+import { SignupPage } from '../pages/SignupPage/SignupPage';
 import { SignInPage } from '../widgets/Signin/Sigin';
-import { SignUpPage } from '../widgets/Signup/Signup';
 import { NotFoundPage } from '../widgets/NotFoundPage/NotFoundPage';
 
 export const GuestRoutes = () => {
@@ -14,7 +14,7 @@ export const GuestRoutes = () => {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="main" element={<LandingPage />} />
         <Route path="sign-in" element={<SignInPage />} />
-        <Route path="sign-up" element={<SignUpPage />} />
+        <Route path="sign-up" element={<SignupPage />} />
       </Route>
     </Routes>
   )
