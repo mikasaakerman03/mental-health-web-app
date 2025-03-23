@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 
 import { GuestLayout } from '../features/GuestLayout/GuestLayout';
 import { LandingPage } from '../pages/LandingPage/LandingPage';
-import { SignInPage } from '../pages/Signin/Sigin';
-import { SignUpPage } from '../pages/Signup/Signup';
-import { NotFoundPage } from '../pages/NotFoundPage/NotFoundPage';
+import { SignInPage } from '../widgets/Signin/Sigin';
+import { SignUpPage } from '../widgets/Signup/Signup';
+import { NotFoundPage } from '../widgets/NotFoundPage/NotFoundPage';
 
 export const GuestRoutes = () => {
   return (

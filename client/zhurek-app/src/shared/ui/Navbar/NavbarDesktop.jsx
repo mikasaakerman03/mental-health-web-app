@@ -20,7 +20,7 @@ import igIcon from "../../assets/icons/ig_white.png";
 import logo from '../../assets/images/logo.png';
 import './styles.css';
 
-export const Navbar = () => {
+export const NavbarDesktop = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(true);

@@ -6,7 +6,7 @@ import i18n from '../shared/helpers/i18n';
 import { AdminRoutes } from './AdminRoutes';
 import { GuestRoutes } from './GuestRoutes';
 import { UserRoutes } from './UserRoutes';
-import { NotFoundPage } from '../pages/NotFoundPage/NotFoundPage';
+import { NotFoundPage } from '../widgets/NotFoundPage/NotFoundPage';
 
 function App() {
   return (
