@@ -4,8 +4,9 @@ import { Routes, Route } from 'react-router-dom';
 import { GuestLayout } from '../features/GuestLayout/GuestLayout';
 import { LandingPage } from '../pages/LandingPage/LandingPage';
 import { SignupPage } from '../pages/SignupPage/SignupPage';
-import { SignInPage } from '../widgets/Signin/Sigin';
+import { SigninPage } from '../pages/SigninPage/SiginPage';
 import { NotFoundPage } from '../widgets/NotFoundPage/NotFoundPage';
+import { ContactUsPage } from '../pages/ContactUs/ContactUsPage';
 
 export const GuestRoutes = () => {
   return (
@@ -13,8 +14,9 @@ export const GuestRoutes = () => {
       <Route path="/" element={<GuestLayout />}>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="main" element={<LandingPage />} />
-        <Route path="sign-in" element={<SignInPage />} />
+        <Route path="sign-in" element={<SigninPage />} />
         <Route path="sign-up" element={<SignupPage />} />
+        <Route path="contact-us" element={<ContactUsPage />} />
       </Route>
     </Routes>
   )

@@ -68,12 +68,12 @@ export const Footer = () => {
 
         {/* Nav Links */}
         <nav className="flex flex-wrap justify-center gap-8 text-[#C6B1A2] font-medium text-lg mb-10">
-          <a href="#" className="hover:text-white">{t('menu.home')}</a>
-          <a href="#" className="hover:text-white">{t('menu.platform')}</a>
-          <a href="#" className="hover:text-white">{t('menu.assessment')}</a>
-          <a href="#" className="hover:text-white">{t('menu.aboutUs')}</a>
-          <a href="#" className="hover:text-white">{t('menu.contactUs')}</a>
-          <a href="#" className="hover:text-white">{t('menu.blog')}</a>
+          <p className="hover:text-white">{t('menu.home')}</p>
+          <p className="hover:text-white">{t('menu.platform')}</p>
+          <p className="hover:text-white">{t('menu.assessment')}</p>
+          <p className="hover:text-white">{t('menu.aboutUs')}</p>
+          <p className="hover:text-white">{t('menu.contactUs')}</p>
+          <p className="hover:text-white">{t('menu.blog')}</p>
         </nav>
 
         {/* Social Icons */}
@@ -96,8 +96,8 @@ export const Footer = () => {
         <div className="text-[#C6B1A2] text-xs text-center">
           <p>COPYRIGHT 2025. ALL RIGHTS RESERVED</p>
           <div className="flex flex-wrap justify-center gap-4 mt-2">
-            <a href="#" className="hover:underline">{t('footer.terms')}</a>
-            <a href="#" className="hover:underline">{t('footer.privacy')}</a>
+            <p className="hover:underline">{t('footer.terms')}</p>
+            <p className="hover:underline">{t('footer.privacy')}</p>
           </div>
         </div>
       </div>

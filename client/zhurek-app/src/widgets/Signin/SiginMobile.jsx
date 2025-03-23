@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import aiImg from "../../shared/assets/images/ai_women.png";
 import logo from '../../shared/assets/images/logo.png';
 
-export const SignInPage = () => {
+export const SignInMobile = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
