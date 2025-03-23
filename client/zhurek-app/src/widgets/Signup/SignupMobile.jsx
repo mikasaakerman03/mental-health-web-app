@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import hospitalImg from "../../shared/assets/images/mental_health.jpg";
 import logo from "../../shared/assets/images/logo.png";
-import document from "../../shared/assets/files/zhurek_terms_and_policy_long.pdf";
 
 export const SignupMobile = () => {
   const { t } = useTranslation();
@@ -111,13 +110,15 @@ export const SignupMobile = () => {
               {t("signup.termsTitle")}
             </h3>
 
-            <div className="flex-1 mb-4 overflow-y-auto border rounded">
-              <iframe
-                title="terms"
-                src={`${document}#toolbar=0`}
-                className="w-full h-[500px]"
-                style={{ border: 'none' }}
-              ></iframe>
+            <div className="mb-6 text-center">
+              <a
+                href="/files/zhurek_terms_and_policy_long.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-[#F7F4F2] text-[#4F3422] px-6 py-2 rounded-full font-semibold text-sm border border-[#4F3422] hover:bg-[#4F3422] hover:text-white transition-all"
+              >
+                📄 {t("signup.openPdf") || "Открыть PDF с условиями"}
+              </a>
             </div>
 
             <label className="flex items-center gap-2 mb-4 text-sm text-gray-700">
@@ -125,6 +126,7 @@ export const SignupMobile = () => {
                 type="checkbox"
                 checked={agreeChecked}
                 onChange={(e) => setAgreeChecked(e.target.checked)}
+                className="accent-green-600"
               />
               {t("signup.termsText")}
             </label>
