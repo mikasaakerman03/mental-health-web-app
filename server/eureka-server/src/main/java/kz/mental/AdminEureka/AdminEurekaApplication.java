@@ -11,3 +11,4 @@ public class AdminEurekaApplication {
         SpringApplication.run(AdminEurekaApplication.class, args);
     }
 }
+
