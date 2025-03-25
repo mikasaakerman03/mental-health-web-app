@@ -7,7 +7,7 @@ RUN apt-get update; \
     apt-get install -y maven wget;
 RUN ln -snf /usr/share/zoneinfo/Asia/Oral /etc/localtime && echo Asia/Oral > /etc/timezone
 
-ARG PROJECT_NAME=AdminGateway
+ARG PROJECT_NAME=Gateway
 COPY pom.xml pom.xml
 
 RUN ["mvn", "compile", "package","-DskipTests"]
@@ -20,7 +20,7 @@ RUN apt-get update; \
 WORKDIR /app
 RUN groupadd -r nonroot && useradd -r -g nonroot nonroot
 
-ARG PROJECT_NAME=AdminGateway
+ARG PROJECT_NAME=Gateway
 RUN chown -R nonroot:nonroot /app
 COPY --from=build  /app/target/*.jar app.jar
 RUN chmod 755 /app

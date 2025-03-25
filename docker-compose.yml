@@ -29,36 +29,36 @@ services:
       resources:
         limits:
           memory: 500M
-#
-#  project3:
-#    build:
-#      context: ./admin-panel-gateway
-#      dockerfile: Dockerfile
-#    ports:
-#      - "8088:8088"
-#    env_file:
-#      - ./admin-panel-gateway/.env
-#    environment:
-#      TZ: "Asia/Oral"
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 500M
-#
-#  project4:
-#    build:
-#      context: ./admin-panel-security
-#      dockerfile: Dockerfile
-#    ports:
-#      - "8080:8080"
-#    env_file:
-#      - ./admin-panel-security/.env
-#    environment:
-#      TZ: "Asia/Oral"
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 500M
+
+  gateway:
+    build:
+      context: ./server/gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    env_file:
+      - ./server/gateway/.env
+    environment:
+      TZ: "Asia/Oral"
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+
+  security:
+    build:
+      context: ./server/admin-panel-security
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./server/admin-panel-security/.env
+    environment:
+      TZ: "Asia/Oral"
+    deploy:
+      resources:
+        limits:
+          memory: 500M
 #
 #  project5:
 #    build:

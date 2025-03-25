@@ -1,6 +1,6 @@
-package kz.postkz.AdminGateway;
+package kz.postkz.Gateway;
 
-import kz.postkz.AdminGateway.filter.JwtAuthenticationFilter;
+import kz.postkz.Gateway.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class AdminGatewayApplication {
+public class GatewayApplication {
 
 	@Autowired
 	//private JwtAuthenticationFilter customHeaderFilter;
@@ -39,7 +39,7 @@ public class AdminGatewayApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(AdminGatewayApplication.class, args);
+		SpringApplication.run(GatewayApplication.class, args);
 	}
 
 }

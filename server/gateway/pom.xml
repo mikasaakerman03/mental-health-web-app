@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>kz.postkz</groupId>
-	<artifactId>AdminGateway</artifactId>
+	<artifactId>Gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AdminGateway</name>
+	<name>Gateway</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>

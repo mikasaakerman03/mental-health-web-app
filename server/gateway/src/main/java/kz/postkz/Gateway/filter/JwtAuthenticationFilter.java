@@ -1,8 +1,8 @@
-package kz.postkz.AdminGateway.filter;
+package kz.postkz.Gateway.filter;
 
 
-import kz.postkz.AdminGateway.utils.JwtService;
-import kz.postkz.AdminGateway.utils.RouteValidator;
+import kz.postkz.Gateway.utils.JwtService;
+import kz.postkz.Gateway.utils.RouteValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;

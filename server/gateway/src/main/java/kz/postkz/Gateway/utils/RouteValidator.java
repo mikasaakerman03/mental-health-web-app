@@ -1,4 +1,4 @@
-package kz.postkz.AdminGateway.utils;
+package kz.postkz.Gateway.utils;
 
 
 import org.springframework.http.server.reactive.ServerHttpRequest;

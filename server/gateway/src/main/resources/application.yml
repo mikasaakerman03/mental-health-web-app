@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+#        - id: admin-service
+#          uri: lb://ADMIN-SERVICE
+#          predicates:
+#            - Path=/gateway/sms-gate/**
+#          filters:
+#            - StripPrefix=1
+#            - JwtAuthenticationFilter
+#        - id: websocket
+#          uri: lb://WEBSOCKET-SERVICE
+#          predicates:
+#            - Path=/gateway/websocket/**
+#          filters:
+#            - StripPrefix=1
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/gateway/api/v1/**
+          filters:
+            - StripPrefix=1
+#        - id: notification-service
+#          uri: lb://NOTIFICATION-SERVICE
+#          predicates:
+#            - Path=/gateway/notification/**
+#          filters:
+#            - StripPrefix=1
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+    discovery:
+      enabled: true
+  jwt:
+    privateKey: 843567893696976453275974432697R634976R738467TR678T34865R6834R8763T478378637664538745673865783678548735687R3
+    expiration: 3600000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+server:
+  port: 8088

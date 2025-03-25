@@ -1,4 +1,4 @@
-package kz.postkz.AdminGateway.utils;
+package kz.postkz.Gateway.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
