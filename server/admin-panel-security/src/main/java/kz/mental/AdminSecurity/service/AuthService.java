@@ -78,20 +78,24 @@ public class AuthService {
         return response;
     }
 
-    public RefreshTokenResponse refreshToken(RefreshTokenRequest refreshTokenReqiest) {
+    public RefreshTokenResponse refreshToken(RefreshTokenRequest request) {
         RefreshTokenResponse response = new RefreshTokenResponse();
-        String ourEmail = jwtUtils.extractUsername(refreshTokenReqiest.getAccessToken());
+        // Извлекаем email из refresh token
+        String ourEmail = jwtUtils.extractUsername(request.getRefreshToken());
         OurUsers users = ourUserRepo.findByEmail(ourEmail).orElseThrow();
-        if (jwtUtils.isTokenValid(refreshTokenReqiest.getAccessToken(), users)) {
-            var jwt = jwtUtils.generateToken(users);
+
+        if (jwtUtils.isTokenValid(request.getRefreshToken(), users)) {
+            String jwt = jwtUtils.generateToken(users);
             response.setStatusCode(200);
             response.setAccessToken(jwt);
-            response.setRefreshToken(refreshTokenReqiest.getAccessToken());
+            response.setRefreshToken(request.getRefreshToken());
             response.setExpirationTime("24Hr");
             response.setMessage("Successfully Refreshed Token");
-            return response;
+        } else {
+            response.setStatusCode(500);
         }
-        response.setStatusCode(500);
         return response;
     }
+
+
 }

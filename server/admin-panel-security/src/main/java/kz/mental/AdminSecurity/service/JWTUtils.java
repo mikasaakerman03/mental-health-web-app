@@ -23,7 +23,8 @@ public class JWTUtils {
     private SecretKey Key;
     @Value("${spring.jwt.expiration}")
     private long EXPIRATION_TIME; //24hours or 86400000 milisecs
-
+    @Value("${spring.jwt.refresh-expiration}")
+    private long REFRESH_TOKEN_EXPIRATION;
     @Value("${spring.jwt.security}")
     private String secreteString;
 
@@ -43,12 +44,13 @@ public class JWTUtils {
                 .compact();
     }
 
+
     public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
                 .signWith(Key)
                 .compact();
     }
