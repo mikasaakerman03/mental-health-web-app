@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from "react-i18next";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
 import callIcon from '../../assets/icons/call_brown.png';
@@ -23,15 +23,14 @@ import './styles.css';
 export const NavbarDesktop = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [toggle, setToggle] = useState(true);
 
   const menuItems = [
-    { key: "home", active: true },
-    { key: "platform", active: false },
-    { key: "assessment", active: false },
-    { key: "aboutUs", active: false },
-    { key: "blog", active: false },
-    { key: "contactUs", active: false },
+    { key: "home", path: "/guest/main" },
+    { key: "assessment", path: "/guest/assesment" },
+    { key: "aboutUs", path: "/guest/about-us" },
+    { key: "contactUs", path: "/guest/contact-us" },
   ];
 
   const contactDetails = [
@@ -132,13 +131,13 @@ export const NavbarDesktop = () => {
                   {menuItems.map((item, index) => (
                     <li
                       key={index}
+                      aria-hidden
                       className={clsx(
-                        "font-semibold text-[40px] transition-all duration-500",
-                        !item.active && "text-gray-300",
-                        item.active && "text-white font-bold flex items-center"
-                      )}
+                        "text-[40px] font-semibold transition-all duration-500 cursor-pointer",
+                        location.pathname === item.path ? "text-white font-bold flex items-center" : "text-gray-300"                      )}
+                      onClick={() => { setToggle(true);  navigate(item.path);  }}
                     >
-                      {item.active && <span className="w-2 h-2 bg-[#9BB167] rounded-full mr-2"></span>}
+                      {location.pathname === item.path && <span className="w-2 h-2 bg-[#9BB167] rounded-full mr-2"></span>}
                       {t(`menu.${item.key}`)}
                     </li>
                   ))}

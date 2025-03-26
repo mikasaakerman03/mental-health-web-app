@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import arrowRightIcon from "../../assets/icons/arrowright_white.png";
 import ytIcon from "../../assets/icons/yt_white.png";
@@ -10,6 +11,7 @@ import bagIcon2 from "../../assets/icons/bag_white.png";
 
 export const Footer = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <footer className="relative text-white rounded-t-3xl overflow-hidden">
@@ -68,12 +70,10 @@ export const Footer = () => {
 
         {/* Nav Links */}
         <nav className="flex flex-wrap justify-center gap-8 text-[#C6B1A2] font-medium text-lg mb-10">
-          <p className="hover:text-white">{t('menu.home')}</p>
-          <p className="hover:text-white">{t('menu.platform')}</p>
-          <p className="hover:text-white">{t('menu.assessment')}</p>
-          <p className="hover:text-white">{t('menu.aboutUs')}</p>
-          <p className="hover:text-white">{t('menu.contactUs')}</p>
-          <p className="hover:text-white">{t('menu.blog')}</p>
+          <p className="hover:text-white" aria-hidden onClick={() => { navigate('/guest/main') }}>{t('menu.home')}</p>
+          <p className="hover:text-white" aria-hidden onClick={() => { navigate('/guest/assesment') }}>{t('menu.assessment')}</p>
+          <p className="hover:text-white" aria-hidden onClick={() => { navigate('/guest/about-us') }}>{t('menu.aboutUs')}</p>
+          <p className="hover:text-white" aria-hidden onClick={() => { navigate('/guest/contact-us') }}>{t('menu.contactUs')}</p>
         </nav>
 
         {/* Social Icons */}
