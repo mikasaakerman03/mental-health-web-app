@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 
+import api from "../../shared/helpers/axiosConfig";
 import hospitalImg from "../../shared/assets/images/mental_health.jpg";
 import logo from "../../shared/assets/images/logo.png";
 
@@ -10,15 +11,38 @@ export const SignupMobile = () => {
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [, setConfirmPassword] = useState("");
 
   const handleSubmit = () => {
     setConfirm(true);
   };
 
-  const handleAgree = () => {
-    setConfirm(false);
-    console.log("Пользователь согласился с условиями");
-    // здесь логика отправки формы или перехода
+  const handleAgree = async () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+
+    try {
+      const deviceToken = 'mock-device-token';
+      const role = 'USER';
+
+      const { data } = await api.post("/auth/signup", {
+        name,
+        email,
+        password,
+        deviceToken,
+        role,
+      });
+
+      console.log("Signed up successfully:", data);
+      setConfirm(false);
+      navigate("/guest/sign-in");
+    } catch (error) {
+      console.error("Sign up failed:", error);
+      alert(t("signup.error"));
+    }
   };
 
   const handleCancel = () => {
@@ -39,6 +63,17 @@ export const SignupMobile = () => {
               <h2 className="text-2xl text-center font-bold text-[#4F3422] mb-2">{t("signup.title")}</h2>
               <p className="text-gray-500 text-center mb-6">{t("signup.subtitle")}</p>
 
+              <label className="text-sm text-gray-700 mb-1 block">{t("signup.fio")}</label>
+              <div className="flex items-center border rounded-full px-3 mb-4">
+                <input
+                  type="text"
+                  className="flex-1 px-2 py-2 rounded-full focus:outline-none"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+
               {/* Email */}
               <label className="text-sm text-gray-700 mb-1 block">{t("signup.email")}</label>
               <div className="flex items-center border rounded-full px-3 mb-4">
@@ -48,6 +83,7 @@ export const SignupMobile = () => {
                   className="flex-1 px-2 py-2 rounded-full focus:outline-none"
                   placeholder="you@example.com"
                   autoComplete="off"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -60,6 +96,7 @@ export const SignupMobile = () => {
                   className="flex-1 px-2 py-2 rounded-full focus:outline-none"
                   placeholder="********"
                   autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
@@ -72,6 +109,7 @@ export const SignupMobile = () => {
                   className="flex-1 px-2 py-2 rounded-full focus:outline-none"
                   placeholder="********"
                   autoComplete="new-password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
 

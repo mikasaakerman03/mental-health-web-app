@@ -48,7 +48,6 @@ export const NavbarDesktop = () => {
     },
   ];
 
-
   return (
     <div className="relative w-full z-50">
       {/* Темная версия (основное меню) */}
@@ -169,14 +168,14 @@ export const NavbarDesktop = () => {
                   <div className="flex mt-4 gap-4">
                     {/* Кнопка "Get In Touch" */}
                     <button className="flex items-center gap-2 bg-[#9BB26D] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80"
-                      onClick={() => { navigate('/guest/sign-in') }}>
+                      onClick={() => { setToggle(true);navigate('/guest/sign-in') }}>
                       {t("buttons.getInTouch")}
                       <img src={arrowRightIcon} alt="arrow right" className="w-5 h-5" />
                     </button>
 
                     {/* Кнопка "Download App" */}
                     <button className="flex items-center gap-2 bg-[#FB8728] text-white font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80"
-                      onClick={() => { navigate('/guest/sign-up') }}>
+                      onClick={() => { setToggle(true); navigate('/guest/sign-up') }}>
                       {t("buttons.downloadApp")}
                       <img src={arrowRightIcon} alt="download icon" className="w-5 h-5" />
                     </button>

@@ -10,6 +10,7 @@
     "axios": "^1.5.0",
     "chart.js": "^4.4.0",
     "clsx": "^2.1.1",
+    "craco": "^0.0.3",
     "i18next": "^24.2.3",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
@@ -21,6 +22,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "dev": "craco start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

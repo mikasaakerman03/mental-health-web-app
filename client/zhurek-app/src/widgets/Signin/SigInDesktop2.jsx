@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 
+import api from "../../shared/helpers/axiosConfig";
 import aiImg from "../../shared/assets/images/ai_women.png";
 import logo from '../../shared/assets/images/logo.png';
 
 export const SignInDesktop = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const handleSignIn = async () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+
+    try {
+      const { data } = await api.post('/auth/signin', {
+        email,
+        password,
+      });
+
+      localStorage.setItem('authToken', data.access_token);
+      localStorage.setItem('refreshToken', data.refresh_token);
+
+      navigate('/guest/main')
+    } catch (err) {
+      console.log('Sign-in error:', err.response?.status, err.response?.data);
+    }
+
+  };
 
   return (
     <div className="m-3">
@@ -35,6 +58,7 @@ export const SignInDesktop = () => {
                   className="flex-1 px-2 py-2 rounded-full focus:outline-none"
                   placeholder="you@example.com"
                   autoComplete="off"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -47,6 +71,7 @@ export const SignInDesktop = () => {
                   className="flex-1 px-2 py-2 rounded-full focus:outline-none"
                   placeholder="********"
                   autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
@@ -58,7 +83,8 @@ export const SignInDesktop = () => {
                 <button className="text-[#9BB167] hover:underline">{t("signin.forgot")}</button>
               </div>
 
-              <button className="w-full bg-[#9BB167] hover:opacity-90 text-white py-3 rounded-full font-semibold text-lg mb-6">
+              <button className="w-full bg-[#9BB167] hover:opacity-90 text-white py-3 rounded-full font-semibold text-lg mb-6"
+                onClick={handleSignIn}>
                 {t("signin.button")} →
               </button>
 
