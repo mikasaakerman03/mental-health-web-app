@@ -8,6 +8,7 @@ import { SigninPage } from '../pages/SigninPage/SiginPage';
 import { NotFoundPage } from '../widgets/NotFoundPage/NotFoundPage';
 import { ContactUsPage } from '../pages/ContactUs/ContactUsPage';
 import { AboutUsPage } from '../pages/AboutUs/AboutUsPage';
+import { AssesmentPage } from '../pages/AssesmentPage/AssesmentPage';
 
 export const GuestRoutes = () => {
   return (
@@ -19,6 +20,7 @@ export const GuestRoutes = () => {
         <Route path="sign-up" element={<SignupPage />} />
         <Route path="contact-us" element={<ContactUsPage />} />
         <Route path="about-us" element={<AboutUsPage />} />
+        <Route path="assesment" element={<AssesmentPage />} />
       </Route>
     </Routes>
   )
