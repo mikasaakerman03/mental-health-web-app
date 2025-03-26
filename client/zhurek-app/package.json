@@ -11,9 +11,11 @@
     "chart.js": "^4.4.0",
     "clsx": "^2.1.1",
     "i18next": "^24.2.3",
+    "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^15.4.1",
+    "react-leaflet": "^4.2.1",
     "react-router-dom": "^7.4.0",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.0"
