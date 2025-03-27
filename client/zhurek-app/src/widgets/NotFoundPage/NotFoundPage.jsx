@@ -9,7 +9,7 @@ export const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative z-10 m-3 w-full h-[calc(100vh-140px)] rounded-3xl bg-white flex items-center justify-between overflow-hidden">
+    <div className="relative z-10 m-3 w-full h-[calc(100vh-140px)] rounded-3xl bg-white flex items-center justify-between">
       {/* Left */}
       <div className=" relative z-10 flex flex-col justify-center px-[180px] w-1/2 h-full">
         <img src={logo} alt="logo" className="w-10 h-10 mb-6" />
