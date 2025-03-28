@@ -60,7 +60,7 @@ export const Sidebar = () => {
         </div>
 
         <div className='flex flex-col gap-y-2'>
-          <img src={avatar} alt="" className="w-[60px] rounded-full shadow-sm cursor-pointer" />
+          <img src={avatar} alt="" className="w-[60px] rounded-full shadow-sm cursor-pointer" onClick={() => { navigate('/profile'); }}/>
           <img src={logout} alt="" className="w-[60px] rounded-full border-2 border-white shadow-sm cursor-pointer" onClick={handleLogOut}/>
         </div>
       </div>
