@@ -26,7 +26,7 @@ export const SignInMobile = () => {
       localStorage.setItem('authToken', data.access_token);
       localStorage.setItem('refreshToken', data.refresh_token);
 
-      navigate('/guest/main')
+      navigate('/dashboard')
     } catch (err) {
       console.log('Sign-in error:', err.response?.status, err.response?.data);
     }
