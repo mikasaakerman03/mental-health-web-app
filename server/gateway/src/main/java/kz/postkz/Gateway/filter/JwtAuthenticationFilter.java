@@ -1,12 +1,12 @@
 package kz.postkz.Gateway.filter;
 
-
 import kz.postkz.Gateway.utils.JwtService;
 import kz.postkz.Gateway.utils.RouteValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,10 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config> {
+
 	@Autowired
 	private JwtService jwtService;
+
 	@Autowired
 	private RouteValidator validator;
 
@@ -30,30 +32,33 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 	@Override
 	public GatewayFilter apply(Config config) {
 		return (exchange, chain) -> {
+			if (exchange.getRequest().getMethod().equals(HttpMethod.OPTIONS)) {
+				return chain.filter(exchange);
+			}
+
 			if (validator.isSecured.test(exchange.getRequest())) {
-				// récupération du header Authorization
 				String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-				if (authHeader != null && authHeader.startsWith("Bearer ")) {
-					// extraction du token JWT
-					String jwt = authHeader.substring(7);
+				if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+					return onError(exchange, HttpStatus.UNAUTHORIZED);
+				}
 
-					if (!jwtService.CheckToken(jwt) && !jwtService.isTokenValid(jwt)) {
-						return this.onError(exchange, "Unauthorized access to the application", HttpStatus.UNAUTHORIZED);
-					}
-				} else {
-					// Si le header Authorization est manquant
-					throw new RuntimeException("Missing authorization header");
+				String jwt = authHeader.substring(7);
+
+				if (!jwtService.CheckToken(jwt) || !jwtService.isTokenValid(jwt)) {
+					return onError(exchange, HttpStatus.UNAUTHORIZED);
 				}
 			}
+
 			return chain.filter(exchange);
 		};
 	}
 
-	private Mono<Void> onError(ServerWebExchange exchange, String string, HttpStatus httpStatus) {
+	private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus) {
 		ServerHttpResponse response = exchange.getResponse();
-		response.setStatusCode(httpStatus);  // Définit le code de statut de la réponse HTTP
-		return response.setComplete();  // Indique que la réponse est complète et terminée
+		response.setStatusCode(httpStatus);
+		response.getHeaders().set("Access-Control-Allow-Origin", "http://localhost:3000");
+		response.getHeaders().set("Access-Control-Allow-Credentials", "true");
+		return response.setComplete();
 	}
-
 }

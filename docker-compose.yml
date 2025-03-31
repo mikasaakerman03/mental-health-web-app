@@ -50,7 +50,7 @@ services:
       context: ./server/admin-panel-security
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8083:8083"
     env_file:
       - ./server/admin-panel-security/.env
     environment:
@@ -59,21 +59,21 @@ services:
       resources:
         limits:
           memory: 500M
-#
-#  project5:
-#    build:
-#      context: ./notification-proc
-#      dockerfile: Dockerfile
-#    ports:
-#      - "8086:8086"
-#    env_file:
-#      - ./notification-proc/.env
-#    environment:
-#      TZ: "Asia/Oral"
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 500M
+
+  ai-service:
+    build:
+      context: ./server/ai-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./server/ai-service/.env
+    environment:
+      TZ: "Asia/Oral"
+    deploy:
+      resources:
+        limits:
+          memory: 500M
 
 #  storage:
 #    build:
