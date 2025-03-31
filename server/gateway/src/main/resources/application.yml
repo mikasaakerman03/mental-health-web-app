@@ -28,20 +28,10 @@ spring:
             - Path=/gateway/api/v1/**
           filters:
             - StripPrefix=1
-#        - id: notification-service
-#          uri: lb://NOTIFICATION-SERVICE
-#          predicates:
-#            - Path=/gateway/notification/**
-#          filters:
-#            - StripPrefix=1
+
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-#      globalcors:
-#        corsConfigurations:
-#          '[/**]':
-#            allowedOrigins: "http://localhost:3000"
-#            allowedHeaders: "*"
-#            allowedMethods: "*"
+
     discovery:
       enabled: true
   jwt:
@@ -51,7 +41,7 @@ eureka:
   client:
     registryFetchIntervalSeconds: 5
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka:8761/eureka
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 30
