@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,10 +9,28 @@ import { SleepLevelCard } from '../../entities/SleepChart/SleepChat';
 import { AiChatbotCard } from '../../entities/AIChatbotCard/AiChatbotCard';
 import { HealthJournalCard } from '../../entities/HealthJournal/HealthJournal';
 import { MeditateCard } from '../../entities/MeditateCard/MeditateCard';
+import { getUser } from '../../shared/api/getUser';
 
 export const ProfileDesktop = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await getUser();
+        if (response.data && typeof response.data === 'object') {
+          setUser(response.data);
+        } else {
+          console.error('response.data is not an array:', response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      }
+    }
+    fetchUserData();
+  }, []);
 
   return (
     <div className="w-full h-screen bg-[#F5F5F5] flex justify-center items-start">
@@ -31,7 +49,7 @@ export const ProfileDesktop = () => {
         </div>
 
         <div className="mt-20 text-center">
-          <h2 className="text-3xl font-bold text-[#4F3422]">Дана</h2>
+          <h2 className="text-3xl font-bold text-[#4F3422]">{user?.fullName}</h2>
           <span className="mt-1 inline-block text-sm px-4 py-1 rounded-full border border-[#C0A091] text-[#4F3422]">
             {t('profile.membership')}
           </span>
@@ -40,15 +58,15 @@ export const ProfileDesktop = () => {
           <div className="flex justify-center gap-16 mt-6">
             <div className="text-center">
               <p className="text-sm text-gray-500">{t('profile.age')}</p>
-              <p className="text-2xl font-bold text-[#4F3422]">17</p>
+              <p className="text-2xl font-bold text-[#4F3422]">{user?.age}</p>
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-500">{t('profile.weight')}</p>
-              <p className="text-2xl font-bold text-[#4F3422]">48{" "}<span className="text-sm font-normal">кг</span></p>
+              <p className="text-2xl font-bold text-[#4F3422]">{user?.weight === null ? 0 : user?.weight}{" "}<span className="text-sm font-normal">кг</span></p>
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-500">{t('profile.height')}</p>
-              <p className="text-2xl font-bold text-[#4F3422]">162{" "}<span className="text-sm font-normal">см</span></p>
+              <p className="text-2xl font-bold text-[#4F3422]">{user?.height === null ? 0 : user?.height}{" "}<span className="text-sm font-normal">см</span></p>
             </div>
           </div>
 

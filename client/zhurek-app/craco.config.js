@@ -1,11 +1,10 @@
 module.exports = {
   devServer: {
     proxy: {
-      '/api/v1': {
-        target: 'http://localhost:8080',
+      '/gateway/api/v1': {
+        target: 'http://localhost:8088',
         logLevel: 'debug',
-        // secure: true,
-        // changeOrigin: true,
+        changeOrigin: true,
       }
     },
   }

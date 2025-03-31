@@ -3,7 +3,7 @@ import axios from 'axios';
 import i18n from 'i18next';
 
 const api = axios.create({
-  baseURL: '/api/v1/',
+  baseURL: '/gateway/api/v1',
 });
 
 api.interceptors.request.use(
@@ -35,19 +35,14 @@ api.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          '/api/v1/account/refresh-token',
-          {},
-          {
-            headers: {
-              'Refresh-Token': refreshToken,
-            },
-          },
+          '/gateway/api/v1/auth/refresh',
+          {refreshToken: refreshToken},
         );
 
-        localStorage.setItem('authToken', data.access_token);
-        localStorage.setItem('refreshToken', data.refresh_token);
+        localStorage.setItem('authToken', data.accessToken);
+        localStorage.setItem('refreshToken', data.refreshToken);
 
-        originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
 
         return await api(originalRequest);
       } catch (err) {

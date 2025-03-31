@@ -22,8 +22,8 @@ export const SignInDesktop = () => {
         password,
       });
 
-      localStorage.setItem('authToken', data.access_token);
-      localStorage.setItem('refreshToken', data.refresh_token);
+      localStorage.setItem('authToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
 
       navigate('/dashboard')
     } catch (err) {

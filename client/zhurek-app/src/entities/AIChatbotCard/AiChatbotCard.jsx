@@ -1,10 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
 import botIcon from '../../shared/assets/icons/bot_white.svg';
 import arrowRightIcon from '../../shared/assets/icons/arrowright_purple.svg';
 
 export const AiChatbotCard = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <div className="bg-[#8854F6] rounded-[32px] p-4 w-full h-full flex flex-col justify-between text-white shadow-md">
@@ -33,7 +36,10 @@ export const AiChatbotCard = () => {
       {/* Bottom */}
       <div className="flex justify-between items-center mt-2">
         <span className="text-3xl font-bold">187+</span>
-        <div className="bg-white cursor-pointer rounded-full p-2 w-10 h-10 flex items-center justify-center">
+        <div
+          className="bg-white cursor-pointer rounded-full p-2 w-10 h-10 flex items-center justify-center"
+          aria-hidden
+          onClick={()=>{navigate('/chatbot')}}>
           <img src={arrowRightIcon} alt="icon" className="w-5 h-5" />
         </div>
       </div>

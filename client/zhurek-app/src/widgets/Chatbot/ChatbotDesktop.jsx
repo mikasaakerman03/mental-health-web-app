@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
+import { getCategories, getTopics, getTopicHistory, postSendMessage, deleteTopic } from './apis';
 import { ScrollArea } from '../../shared/ui/ScrollArea/ScrollArea';
 import { Input } from '../../shared/ui/Input/Input';
 import sendWhite from '../../shared/assets/icons/send_white.svg';
@@ -16,20 +18,170 @@ import chat4 from '../../shared/assets/images/chat4.svg';
 import chat5 from '../../shared/assets/images/chat5.svg';
 import chat6 from '../../shared/assets/images/chat6.svg';
 import chat7 from '../../shared/assets/images/chat7.svg';
+import trashIcon from '../../shared/assets/icons/trash_brown.svg';
+import './styles.css';
+import AddTopicModal from './AddTopic';
+
+const chatImages = [chat2, chat3, chat4, chat5, chat6, chat7];
 
 export const ChatbotDesktop = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const messagesEndRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+  const [topics, setTopics] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [messageText, setMessageText] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [addTopic, setAddTopic] = useState(false);
 
-  const topics = [
-    { title: t('topics.mentalHealth'), icon: chat4, count: 8, active: true },
-    { title: t('topics.stress'), icon: chat2, count: 7 },
-    { title: t('topics.becomingHappy'), icon: chat3, count: '✔️' },
-    { title: t('topics.notEnough'), icon: chat4, count: 2 },
-    { title: t('topics.statusAnxiety'), icon: chat5, count: '✔️' },
-    { title: t('topics.findingPurpose'), icon: chat6, count: 5 },
-    { title: t('topics.alanWatts'), icon: chat7, count: '✔️' },
-    { title: t('topics.bestMeditation'), icon: chat2, count: 2 },
-  ];
+  const categoryIcons = {
+    1: dashboard,
+    2: mouse,
+    3: star,
+    4: trash,
+    5: question,
+  };
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      const response = await getCategories();
+      if (Array.isArray(response.data)) {
+        setCategories(response.data);
+        if (!response.data.some(category => category.id === selectedCategory)) {
+          setSelectedCategory(response.data[0]?.id || null);
+        }
+      } else {
+        console.error('response.data is not an array:', response.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
+    }
+  },[selectedCategory]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      const fetchTopics = async () => {
+        try {
+          const response = await getTopics(selectedCategory);
+          if (Array.isArray(response.data)) {
+            const topicsWithImages = response.data.map(topic => ({
+              ...topic,
+              icon: chatImages[Math.floor(Math.random() * chatImages.length)]
+            }));
+            setTopics(topicsWithImages);
+            setSelectedTopic(response.data[0]?.id || null);
+          } else {
+            console.error('response.data is not an array:', response.data);
+          }
+        } catch (error) {
+          console.error('Failed to fetch topics:', error);
+        }
+      };
+      fetchTopics();
+    }
+  }, [selectedCategory]);
+
+  const fetchTopicHistory = useCallback(async () => {
+    try {
+      const response = await getTopicHistory(selectedTopic);
+      if (Array.isArray(response.data)) {
+        setMessages(response.data);
+      } else {
+        console.error('response.data is not an array:', response.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch topic history:', error);
+    }
+  }, [selectedTopic]); // ⬅️ здесь зависимость
+
+  useEffect(() => {
+    if (selectedTopic) {
+      fetchTopicHistory();
+    }
+  }, [fetchTopicHistory, selectedTopic]);
+
+  const handleSendMessage = async () => {
+    if (!messageText.trim() || isSending) return;
+
+    setIsSending(true);
+
+    const requestBody = {
+      chatId: selectedTopic,
+      message: messageText,
+      language: i18n.language
+    };
+
+    try {
+      const response = await postSendMessage(requestBody);
+      // eslint-disable-next-line no-unused-vars
+      const { messageId, chatId, response: responseText } = response.data;
+
+      // Добавляем сообщение пользователя и ответ от бота в state messages
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { role: 'user', content: messageText },
+        { role: 'assistant', content: responseText }
+      ]);
+
+      setMessageText(''); // Очищаем текстовое поле
+    } catch (error) {
+      console.error('Failed to send message:', error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const fetchTopics = async () => {
+    try {
+      const response = await getTopics(selectedCategory);
+      if (Array.isArray(response.data)) {
+        const topicsWithImages = response.data.map(topic => ({
+          ...topic,
+          icon: chatImages[Math.floor(Math.random() * chatImages.length)]
+        }));
+        setTopics(topicsWithImages);
+      } else {
+        console.error('response.data is not an array:', response.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch topics:', error);
+    }
+  };
+
+  const handleDeleteTopic = async (topicId) => {
+    try {
+      const res = await deleteTopic(topicId);
+      if (res.status === 204) {
+        fetchCategories();
+        fetchTopics();
+      }
+    } catch {
+      console.error('Ошибка при удалении темы');
+    }
+  }
+
+  const handleTopicAdded = async (newTopic) => {
+    await fetchCategories(); // Обновляем список категорий
+    await fetchTopics(); // Обновляем список тем
+
+    if (newTopic && newTopic.id) {
+      setTimeout(() => {
+        setSelectedTopic(newTopic.id); // Устанавливаем новую тему как активную
+      }, 0); // Используем setTimeout, чтобы React успел обновить список тем
+    }
+  };
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'auto' });
+    }
+  }, [messages]); // Зависимость - обновление происходит при изменении массива messages
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
@@ -38,42 +190,20 @@ export const ChatbotDesktop = () => {
       <div className="w-[260px] bg-[#E8DDD9] flex flex-col justify-between">
         <div>
           <div className="text-2xl font-semibold mb-4 p-4">{t('sidebar.chats')}</div>
-          <ul className="space-y-2 w-full text-sm text-[#4F3422]">
-            <li className="w-full py-4 px-3 bg-[#FFEDD5] border-b-2 border-b-[#C0A091] font-semibold text-lg border-r-2 border-r-[#FB8728] flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-x-2">
-                <img src={dashboard} alt="" />
-                {t('sidebar.current')}
-              </div>
-              <div className="">(12)</div>
-            </li>
-            <li className="w-full py-4 px-3 font-semibold text-lg border-b-2 border-b-[#C0A091] flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-x-2">
-                <img src={mouse} alt="" />
-                {t('sidebar.bookmarks')}
-              </div>
-              <div className="">(25)</div>
-            </li>
-            <li className="w-full py-4 px-3 font-semibold text-lg border-b-2 border-b-[#C0A091] flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-x-2">
-                <img src={star} alt="" />
-                {t('sidebar.favorites')}
-              </div>
-              <div className="">(10)</div>
-            </li>
-            <li className="w-full py-4 px-3 font-semibold text-lg border-b-2 border-b-[#C0A091] flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-x-2">
-                <img src={trash} alt="" />
-                {t('sidebar.trash')}
-              </div>
-              <div className="">(1)</div>
-            </li>
-            <li className="w-full py-4 px-3 font-semibold text-lg border-b-2 border-b-[#C0A091] flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-x-2">
-                <img src={question} alt="" />
-                {t('sidebar.unassigned')}
-              </div>
-              <div className="">(1)</div>
-            </li>
+          <ul className="w-full text-sm text-[#4F3422]">
+            {categories.map(category => (
+              <li
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`cursor-pointer w-full py-4 px-3 ${category.id === selectedCategory ? 'bg-[#FFEDD5] border-r-2 border-r-[#FB8728]' : ''} font-semibold text-lg border-y-2 border-b-[#C0A091] flex flex-row justify-between items-center`}
+              >
+                <div className="flex flex-row items-center gap-x-2">
+                  <img src={categoryIcons[category.id]} alt="" />
+                  {i18n.language === 'ru' ? category.titleRu : category.titleKk}
+                </div>
+                <div>({category.count})</div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -89,20 +219,34 @@ export const ChatbotDesktop = () => {
         </div>
         <div className="flex flex-col justify-between h-full">
           <ScrollArea className="">
-            {topics.map((topic, index) => (
+            {topics.map(topic => (
               <div
-                key={index}
-                className={`flex flex-row items-center justify-between py-4 px-3 border-b-2 border-b-[#E8DDD9] ${topic.active ? 'bg-[#E5EAD7] border-r-2 border-r-[#9BB167]' : 'bg-white'}`}
+                key={topic.id}
+                onClick={() => setSelectedTopic(topic.id)}
+                className={clsx("w-full cursor-pointer flex flex-row items-center justify-between py-4 px-3 border-b-2 border-b-[#E8DDD9]",
+                  topic.id === selectedTopic && "bg-[#d0e4bc] border-r-2 border-r-[#91AD75]"
+                )}
               >
-                <div className="flex flex-row gap-x-3 items-center text-[#4F3422]">
-                  <img src={topic.icon} alt={topic.title} className="w-8 h-8" />
-                  <div className="font-semibold text-lg truncate w-[140px]">{topic.title}</div>
+                <div className="w-full flex flex-row gap-x-3 justify-between items-center text-[#4F3422]">
+                  <div className="w-full flex flex-row items-center gap-x-2">
+                    <img src={topic.icon} alt={topic.titleRu} className="w-8 h-8" />
+                    <div className="font-semibold text-lg truncate w-[140px]">
+                      {i18n.language === 'ru' ? topic.titleRu : topic.titleKk}
+                    </div>
+                  </div>
+                  <img src={trashIcon} alt=""
+                    onClick={(e) => {
+                      e.stopPropagation(); // 🔒 Остановить распространение клика на родительский div
+                      handleDeleteTopic(topic.id);
+                    }}/>
                 </div>
               </div>
             ))}
           </ScrollArea>
 
-          <button className="bg-[#91AD75] text-white m-4 py-5 rounded-[1000px] text-sm font-medium">
+          <button
+            className="bg-[#91AD75] text-white m-4 py-5 rounded-[1000px] text-sm font-medium"
+            onClick={() => { setAddTopic(true) }}>
             + {t('topics.addNew')}
           </button>
         </div>
@@ -115,42 +259,77 @@ export const ChatbotDesktop = () => {
         </div>
 
         <ScrollArea className="flex-1 space-y-4 pr-2 flex flex-col">
-          <div className="self-end bg-[#4F3422] text-white text-sm px-4 py-3 max-w-[70%] rounded-2xl rounded-br-sm shadow-md">
-            {t('chat.msg1')}
-          </div>
+          {messages.map((message, index) => {
+            if (message.role === 'assistant') {
+              const lines = message.content.split(/\n+/);
 
-          <div className="self-start bg-[#F5F0EC] text-[#4F3422] text-sm px-4 py-3 max-w-[70%] rounded-2xl rounded-bl-sm shadow">
-            {t('chat.msg2')}
-          </div>
+              return (
+                <div
+                  key={index}
+                  className="max-w-[70%] px-4 py-3 rounded-2xl shadow-md self-start bg-[#F5F0EC] text-[#4F3422] rounded-bl-sm"
+                >
+                  {lines.map((line, lineIdx) => {
+                    const isListItem = /^\d+\.\s/.test(line);
+                    const content = line.replace(/^\d+\.\s/, '');
 
-          <div className="self-end bg-[#4F3422] text-white text-sm px-4 py-3 max-w-[70%] rounded-2xl rounded-br-sm shadow-md">
-            {t('chat.msg3')}
-          </div>
+                    const formattedContent = content.split(/\*\*(.*?)\*\*/g).map((part, idx) =>
+                      idx % 2 ? <strong key={idx}>{part}</strong> : part
+                    );
 
-          <div className="self-end bg-[#4F3422] text-white text-sm px-4 py-3 max-w-[70%] rounded-2xl rounded-br-sm shadow-md">
-            {t('chat.msg4')}
-            <div className="mt-2 flex flex-wrap gap-2">
-              <div className="bg-white border text-xs px-3 py-1 rounded-full text-[#4F3422] shadow-sm">
-                DANA_Medical.PDF
-              </div>
-              <div className="bg-white border text-xs px-3 py-1 rounded-full text-[#4F3422] shadow-sm">
-                EKG.PDF
-              </div>
-            </div>
-          </div>
+                    return isListItem ? (
+                      <li key={lineIdx} className="mb-2">
+                        {formattedContent}
+                      </li>
+                    ) : (
+                      <p key={lineIdx} className="mb-2">
+                        {formattedContent}
+                      </p>
+                    );
+                  })}
+                </div>
+              );
+            }
 
-          <div className="self-start bg-[#F5F0EC] text-[#4F3422] text-sm px-4 py-3 max-w-[70%] rounded-2xl rounded-bl-sm shadow">
-            {t('chat.msg5')}
-          </div>
+            // Обычное отображение сообщений пользователя
+            return (
+              <>
+                <div
+                  key={index}
+                  className="max-w-[70%] px-4 py-3 rounded-2xl shadow-md self-end bg-[#4F3422] text-white rounded-br-sm"
+                >
+                  {message.content}
+                </div>
+                <div ref={messagesEndRef} />
+              </>
+            );
+          })}
         </ScrollArea>
 
         <div className="mt-4 flex items-center gap-2">
-          <Input placeholder={t('chat.placeholder')} className="flex-1 bg-[#F3EEE9] text-[#4F3422] p-3 rounded-lg" />
-          <button className="bg-[#91AD75] p-3 rounded-full">
-            <img src={sendWhite} alt="send" />
+          <Input
+            placeholder={t('chat.placeholder')}
+            className="flex-1 bg-[#F3EEE9] text-[#4F3422] p-3 rounded-lg"
+            value={messageText}
+            onChange={(e) => setMessageText(e.target.value)} />
+          <button
+            className="bg-[#91AD75] p-3 rounded-full"
+            onClick={handleSendMessage}
+            disabled={isSending}>
+            {isSending ? (
+              <span className="loader inline-block h-4 w-4 border-2 border-white border-b-transparent rounded-full animate-spin"></span>
+            ) : (
+              <img src={sendWhite} alt="send" />
+            )}
           </button>
         </div>
       </div>
+      {addTopic &&
+        <AddTopicModal
+          isOpen={addTopic}
+          onClose={() => { setAddTopic(false) }}
+          onTopicAdded={handleTopicAdded}
+          categoryId={selectedCategory}
+        />}
 
     </div>
   );
