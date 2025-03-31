@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/admin
+    username: admin
+    password: 123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      open-in-view: false
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: create
+
+  application:
+    name: AI-SERVICE
+
+  jwt:
+    security: 843567893696976453275974432697R634976R738467TR678T34865R6834R8763T478378637664538745673865783678548735687R3
+    securityKey: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration: 360000
+    refresh-expiration: 604800000 # 7 дней
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: false
+
+cloud:
+  discovery:
+    enabled: true
