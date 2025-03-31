@@ -3,14 +3,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import arrowRightIcon from "../../shared/assets/icons/arrowright_white.png";
+import arrowRightBrown from "../../shared/assets/icons/arrow_se_brown.png";
 import img1 from "../../shared/assets/images/img1.png";
 import img2 from "../../shared/assets/images/img2.png";
 import img3 from "../../shared/assets/images/img3.png";
 import img4 from "../../shared/assets/images/img4.png";
 import img5 from "../../shared/assets/images/img5.png";
 import img6 from "../../shared/assets/images/img6.png";
-import chatbotImg from "../../shared/assets/images/chatbot-screen.png";
+import chatbotImg from "../../shared/assets/images/ai_screen.png";
 import phoneImg from "../../shared/assets/images/laptop_mockup.png";
+import mockup1 from "../../shared/assets/images/mockup1.png";
+import mockup2 from "../../shared/assets/images/mockup2.png";
+import mockup3 from "../../shared/assets/images/mockup3.png";
 import { StatCard } from "../../shared/ui/StatCard/StatCard";
 import { FeatureCard } from "../../shared/ui/FeatureCard/FeatureCard";
 import { PartnersCarousel } from '../../entities/PartnersCarousel/PartnersCarousel';
@@ -60,7 +64,7 @@ export const LandingDesktop = () => {
       {/* Block 1 */}
       <div className='relative w-full h-[80vh] z-10 overflow-hidden'>
         <div className="absolute -top-3 -right-[45%] w-[1500px] h-[1500px] bg-[#E1E1E0] rounded-full opacity-30 z-0"></div>
-        <div className="w-full p-[100px] relative z-10">
+        <div className="w-full p-[100px] mt-[100px] relative z-10">
           <div className='flex flex-col w-[70%]'>
             <p className='text-[#736B66] p-3 rounded-3xl bg-[#F5F5F5] max-w-max'>
               {t('landing.missionTag')}
@@ -86,7 +90,7 @@ export const LandingDesktop = () => {
               <button className="flex items-center gap-2 bg-[#F7F4F2] text-[#4F3422] font-bold px-6 py-3 rounded-full text-lg transition-all duration-300 hover:opacity-80"
                 onClick={() => { navigate('/guest/sign-up') }}>
                 {t('landing.register')}
-                <img src={arrowRightIcon} alt="download icon" className="w-5 h-5" />
+                <img src={arrowRightBrown} alt="download icon" className="w-5 h-5" />
               </button>
             </div>
 
@@ -119,7 +123,10 @@ export const LandingDesktop = () => {
                 <span className="text-xl text-transparent">⚠️</span> {t('landing.fakeStatsNote')}
               </button>
 
-              <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4F3422] text-white font-semibold text-xl">
+              <button
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#4F3422] text-white font-semibold text-xl"
+                onClick={() => { navigate('/guest/about-us') }}
+              >
                 {t('landing.seeAllStats')}
                 <img src={arrowRightIcon} className="w-4 h-4" alt="arrow icon" />
               </button>
@@ -144,7 +151,7 @@ export const LandingDesktop = () => {
       </div>
 
       {/* Block 5 */}
-      <div className="h-[80vh] flex flex-col md:flex-row items-center justify-between gap-12 p-[80px]">
+      <div className="h-[80vh] flex flex-col md:flex-row items-center justify-between p-[80px]">
         {/* Left content */}
         <div className="w-full md:w-1/2">
           <p className="text-[#736B66] max-w-max p-2 px-4 rounded-full border border-[#736B66] text-xl mb-8">
@@ -174,8 +181,7 @@ export const LandingDesktop = () => {
 
         {/* Right image */}
         <div className="w-full md:w-1/2 relative flex items-center justify-center">
-          <div className="w-[650px] h-[650px] bg-[#4F3422] rounded-full absolute"></div>
-          {/* <img src="/assets/images/assessment_mock.png" alt="Assessment" className="relative z-10 w-[320px] rounded-2xl shadow-lg" /> */}
+          <img src={mockup1} alt="Assessment" className="relative z-10 w-full rounded-2xl shadow-lg" />
         </div>
       </div>
 
@@ -183,8 +189,7 @@ export const LandingDesktop = () => {
       <div className="mt-10 h-[80vh] flex flex-col-reverse md:flex-row items-center justify-between gap-12 p-[80px]">
         {/* Left image with orange circle */}
         <div className="w-full md:w-1/2 relative flex items-center justify-center">
-          <div className="w-[650px] h-[650px] bg-[#FB8728] rounded-full absolute"></div>
-          {/* <img src="/assets/images/selfcare_mock.png" alt="Self Care" className="relative z-10 w-[320px] rounded-2xl shadow-lg" /> */}
+          <img src={mockup2} alt="Self Care" className="relative z-10 w-full rounded-2xl shadow-lg" />
         </div>
 
         {/* Right content */}
@@ -245,8 +250,7 @@ export const LandingDesktop = () => {
 
         {/* Right image */}
         <div className="w-full md:w-1/2 relative flex items-center justify-center">
-          <div className="w-[650px] h-[650px] bg-[#9BB167] rounded-full absolute"></div>
-          {/* <img src="/assets/images/support_mock.png" alt="Support Chatbot" className="relative z-10 w-[320px] rounded-2xl shadow-lg" /> */}
+          <img src={mockup3} alt="Support Chatbot" className="relative z-10 w-full rounded-2xl shadow-lg" />
         </div>
       </div>
 

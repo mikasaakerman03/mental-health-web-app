@@ -98,9 +98,14 @@ export const AboutUsDesktop = () => {
             alt="Дана"
             className="rounded-[30px] w-full h-auto object-cover"
           />
-          <div className="absolute top-4 left-4 text-white">
-            <p className="font-semibold text-[#7A4F36]">{t('benefits.userName')}</p>
-            <p className="text-sm text-[#7A4F36]">{t('benefits.userLocation')}</p>
+          <div className="absolute bottom-6 left-6 right-6 bg-white text-[#4F3422] text-sm p-6 rounded-[30px] shadow-lg border-2 border-[#B8D97C]">
+            <p className="mb-4 italic text-md leading-relaxed">“{t('signin.testimonial.text')}”</p>
+            <div className="text-yellow-400 text-md mb-2 flex items-center gap-1">
+              <span>★★★★★</span>
+              <span className="text-xs text-[#4F3422]">Рейтинг</span>
+            </div>
+            <p className="font-semibold text-lg">{t('signin.testimonial.name')}</p>
+            <p className="text-sm text-gray-500">{t('signin.testimonial.role')}</p>
           </div>
         </div>
       </div>

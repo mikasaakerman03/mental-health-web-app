@@ -60,7 +60,7 @@ export const AssesmentDesktop = () => {
         </div>
         <div className="relative z-10 h-full text-right w-full flex items-center justify-between px-[100px]">
           <div className="w-1/2 hidden md:block" />
-          <div className="w-full md:w-1/2 flex flex-col font-bold mr-[100px]">
+          <div className="w-full md:w-1/2 flex flex-col font-bold">
             <div className="mt-6 flex flex-col gap-y-0 leading-tight">
               <p className='m-0 p-0 text-[75px] text-[#4F3422]'>{t('assessment.title1')}</p>
               <p className='m-0 p-0 text-[75px] text-[#4F3422]'>{t('assessment.title2')}</p>
@@ -117,7 +117,7 @@ export const AssesmentDesktop = () => {
               <h3 className="text-[#4F3422] font-bold">{b.title}</h3>
               <p className="text-gray-600 text-sm">{b.description}</p>
               <button className="text-[#9BB167] text-sm font-semibold flex items-center gap-2 mt-auto hover:underline"
-              onClick={()=>{navigate('/guest/sign-in')}}>
+                onClick={() => { navigate('/guest/sign-in') }}>
                 {t('buttons.getInTouch')} →
               </button>
             </div>
