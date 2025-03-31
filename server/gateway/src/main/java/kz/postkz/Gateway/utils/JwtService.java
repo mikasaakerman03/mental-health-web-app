@@ -8,39 +8,40 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
-
 @Component
 public class JwtService {
-	@Value("${spring.jwt.privateKey}")
-	public String secretKey;
+
+    private final Key signKey;
+
+    public JwtService(@Value("${spring.jwt.security}") String secretString) {
+        byte[] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
+        this.signKey = new SecretKeySpec(keyBytes, "HmacSHA256");
+    }
 
     public boolean CheckToken(final String token) {
         try {
-        	Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
-        	return true;
-        }catch(JwtException e) {
-        	return false;
+            Jwts.parserBuilder().setSigningKey(signKey).build().parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
         }
     }
-    
+
     public Claims getAllClaimsFromToken(String token) {
-    	
-    	return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(signKey).build().parseClaimsJws(token).getBody();
     }
-    
+
     public boolean isTokenValid(String token) {
-    	try {
-			return this.getAllClaimsFromToken(token).getExpiration().before(new Date());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-    }
-     
-    private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        try {
+            return this.getAllClaimsFromToken(token).getExpiration().after(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
+

@@ -1,3 +1,5 @@
+server:
+  port: 8088
 spring:
   application:
     name: GATEWAY-SERVICE
@@ -11,12 +13,15 @@ spring:
 #          filters:
 #            - StripPrefix=1
 #            - JwtAuthenticationFilter
-#        - id: websocket
-#          uri: lb://WEBSOCKET-SERVICE
-#          predicates:
-#            - Path=/gateway/websocket/**
-#          filters:
-#            - StripPrefix=1
+        - id: ai-service
+          uri: lb://AI-SERVICE
+          predicates:
+            - Path=/gateway/api/v1/chat/**
+#            - Path=/gateway/api/v1/chat/topic/**
+#            - Path=/gateway/api/v1/chat/user/**
+          filters:
+            - StripPrefix=1
+            - JwtAuthenticationFilter
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
@@ -31,25 +36,25 @@ spring:
 #            - StripPrefix=1
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:4200"
-            allowedHeaders: "*"
-            allowedMethods: "*"
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: "http://localhost:3000"
+#            allowedHeaders: "*"
+#            allowedMethods: "*"
     discovery:
       enabled: true
   jwt:
-    privateKey: 843567893696976453275974432697R634976R738467TR678T34865R6834R8763T478378637664538745673865783678548735687R3
-    expiration: 3600000
+    security: 843567893696976453275974432697R634976R738467TR678T34865R6834R8763T478378637664538745673865783678548735687R3
+    expiration: 360000
 eureka:
   client:
+    registryFetchIntervalSeconds: 5
     service-url:
-      defaultZone: http://eureka:8761/eureka
+      defaultZone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 30
     lease-expiration-duration-in-seconds: 90
 
-server:
-  port: 8088
+
