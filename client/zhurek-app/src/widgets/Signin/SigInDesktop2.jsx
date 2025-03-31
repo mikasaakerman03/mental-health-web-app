@@ -11,21 +11,29 @@ export const SignInDesktop = () => {
   const [password, setPassword] = useState('');
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSignIn = async () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('refreshToken');
+    setErrorMsg('')
 
     try {
-      const { data } = await api.post('/auth/signin', {
+      const res = await api.post('/auth/signin', {
         email,
         password,
       });
 
-      localStorage.setItem('authToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
+      if (res?.status===200 && res?.data?.statusCode===200) {
+        localStorage.setItem('authToken', res?.data.accessToken);
+        localStorage.setItem('refreshToken', res?.data.refreshToken);
+  
+        navigate('/dashboard')
+  
+      } else {
+        setErrorMsg('Неправильный логин или пароль')
+      }
 
-      navigate('/dashboard')
     } catch (err) {
       console.log('Sign-in error:', err.response?.status, err.response?.data);
     }
@@ -83,6 +91,8 @@ export const SignInDesktop = () => {
                 <button className="text-[#9BB167] hover:underline">{t("signin.forgot")}</button>
               </div>
 
+              {errorMsg && <p className="text-sm my-3 text-[red]">{errorMsg}</p>}
+
               <button className="w-full bg-[#9BB167] hover:opacity-90 text-white py-3 rounded-full font-semibold text-lg mb-6"
                 onClick={handleSignIn}>
                 {t("signin.button")} →
@@ -91,6 +101,8 @@ export const SignInDesktop = () => {
               <p className="text-center text-sm">
                 {t("signin.noAccount")} <span aria-hidden className="text-[#9BB167] cursor-pointer hover:underline" onClick={() => { navigate('/guest/sign-up') }}>{t("signin.signup")}</span>
               </p>
+
+              
             </div>
           </div>
 

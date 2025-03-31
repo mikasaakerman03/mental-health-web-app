@@ -215,10 +215,10 @@ export const ChatbotDesktop = () => {
             <img src={chats} alt="" className="" />
             <h2 className="text-2xl font-semibold text-[#4F3422]">{t('topics.title')}</h2>
           </div>
-          <span className="text-[#4F3422] font-bold text-sm"></span>
+          <span className="text-[#4F3422] font-bold text-sm text-[transparent]">24</span>
         </div>
         <div className="flex flex-col justify-between h-full">
-          <ScrollArea className="">
+          <ScrollArea className="w-full">
             {topics.map(topic => (
               <div
                 key={topic.id}
@@ -228,13 +228,14 @@ export const ChatbotDesktop = () => {
                 )}
               >
                 <div className="w-full flex flex-row gap-x-3 justify-between items-center text-[#4F3422]">
-                  <div className="w-full flex flex-row items-center gap-x-2">
+                  <div className="w-[90%] flex flex-row items-center gap-x-2">
                     <img src={topic.icon} alt={topic.titleRu} className="w-8 h-8" />
-                    <div className="font-semibold text-lg truncate w-[140px]">
+                    <div className="font-semibold text-lg truncate w-full">
                       {i18n.language === 'ru' ? topic.titleRu : topic.titleKk}
                     </div>
                   </div>
                   <img src={trashIcon} alt=""
+                    className='w-[10%]'
                     onClick={(e) => {
                       e.stopPropagation(); // 🔒 Остановить распространение клика на родительский div
                       handleDeleteTopic(topic.id);
