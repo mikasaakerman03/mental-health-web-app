@@ -215,7 +215,7 @@ export const ChatbotDesktop = () => {
             <img src={chats} alt="" className="" />
             <h2 className="text-2xl font-semibold text-[#4F3422]">{t('topics.title')}</h2>
           </div>
-          <span className="text-[#4F3422] font-bold text-sm">24</span>
+          <span className="text-[#4F3422] font-bold text-sm"></span>
         </div>
         <div className="flex flex-col justify-between h-full">
           <ScrollArea className="">

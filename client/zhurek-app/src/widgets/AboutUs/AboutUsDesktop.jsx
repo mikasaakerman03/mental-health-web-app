@@ -35,7 +35,7 @@ export const AboutUsDesktop = () => {
           <img
             src={abstractCircle}
             alt=""
-            className="absolute -top-[15%] left-1/2 -translate-x-1/2 w-[900px] h-[900px] z-0 transform scale-y-[-1] brightness-[1] sepia-[0.2] saturate-[1.2] from-yellow-100 via-white to-transparent pointer-events-none"
+            className="absolute -top-[15%] left-1/2 -translate-x-1/2 w-[700px] h-[700px] z-0 transform scale-y-[-1] brightness-[1] sepia-[0.2] saturate-[1.2] from-yellow-100 via-white to-transparent pointer-events-none"
           />
         </div>
         <div className="z-10 w-full h-full flex flex-col justify-between p-[100px]">

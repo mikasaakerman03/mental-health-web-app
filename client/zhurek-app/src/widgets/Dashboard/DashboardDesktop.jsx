@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import userIcon from '../../shared/assets/icons/user_brown.svg';
 import { ZhurekChart } from '../../entities/ZhurekChart/ZhurekChart';
@@ -13,6 +14,7 @@ import { getUser } from '../../shared/api/getUser';
 export const DashboardDesktop = () => {
   const { t } = useTranslation();
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,7 +41,10 @@ export const DashboardDesktop = () => {
           </p>
         </div>
         <div className='flex flex-row h-full'>
-          <img src={userIcon} alt="" className='p-3 w-full h-full rounded-full bg-[#f5f5f5]' />
+          <img 
+            src={userIcon} alt="" 
+            className='p-3 w-full h-full rounded-full bg-[#f5f5f5] cursor-pointer' 
+            onClick={()=>{navigate('/profile')}}/>
         </div>
       </div>
 

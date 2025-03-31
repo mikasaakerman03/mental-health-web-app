@@ -5,6 +5,7 @@ import locationIcon from '../../shared/assets/icons/location_green.svg';
 import phoneIcon from '../../shared/assets/icons/mouth_green.svg';
 import arrowDownIcon from '../../shared/assets/icons/arrowdown_white.svg';
 import contactIllustration from '../../shared/assets/images/abs3.png';
+import phoneMockup1 from '../../shared/assets/images/phonemockup2.png';
 import { Footer } from '../../shared/ui/Footer/Footer';
 import { ColorfulMap } from '../../entities/Map/Map';
 
@@ -23,7 +24,7 @@ export const ContactUsDesktop = () => {
           <h1 className="text-[60px] md:text-5xl font-extrabold text-[#4F3422] leading-tight">
             {t('contact.title')} <br />
           </h1>
-          <p className="text-[#777] text-lg w-1/3">
+          <p className="text-[#777] text-3xl w-1/3">
             {t('contact.subtitle')}
           </p>
 
@@ -31,25 +32,20 @@ export const ContactUsDesktop = () => {
             <div className="flex items-start gap-2">
               <img src={locationIcon} alt="location" className="w-6 h-6 mt-1" />
               <div>
-                <p className="font-bold text-[#4F3422] text-sm">{t('contact.address')}</p>
-                <p className="text-sm text-gray-600 leading-tight">{t('contact.addressText')}</p>
+                <p className="font-bold text-[#4F3422] text-2xl">{t('contact.address')}</p>
+                <p className="text-xl text-gray-600 leading-tight">{t('contact.addressText')}</p>
               </div>
             </div>
 
             <div className="flex items-start gap-2">
               <img src={phoneIcon} alt="phone" className="w-6 h-6 mt-1" />
               <div>
-                <p className="font-bold text-[#4F3422] text-sm">{t('contact.phone')}</p>
-                <p className="text-sm text-gray-600">+7 776 856 8556</p>
-                <p className="text-sm text-gray-600">+7 776 920 0807</p>
+                <p className="font-bold text-[#4F3422] text-2xl">{t('contact.phone')}</p>
+                <p className="text-xl text-gray-600">+7 776 856 8556</p>
+                <p className="text-xl text-gray-600">+7 776 920 0807</p>
               </div>
             </div>
           </div>
-
-          <button className="mt-6 flex items-center gap-2 bg-[#4F3422] text-white font-semibold px-5 py-3 rounded-full text-sm hover:opacity-90 transition">
-            {t('contact.formCta')}
-            <img src={arrowDownIcon} alt="arrow down" className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
@@ -61,7 +57,7 @@ export const ContactUsDesktop = () => {
       </div>
 
       {/* Block 3 */}
-      <div className="w-[90%] mx-auto flex flex-row justify-between gap-x-12">
+      <div className="w-[90%] mx-auto flex pt-[80px] flex-row justify-between gap-x-12">
         <div className="ml-[100px] flex flex-col items-center h-full my-auto">
           <h2 className="text-3xl font-extrabold text-center mb-2">
             <span className="text-[#4F3422]">{t('contact.formTitle1')} </span>
@@ -121,22 +117,22 @@ export const ContactUsDesktop = () => {
 
       {/* Block 4 */}
       <div className="m-3">
-        <div className="w-full bg-[#FFD54F] py-16 px-8 rounded-3xl mt-20">
+        <div className="w-full bg-[#FFD54F] py-10 px-8 rounded-3xl mt-20">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="md:w-1/2 space-y-6">
-              <button className="bg-white text-[#4F3422] font-semibold px-5 py-2 rounded-full text-sm shadow-md">
+              <button className="bg-white text-[#4F3422] font-semibold px-5 py-2 rounded-full text-2xl shadow-md">
                 {t('contact.getHealthy')}
               </button>
-              <h2 className="text-5xl font-extrabold text-[#4F3422] leading-tight">
+              <h2 className="text-[80px] font-extrabold text-[#4F3422] leading-tight">
                 {t('contact.getStarted')} <br />
                 <span className="text-[#3D2B1F]">{t('contact.getFree')}</span>
               </h2>
-              <p className="text-[#5B4B3D] text-lg max-w-md">
+              <p className="text-[#5B4B3D] text-2xl max-w-md">
                 {t('contact.getDescription')}
               </p>
             </div>
             <div className="md:w-1/2 flex justify-center relative">
-              {/* Images вставишь позже */}
+              <img src={phoneMockup1} alt="" className="" />
             </div>
           </div>
         </div>

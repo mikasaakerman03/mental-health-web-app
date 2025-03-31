@@ -64,7 +64,7 @@ export const LandingDesktop = () => {
       {/* Block 1 */}
       <div className='relative w-full h-[80vh] z-10 overflow-hidden'>
         <div className="absolute -top-3 -right-[45%] w-[1500px] h-[1500px] bg-[#E1E1E0] rounded-full opacity-30 z-0"></div>
-        <div className="w-full p-[100px] mt-[100px] relative z-10">
+        <div className="w-full p-[40px] mt-[40px] relative z-10">
           <div className='flex flex-col w-[70%]'>
             <p className='text-[#736B66] p-3 rounded-3xl bg-[#F5F5F5] max-w-max'>
               {t('landing.missionTag')}

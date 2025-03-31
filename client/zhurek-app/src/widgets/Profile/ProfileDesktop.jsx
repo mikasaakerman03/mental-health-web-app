@@ -37,7 +37,7 @@ export const ProfileDesktop = () => {
       <div className="bg-white rounded-3xl shadow-xl w-full h-full overflow-hidden">
         {/* Header */}
         <div
-          className="h-[300px] bg-cover bg-center relative"
+          className="h-[250px] bg-cover bg-center relative"
           style={{ backgroundImage: `url(${bgImage})` }}
         >
           <div className="absolute left-1/2 bottom-[-60px] transform -translate-x-1/2 w-[120px] h-[120px] rounded-full border-4 border-white overflow-hidden">
