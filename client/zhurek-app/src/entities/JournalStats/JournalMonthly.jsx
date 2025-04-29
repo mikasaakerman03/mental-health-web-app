@@ -1,0 +1,134 @@
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, CartesianGrid } from 'recharts';
+
+import skippedIcon from '../../shared/assets/icons/close_white.svg';
+import negativeIcon from '../../shared/assets/icons/2emo_white.svg';
+import positiveIcon from '../../shared/assets/icons/4emo_white.svg';
+
+export const JournalMonthly = () => {
+  const { t, i18n } = useTranslation();
+
+  const months = {
+    ru: [
+      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ],
+    kk: [
+      'Қаңтар', 'Ақпан', 'Наурыз', 'Сәуір', 'Мамыр', 'Маусым',
+      'Шілде', 'Тамыз', 'Қыркүйек', 'Қазан', 'Қараша', 'Желтоқсан'
+    ],
+  };
+
+  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth(i18n.language));
+
+  const data = [
+    { label: t('skipped'), value: 81, color: '#4F3422', icon: skippedIcon },
+    { label: t('negative'), value: 32, color: '#F29142', icon: negativeIcon },
+    { label: t('positive'), value: 44, color: '#A8C379', icon: positiveIcon },
+  ];
+
+  return (
+    <div className="bg-[#FAF7F4] w-full rounded-3xl p-6 flex flex-col">
+      {/* Заголовок */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-[#4F3422]">{t('monthly_stat')}</h2>
+          <p className="text-sm text-[#948B84]">{t('your_journal_stats_for')} {selectedMonth} 2025</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="bg-white border border-[#D6D3CE] rounded-lg text-sm p-1 text-[#4F3422]"
+          >
+            {months[i18n.language]?.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* График */}
+      <div className="w-full">
+        <ResponsiveContainer width="100%" height={350}>
+          <BarChart data={data} margin={{ top: 0, right: 0, left: -30, bottom: 0 }} barCategoryGap="20%">
+            <CartesianGrid strokeDasharray="6 6" vertical={false} stroke="#E4E2E0" />
+            <XAxis dataKey="label" padding={{ left: 0, right: 0 }} tick={false} axisLine={false} tickLine={false} />
+            <YAxis hide />
+            <Bar dataKey="value" barSize={70} shape={(props) => <CustomBar {...props} data={data} />}>
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+
+const CustomBar = ({ x, y, width, height, payload, data }) => {
+  const current = data.find(item => item.label === payload.label);
+  if (!current) return null;
+
+  return (
+    <g>
+      <rect
+        x={x}
+        y={y}
+        rx="30"
+        ry="30"
+        width={width}
+        height={height}
+        fill={current.color}
+      />
+      <text
+        x={x + width / 2}
+        y={y + 30}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="white"
+        fontSize="18"
+        fontWeight="bold"
+      >
+        {current.value}
+      </text>
+      <text
+        x={x + width / 2}
+        y={y + 50}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="white"
+        fontSize="12"
+      >
+        {current.label}
+      </text>
+      <image
+        x={x + width / 2 - 10}
+        y={y + height - 30}
+        width="20"
+        height="20"
+        href={current.icon}
+      />
+    </g>
+  );
+};
+
+function getCurrentMonth(lang) {
+  const months = {
+    ru: [
+      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ],
+    kk: [
+      'Қаңтар', 'Ақпан', 'Наурыз', 'Сәуір', 'Мамыр', 'Маусым',
+      'Шілде', 'Тамыз', 'Қыркүйек', 'Қазан', 'Қараша', 'Желтоқсан'
+    ],
+  };
+  const today = new Date();
+  const monthIndex = today.getMonth();
+  return months[lang]?.[monthIndex] || months['ru'][monthIndex];
+}

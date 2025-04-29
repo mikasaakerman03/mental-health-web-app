@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 
 import logoIcon from '../../assets/images/logo.png';
 import avatar from '../../assets/images/avatar.jpg';
-import bookIcon from '../../assets/icons/book_lightbrown.svg';
+// import bookIcon from '../../assets/icons/book_lightbrown.svg';
 import dashboardIcon from '../../assets/icons/dashboard_lightbrown.svg';
 import penIcon from '../../assets/icons/pen_lightbrown.svg';
 import chatbotIcon from '../../assets/icons/chatbot_lightbrown.svg';
-import brainIcon from '../../assets/icons/brain_lightbrown.svg';
+// import brainIcon from '../../assets/icons/brain_lightbrown.svg';
 import logout from '../../assets/icons/logout.svg';
 
 export const Sidebar = () => {
@@ -20,7 +20,7 @@ export const Sidebar = () => {
   const menuItems = [
     { icon: dashboardIcon, link: 'dashboard' },
     { icon: chatbotIcon, link: 'chatbot' },
-    // { icon: penIcon, link: '' },
+    { icon: penIcon, link: 'journal' },
     // { icon: brainIcon, link: '' },
     // { icon: bookIcon, link: '' }
   ];

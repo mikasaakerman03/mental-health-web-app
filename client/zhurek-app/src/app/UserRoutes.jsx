@@ -7,6 +7,9 @@ import { NotFoundPage } from '../widgets/NotFoundPage/NotFoundPage';
 import { ChatbotPage } from '../pages/ChatbotPage/ChatbotPage';
 import { ProfilePage } from '../pages/Profile/ProfilePage';
 import { SettingsPage } from '../pages/Profile/SettingsPage';
+import { JournalPage } from '../pages/JournalPage/JournalPage';
+import { AddJournalPage } from '../pages/JournalPage/AddJournalPage';
+import { SleepPage } from '../pages/SleepPage/SleepPage';
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = !!localStorage.getItem('authToken');
@@ -28,6 +31,9 @@ export const UserRoutes = () => {
           <Route path="chatbot" element={<ChatbotPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="profile/settings" element={<SettingsPage />} />
+          <Route path="journal" element={<JournalPage />} />
+          <Route path="journal/add-journal" element={<AddJournalPage />} />
+          <Route path="sleep" element={<SleepPage />} /> 
         </Route>
       </Routes>
     </ProtectedRoute>

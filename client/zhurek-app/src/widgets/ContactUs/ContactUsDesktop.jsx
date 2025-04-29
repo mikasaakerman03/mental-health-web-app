@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import locationIcon from '../../shared/assets/icons/location_green.svg';
 import phoneIcon from '../../shared/assets/icons/mouth_green.svg';
-import arrowDownIcon from '../../shared/assets/icons/arrowdown_white.svg';
 import contactIllustration from '../../shared/assets/images/abs3.png';
 import phoneMockup1 from '../../shared/assets/images/phonemockup2.png';
 import { Footer } from '../../shared/ui/Footer/Footer';
