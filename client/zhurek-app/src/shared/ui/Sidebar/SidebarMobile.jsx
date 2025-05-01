@@ -9,6 +9,8 @@ import dashboardIcon from '../../assets/icons/dashboard_lightbrown.svg';
 import chatbotIcon from '../../assets/icons/chatbot_lightbrown.svg';
 import logoutIcon from '../../assets/icons/logout.svg';
 import penIcon from '../../assets/icons/pen_lightbrown.svg';
+import brainIcon from '../../assets/icons/brain_lightbrown.svg';
+import sleepIcon from '../../assets/icons/sleep_brown.svg';
 
 export const SidebarMobile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +22,8 @@ export const SidebarMobile = () => {
     { icon: dashboardIcon, link: 'dashboard', title: `${t('sidebarMenu.dashboard')}` },
     { icon: chatbotIcon, link: 'chatbot', title: `${t('sidebarMenu.chatbot')}` },
     { icon: penIcon, link: 'journal', title: `${t('journalPage.myJournals')}` },
+    { icon: sleepIcon, link: 'sleep', title: `${t('sleep')}` },
+    { icon: brainIcon, link: 'meditation', title: `${t('meditation')}` }
   ];
 
   const handleLogOut = () => {

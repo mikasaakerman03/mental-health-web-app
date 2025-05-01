@@ -10,6 +10,7 @@ import { SettingsPage } from '../pages/Profile/SettingsPage';
 import { JournalPage } from '../pages/JournalPage/JournalPage';
 import { AddJournalPage } from '../pages/JournalPage/AddJournalPage';
 import { SleepPage } from '../pages/SleepPage/SleepPage';
+import { MeditationPage } from '../pages/MeditationPage/MeditationPage';
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = !!localStorage.getItem('authToken');
@@ -34,6 +35,7 @@ export const UserRoutes = () => {
           <Route path="journal" element={<JournalPage />} />
           <Route path="journal/add-journal" element={<AddJournalPage />} />
           <Route path="sleep" element={<SleepPage />} /> 
+          <Route path="meditation" element={<MeditationPage />} /> 
         </Route>
       </Routes>
     </ProtectedRoute>

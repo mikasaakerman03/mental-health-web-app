@@ -9,8 +9,9 @@ import avatar from '../../assets/images/avatar.jpg';
 import dashboardIcon from '../../assets/icons/dashboard_lightbrown.svg';
 import penIcon from '../../assets/icons/pen_lightbrown.svg';
 import chatbotIcon from '../../assets/icons/chatbot_lightbrown.svg';
-// import brainIcon from '../../assets/icons/brain_lightbrown.svg';
+import brainIcon from '../../assets/icons/brain_lightbrown.svg';
 import logout from '../../assets/icons/logout.svg';
+import sleepIcon from '../../assets/icons/sleep_brown.svg';
 
 export const Sidebar = () => {
   const navigate = useNavigate();
@@ -21,8 +22,8 @@ export const Sidebar = () => {
     { icon: dashboardIcon, link: 'dashboard' },
     { icon: chatbotIcon, link: 'chatbot' },
     { icon: penIcon, link: 'journal' },
-    // { icon: brainIcon, link: '' },
-    // { icon: bookIcon, link: '' }
+    { icon: sleepIcon, link: 'sleep' },
+    { icon: brainIcon, link: 'meditation' }
   ];
 
   const handleLogOut = () => {
