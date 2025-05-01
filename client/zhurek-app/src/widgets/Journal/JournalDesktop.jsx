@@ -9,14 +9,15 @@ import { JournalDaily } from '../../entities/JournalStats/JournalDaily'
 export const JournalDesktop = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  
+
   return (
     <div className="w-[90vw]">
       <div className="w-full my-8 mx-6 flex flex-row items-center justify-between">
         <h2 className="text-4xl font-bold text-[#4F3422]">{t('journalPage.journal')}</h2>
         <button
           className="bg-[#91AD75] px-3 py-2 rounded-full text-white"
-          onClick={() => { navigate('add-journal')}}>+ {t('journalPage.addRecord')}</button>
+          onClick={() => { navigate('add-journal') }}>+ {t('journalPage.addRecord')}
+        </button>
       </div>
       <div className='w-full flex flex-row justify-between'>
 

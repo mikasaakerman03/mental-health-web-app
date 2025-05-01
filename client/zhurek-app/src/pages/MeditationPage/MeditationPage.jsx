@@ -6,5 +6,5 @@ import { MeditationMobile } from '../../widgets/Meditation/MeditationMobile';
 export const MeditationPage = () => {
   const isMobile = useIsMobile();
 
-  return isMobile ? (<MeditationDesktop />) : (<MeditationMobile />)
+  return isMobile ? (<MeditationMobile />) : (< MeditationDesktop />)
 }

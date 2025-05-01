@@ -443,10 +443,14 @@
   "insomniac": "Ұйқысыздық",
   "goToBedTime": "Орташа ұйықтау уақыты",
   "wakeUpTime": "Ояну уақыты",
-    "youSleptFor": "Сіз ұйықтадыңыз",
-    "weekAverage": "Апталық орташа",
-    "hours": "{{value}} сағ.",
-    "sleep": "Ұйқы",
-    "aiSuggestions": "ЖИ ұсыныстары",
-    "meditation": "Медитация"
+  "youSleptFor": "Сіз ұйықтадыңыз",
+  "weekAverage": "Апталық орташа",
+  "hours": "{{value}} сағ.",
+  "sleep": "Ұйқы",
+  "aiSuggestions": "ЖИ ұсыныстары",
+  "meditation": "Медитация",
+  "totalMeditations": "Жалпы медитациялар",
+  "totalHours": "Жалпы сағаттар",
+  "meditationTypes": "Медитация түрлері",
+  "meditationScore": "Zhurek бағасы"
 }

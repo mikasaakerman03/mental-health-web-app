@@ -443,10 +443,14 @@
   "insomniac": "Бессонница",
   "goToBedTime": "Среднее время отхода ко сну",
   "wakeUpTime": "Время пробуждения",
-    "youSleptFor": "Вы спали",
-    "weekAverage": "Среднее за неделю",
-    "hours": "{{value}} ч",
-    "sleep": "Сон",
-    "aiSuggestions": "Рекомендации ИИ",
-    "meditation": "Медитация"
+  "youSleptFor": "Вы спали",
+  "weekAverage": "Среднее за неделю",
+  "hours": "{{value}} ч",
+  "sleep": "Сон",
+  "aiSuggestions": "Рекомендации ИИ",
+  "meditation": "Медитация",
+  "totalMeditations": "Всего медитаций",
+  "totalHours": "Всего часов",
+  "meditationTypes": "Типы медитаций",
+  "meditationScore": "Оценка Zhurek"
 }
