@@ -1,7 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-import birdSounds from '../../shared/assets/meditations/bird_sounds.mp3';
-import binauralBeats from '../../shared/assets/meditations/binaural_beats.mp3';
+import birdSounds from '../../shared/assets/meditations/5/bird_sounds.mp3';
+import binauralBeats from '../../shared/assets/meditations/5/binaural_beats.mp3';
+import morningMeditation from '../../shared/assets/meditations/4/Медитация утренняя 10 минут на хороший день и позитивный настрой  Позитивное мышление.mp3';
+import shavasanaMeditation from '../../shared/assets/meditations/9/Шавасана - медитация глубоко расслабления.mp3';
+import calmingMeditation from '../../shared/assets/meditations/2/Медитация для успокоения нервов и релаксации  Медитация от тревоги  10 минут.mp3';
+
 import './styles.css';
 
 export default function MeditationHistory() {
@@ -11,14 +15,40 @@ export default function MeditationHistory() {
       category: 'Nature',
       categoryColor: '#A7C17A',
       audioSrc: birdSounds,
-      totalTime: '25:00',
+      totalTime: '20:00',
+      lang: 'RU, KK'
     },
     {
       title: 'Relaxed State',
-      category: 'Chirping Bird',
+      category: 'Nature',
       categoryColor: '#4B3621',
       audioSrc: binauralBeats,
-      totalTime: '60:00',
+      totalTime: '20:00',
+      lang: 'RU, KK'
+    },
+    {
+      title: 'Медитация утренняя 10 минут на хороший день и позитивный настрой',
+      category: 'Morning',
+      categoryColor: '#E18732',
+      audioSrc: morningMeditation,
+      totalTime: '10:00',
+      lang: 'RU'
+    },
+    {
+      title: 'Шавасана - медитация глубоко расслабления',
+      category: 'Yoga',
+      categoryColor: '#b39ddb',
+      audioSrc: shavasanaMeditation,
+      totalTime: '10:00',
+      lang: 'RU'
+    },
+    {
+      title: 'Медитация для успокоения нервов и релаксации. Медитация от тревоги  10 минут',
+      category: 'Yoga',
+      categoryColor: '#b39ddb',
+      audioSrc: calmingMeditation,
+      totalTime: '10:00',
+      lang: 'RU'
     },
   ];
 
@@ -91,16 +121,33 @@ export default function MeditationHistory() {
               <div className="flex flex-col w-full gap-2">
                 <div className="flex items-center justify-between">
                   <p className="text-[#4B3621] font-semibold">{item.title}</p>
-                  <span
-                    className="text-white text-xs font-semibold px-3 py-1 rounded-full"
-                    style={{ backgroundColor: item.categoryColor }}
-                  >
-                    {item.category}
-                  </span>
+                  <div className="flex flex-row items-center gap-x-2">
+                    <span
+                      className="text-white text-xs font-semibold px-3 py-1 rounded-full"
+                      style={{ backgroundColor: item.categoryColor }}
+                    >
+                      {item.category}
+                    </span>
+                    <span
+                      className="text-white text-xs font-semibold px-3 py-1 rounded-full"
+                      style={{ backgroundColor: item.lang === 'RU' ? '#f57c00' : '#e5e5e5' }}
+                    >
+                      {item.lang}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Progress bar */}
-                <div className="relative w-full h-2 bg-[#e8e2de] rounded-full overflow-hidden">
+                <div
+                  className="relative w-full h-2 bg-[#e8e2de] rounded-full overflow-hidden cursor-pointer"
+                  onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const width = rect.width;
+                    const newTime = (clickX / width) * audioRefs.current[index].duration;
+                    audioRefs.current[index].currentTime = newTime;
+                  }}
+                >
                   <div
                     className="absolute top-0 left-0 h-full bg-[#4B3621] rounded-full"
                     style={{
@@ -108,6 +155,7 @@ export default function MeditationHistory() {
                     }}
                   ></div>
                 </div>
+
 
                 {/* Times */}
                 <div className="flex items-center justify-between text-xs text-gray-400 mt-1">

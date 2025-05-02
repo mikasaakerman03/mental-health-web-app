@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function MeditationStepperModal() {
+export default function MeditationStepperModal({ onClose }) {
   const [step, setStep] = useState(1);
   const [goal, setGoal] = useState('');
   const [minutes, setMinutes] = useState(25);
@@ -26,12 +26,30 @@ export default function MeditationStepperModal() {
     setIsPlaying((prev) => !prev);
   };
 
+  const handleBack = () => {
+    if (step > 1) {
+      setStep((prev) => prev - 1);
+    } else {
+      onClose?.();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center p-4">
-      <div className="bg-white w-full max-w-md rounded-3xl p-6 relative">
+    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center p-4 z-50">
+      <div className="bg-white w-[600px] rounded-3xl p-6 relative">
+
+        {/* ✖️ Кнопка закрытия */}
+        <button
+          onClick={onClose}
+          className="absolute -top-4 -right-4 text-[#4B3621] text-2xl"
+        >
+          ✖️
+        </button>
+
+        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <button
-            onClick={() => setStep((prev) => (prev > 1 ? prev - 1 : prev))}
+            onClick={handleBack}
             className="text-[#4B3621] text-2xl"
           >
             ←
@@ -70,8 +88,6 @@ export default function MeditationStepperModal() {
               {minutes}:00
             </div>
             <p className="text-[#4B3621]">Minutes</p>
-
-            {/* Optional sound info */}
             <button className="text-[#4B3621] text-sm bg-[#f9f6f3] px-4 py-2 rounded-full">
               🔊 Sound: {sound}
             </button>
@@ -89,8 +105,8 @@ export default function MeditationStepperModal() {
                   key={idx}
                   onClick={() => setSound(s)}
                   className={`px-4 py-2 rounded-full border ${sound === s
-                      ? 'bg-[#F2A341] text-white border-[#F2A341]'
-                      : 'border-[#4B3621] text-[#4B3621]'
+                    ? 'bg-[#F2A341] text-white border-[#F2A341]'
+                    : 'border-[#4B3621] text-[#4B3621]'
                     }`}
                 >
                   {s}
@@ -116,7 +132,6 @@ export default function MeditationStepperModal() {
 
             <div className="text-3xl font-bold">Breathe In...</div>
 
-            {/* Progress Bar */}
             <div className="flex items-center justify-between w-full mt-10">
               <span>05:21</span>
               <div className="flex-1 mx-4 h-2 bg-white rounded-full overflow-hidden relative">
@@ -125,7 +140,6 @@ export default function MeditationStepperModal() {
               <span>25:00</span>
             </div>
 
-            {/* Controls */}
             <div className="flex items-center justify-center gap-8 mt-8">
               <button className="text-3xl">⟲</button>
               <button
