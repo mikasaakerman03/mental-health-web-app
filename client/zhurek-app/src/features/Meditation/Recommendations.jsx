@@ -1,8 +1,11 @@
 import React, { useRef, useState } from 'react';
 import birdSounds from '../../shared/assets/meditations/5/bird_sounds.mp3';
 import binauralBeats from '../../shared/assets/meditations/5/binaural_beats.mp3';
+import { useTranslation } from 'react-i18next';
 
 export default function MeditationRecommendations() {
+  const { t } = useTranslation();
+
   const recommendations = [
     {
       title: 'Расслабление',
@@ -45,7 +48,7 @@ export default function MeditationRecommendations() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="mb-2 text-xl font-bold text-[#4F3422]">Рекомендации по медитациям</h2>
+      <h2 className="mb-2 text-xl font-bold text-[#4F3422]">{t('meditationRecommendations')}</h2>
 
       <div className="flex flex-col gap-3">
         {recommendations.map((item, index) => (

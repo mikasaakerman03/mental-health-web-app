@@ -1,8 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { musicData } from './Data';
 import './styles.css';
 
 export default function MeditationHistory() {
+  const { t, i18n } = useTranslation();
+
   const historyData = [
     { meditationId: 2, position: 245, finished: false, lastPlayedAt: "2025-05-05T12:34:56Z" },
   ];
@@ -61,7 +64,7 @@ export default function MeditationHistory() {
       title: meditation.title,
       audioSrc: meditation.path,
       lang: meditation.language.toUpperCase(),
-      category: category.titleRu,
+      category: i18n.language === 'kk' ? category.titleKk : category.titleRu,
       categoryColor: category.color,
       position: h.position,
       totalDurationSeconds: meditation.duration * 60, // в секундах
@@ -73,7 +76,7 @@ export default function MeditationHistory() {
 
   return (
     <div className="flex flex-col gap-4 mt-7">
-      <h2 className="text-[#4B3621] font-bold text-xl">Mindful Hour History</h2>
+      <h2 className="text-[#4B3621] font-bold text-xl">{t('mindfulHourHistory')}</h2>
 
       <div className="bg-white p-4 flex flex-col gap-y-6 rounded-xl">
         {history.map((item) => (

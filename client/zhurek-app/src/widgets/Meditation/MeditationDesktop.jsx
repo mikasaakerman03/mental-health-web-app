@@ -13,7 +13,7 @@ export const MeditationDesktop = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full bg-[#FAF7F4]">
+    <div className="w-full bg-[#FAF7F4] min-h-[100vh] overflow-y-auto">
       <div className="w-full flex flex-row justify-between gap-x-10 overflow-y-auto">
         <div className="w-[75%] overflow-y-auto m-10">
           <div className="flex flex-row w-full justify-between">
@@ -25,13 +25,13 @@ export const MeditationDesktop = () => {
                 className="bg-[#91AD75] px-3 py-2 text-xl font-bold rounded-full text-white"
                 onClick={() => { setOpen(true) }}
               >
-                Начать медитацию
+                {t('startMeditation')}
               </button>
             </div>
           </div>
           <div className="flex flex-row gap-x-10">
             <div className="w-1/2">
-              <h2 className="mb-5 text-xl font-bold text-[#4F3422]">Today's statistics</h2>
+              <h2 className="mb-5 text-xl font-bold text-[#4F3422]">{t('todaysStatistics')}</h2>
               <div className="flex flex-row  gap-x-10">
                 <div className='w-1/2'>
                   <MeditationDonutChart />
@@ -39,7 +39,7 @@ export const MeditationDesktop = () => {
                 <div className="w-1/2">
                   <MeditationScoreList />
                 </div>
-                </div>
+              </div>
             </div>
             <div className="w-1/2">
               <MeditationRecommendations />
@@ -53,7 +53,7 @@ export const MeditationDesktop = () => {
           <MeditationStats />
         </div>
       </div>
-      {open && <MeditationStepperModal onClose={()=>{setOpen(false)}}/>}
+      {open && <MeditationStepperModal onClose={() => { setOpen(false) }} />}
     </div>
   )
 }
