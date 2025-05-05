@@ -1,118 +1,110 @@
 import React, { useRef, useState, useEffect } from 'react';
-
-import birdSounds from '../../shared/assets/meditations/5/bird_sounds.mp3';
-import binauralBeats from '../../shared/assets/meditations/5/binaural_beats.mp3';
-import morningMeditation from '../../shared/assets/meditations/4/Медитация утренняя 10 минут на хороший день и позитивный настрой  Позитивное мышление.mp3';
-import shavasanaMeditation from '../../shared/assets/meditations/9/Шавасана - медитация глубоко расслабления.mp3';
-import calmingMeditation from '../../shared/assets/meditations/2/Медитация для успокоения нервов и релаксации  Медитация от тревоги  10 минут.mp3';
-
+import { musicData } from './Data';
 import './styles.css';
 
 export default function MeditationHistory() {
-  const history = [
-    {
-      title: 'Deep Meditation',
-      category: 'Nature',
-      categoryColor: '#A7C17A',
-      audioSrc: birdSounds,
-      totalTime: '20:00',
-      lang: 'RU, KK'
-    },
-    {
-      title: 'Relaxed State',
-      category: 'Nature',
-      categoryColor: '#4B3621',
-      audioSrc: binauralBeats,
-      totalTime: '20:00',
-      lang: 'RU, KK'
-    },
-    {
-      title: 'Медитация утренняя 10 минут на хороший день и позитивный настрой',
-      category: 'Morning',
-      categoryColor: '#E18732',
-      audioSrc: morningMeditation,
-      totalTime: '10:00',
-      lang: 'RU'
-    },
-    {
-      title: 'Шавасана - медитация глубоко расслабления',
-      category: 'Yoga',
-      categoryColor: '#b39ddb',
-      audioSrc: shavasanaMeditation,
-      totalTime: '10:00',
-      lang: 'RU'
-    },
-    {
-      title: 'Медитация для успокоения нервов и релаксации. Медитация от тревоги  10 минут',
-      category: 'Yoga',
-      categoryColor: '#b39ddb',
-      audioSrc: calmingMeditation,
-      totalTime: '10:00',
-      lang: 'RU'
-    },
+  const historyData = [
+    { meditationId: 2, position: 245, finished: false, lastPlayedAt: "2025-05-05T12:34:56Z" },
   ];
 
-  const audioRefs = useRef([]);
-  const [playingIndex, setPlayingIndex] = useState(null);
+  const meditationCategories = [
+    { id: 1, titleRu: 'Осознанность', titleKk: 'Саналы болу', color: '#A0D8B3' },
+    { id: 2, titleRu: 'Антистресс и расслабление', titleKk: 'Стрестен арылу және босаңсу', color: '#FFD6A5' },
+    { id: 3, titleRu: 'Медитации для сна', titleKk: 'Ұйқыға арналған медитациялар', color: '#B5D0EB' },
+    { id: 4, titleRu: 'Медитации для начинающих', titleKk: 'Бастапқы медитациялар', color: '#FDC5F5' },
+    { id: 5, titleRu: 'Медитации на природе', titleKk: 'Табиғаттағы медитациялар', color: '#C5E1A5' },
+  ];
+
+  const audioRefs = useRef({});
+  const [playingId, setPlayingId] = useState(null);
   const [progress, setProgress] = useState({});
 
   useEffect(() => {
     const interval = setInterval(() => {
-      audioRefs.current.forEach((audio, index) => {
-        if (audio) {
-          setProgress((prev) => ({
-            ...prev,
-            [index]: audio.currentTime / audio.duration,
-          }));
+      const newProgress = {};
+      Object.entries(audioRefs.current).forEach(([meditationId, audio]) => {
+        if (audio && audio.duration > 0) {
+          newProgress[meditationId] = audio.currentTime / audio.duration;
         }
       });
+      setProgress(newProgress);
     }, 500);
 
     return () => clearInterval(interval);
   }, []);
 
-  const togglePlay = (index) => {
-    if (playingIndex === index) {
-      audioRefs.current[index].pause();
-      setPlayingIndex(null);
+  const togglePlay = (meditationId, position) => {
+    const audio = audioRefs.current[meditationId];
+    if (!audio) return;
+
+    if (playingId === meditationId) {
+      audio.pause();
+      setPlayingId(null);
     } else {
-      if (playingIndex !== null) {
-        audioRefs.current[playingIndex]?.pause();
+      if (playingId !== null && audioRefs.current[playingId]) {
+        audioRefs.current[playingId].pause();
       }
-      audioRefs.current[index]?.play();
-      setPlayingIndex(index);
+      if (position) {
+        audio.currentTime = position;
+      }
+      audio.play();
+      setPlayingId(meditationId);
     }
   };
+
+  const history = historyData.map((h) => {
+    const meditation = musicData.find((m) => m.id === h.meditationId);
+    const category = meditationCategories.find((c) => c.id === meditation.categoryId);
+
+    return {
+      meditationId: h.meditationId,
+      title: meditation.title,
+      audioSrc: meditation.path,
+      lang: meditation.language.toUpperCase(),
+      category: category.titleRu,
+      categoryColor: category.color,
+      position: h.position,
+      totalDurationSeconds: meditation.duration * 60, // в секундах
+      finished: h.finished,
+      lastPlayedAt: h.lastPlayedAt,
+      totalTime: formatTime(meditation.duration * 60),
+    };
+  });
 
   return (
     <div className="flex flex-col gap-4 mt-7">
       <h2 className="text-[#4B3621] font-bold text-xl">Mindful Hour History</h2>
 
       <div className="bg-white p-4 flex flex-col gap-y-6 rounded-xl">
-        {history.map((item, index) => (
+        {history.map((item) => (
           <div
-            key={index}
+            key={item.meditationId}
             className="flex items-center justify-between bg-[#f9f6f3] p-4 rounded-2xl shadow-sm"
           >
             {/* Hidden audio */}
             <audio
-              ref={(el) => (audioRefs.current[index] = el)}
+              ref={(el) => {
+                if (el) {
+                  audioRefs.current[item.meditationId] = el;
+                  el.onended = () => {
+                    setPlayingId(null);
+                  };
+                }
+              }}
               src={item.audioSrc}
               preload="metadata"
-            ></audio>
+            />
 
             {/* Left part */}
             <div className="flex items-center gap-4 w-full">
               {/* Play button */}
               <button
-                onClick={() => togglePlay(index)}
+                onClick={() => togglePlay(item.meditationId, item.position)}
                 className="w-12 h-12 rounded-full bg-white flex items-center justify-center"
               >
-                {playingIndex === index ? (
-                  // Stop button
+                {playingId === item.meditationId ? (
                   <div className="w-3.5 h-3.5 bg-[#4B3621]"></div>
                 ) : (
-                  // Play triangle
                   <div className="w-3 h-3 bg-[#4B3621] clip-triangle"></div>
                 )}
               </button>
@@ -144,24 +136,26 @@ export default function MeditationHistory() {
                     const rect = e.currentTarget.getBoundingClientRect();
                     const clickX = e.clientX - rect.left;
                     const width = rect.width;
-                    const newTime = (clickX / width) * audioRefs.current[index].duration;
-                    audioRefs.current[index].currentTime = newTime;
+                    const audio = audioRefs.current[item.meditationId];
+                    if (audio) {
+                      const newTime = (clickX / width) * audio.duration;
+                      audio.currentTime = newTime;
+                    }
                   }}
                 >
                   <div
-                    className="absolute top-0 left-0 h-full bg-[#4B3621] rounded-full"
+                    className="absolute top-0 left-0 h-full bg-[#4B3621] rounded-full progress-inner"
                     style={{
-                      width: `${(progress[index] || 0) * 100}%`,
+                      width: `${(progress[item.meditationId] || 0) * 100}%`,
                     }}
                   ></div>
                 </div>
 
-
                 {/* Times */}
                 <div className="flex items-center justify-between text-xs text-gray-400 mt-1">
                   <span>
-                    {audioRefs.current[index]
-                      ? formatTime(audioRefs.current[index].currentTime)
+                    {audioRefs.current[item.meditationId]
+                      ? formatTime(audioRefs.current[item.meditationId].currentTime)
                       : '00:00'}
                   </span>
                   <span>{item.totalTime}</span>
