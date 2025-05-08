@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import api from "../../shared/helpers/axiosConfig";
 
 export const SleepOverview = () => {
   const { t } = useTranslation();
@@ -7,11 +8,27 @@ export const SleepOverview = () => {
   const radius = 60;
   const circumference = 2 * Math.PI * radius;
 
-  const remValue = 8.5;
-  const coreValue = 7.8;
+  const [averageSleepHours, setAverageSleepHours] = useState(0);
+  const [hoursSleptToday, setHoursSleptToday] = useState(0);
 
-  const remPercent = Math.min(remValue / 9, 1);
-  const corePercent = Math.min(coreValue / 9, 1);
+  useEffect(() => {
+    const fetchSleepData = async () => {
+      try {
+        const todayResponse = await api.get('chat/sleep/today-duration');
+        setHoursSleptToday(todayResponse.data.hoursSleptToday || 0);
+
+        const weeklyResponse = await api.get('chat/sleep/average-weekly-duration');
+        setAverageSleepHours(weeklyResponse.data.averageSleepHours || 0);
+      } catch (error) {
+        console.error('Ошибка загрузки данных сна:', error);
+      }
+    };
+
+    fetchSleepData();
+  }, []);
+
+  const todayPercent = Math.min(hoursSleptToday / 9, 1); 
+  const averagePercent = Math.min(averageSleepHours / 9, 1); 
 
   return (
     <div className="flex gap-4">
@@ -39,11 +56,11 @@ export const SleepOverview = () => {
               strokeLinecap="round"
               fill="none"
               strokeDasharray={circumference}
-              strokeDashoffset={circumference * (1 - remPercent)} // или corePercent
+              strokeDashoffset={circumference * (1 - todayPercent)}
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center text-[#5d4037] text-2xl font-semibold">
-            {t('hours', { value: remValue })}
+            {t('hours', { value: hoursSleptToday.toFixed(1) })}
           </div>
         </div>
 
@@ -74,11 +91,11 @@ export const SleepOverview = () => {
               strokeLinecap="round"
               fill="none"
               strokeDasharray={circumference}
-              strokeDashoffset={circumference * (1 - corePercent)}
+              strokeDashoffset={circumference * (1 - averagePercent)}
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center text-[#5d4037] text-2xl font-semibold">
-            {t('hours', { value: coreValue })}
+            {t('hours', { value: averageSleepHours?.toFixed(1) })}
           </div>
         </div>
       </div>

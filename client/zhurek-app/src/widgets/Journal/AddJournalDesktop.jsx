@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import api from '../../shared/helpers/axiosConfig';
 
 import emo1 from '../../shared/assets/icons/1emo_white.svg';
 import emo2 from '../../shared/assets/icons/2emo_white.svg';
@@ -9,11 +12,12 @@ import emo5 from '../../shared/assets/icons/5emo_white.svg';
 
 export const AddJournalDesktop = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [entry, setEntry] = useState('');
   const [stress, setStress] = useState(3);
   const [emotion, setEmotion] = useState(1);
-  const [, setStressor] = useState('');
+  const [stressor, setStressor] = useState('');
 
   const emotions = [
     { id: 1, icon: emo1, bg: 'from-[#B79DF2] to-[#D5C4F8]' },
@@ -31,12 +35,44 @@ export const AddJournalDesktop = () => {
     { id: 5, label: 'Very Stressed', color: '#E76F51' },
   ];
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      title,
+      entry,
+      stressLevel: stress,
+      emotionId: emotion,
+      stressor,
+    };
+
+    try {
+      const response = await api.post('/chat/journal/create-record', payload);
+      if (response.status === 201) {
+        navigate('/journal');
+      } else {
+        console.error('Ошибка при создании записи');
+      }
+      // Очистка формы
+      setTitle('');
+      setEntry('');
+      setStress(3);
+      setEmotion(1);
+      setStressor('');
+    } catch (error) {
+      console.error('Ошибка:', error);
+    }
+  };
+
   return (
     <div className="w-[85vw]">
       <div className="w-full my-8 mx-6">
         <h2 className="text-4xl font-bold text-[#4F3422]">{t('journalPage.addRecord')}</h2>
       </div>
-      <form className="w-full bg-[#FAF7F4] m-5 p-6 rounded-3xl flex flex-col gap-8 text-[#4F3422]">
+      <form
+        className="w-full bg-[#FAF7F4] m-5 p-6 rounded-3xl flex flex-col gap-8 text-[#4F3422]"
+        onSubmit={handleSubmit}
+      >
         <div className="flex flex-col gap-2">
           <span className="font-semibold text-2xl">{t('journalForm.journalTitle')}</span>
           <input
@@ -73,7 +109,7 @@ export const AddJournalDesktop = () => {
             {stressLevels.map((s) => (
               <div
                 key={s.id}
-                className={`flex-1 text-center`}
+                className="flex-1 text-center"
                 style={{ color: stress === s.id ? s.color : '#4F3422' }}
               >
                 {t(`journalForm.stressLevels.${s.id}`)}
@@ -102,7 +138,7 @@ export const AddJournalDesktop = () => {
           <span className="font-semibold text-2xl">{t('journalForm.selectStressor')}</span>
           <input
             type="text"
-            value={title}
+            value={stressor}
             onChange={(e) => setStressor(e.target.value)}
             placeholder={t('journalForm.stressor')}
             className="bg-white rounded-full px-6 py-4 text-xl font-medium outline-none border border-[#E2DDD9]"

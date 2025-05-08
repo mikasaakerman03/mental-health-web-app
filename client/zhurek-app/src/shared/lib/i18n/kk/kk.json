@@ -424,7 +424,8 @@
     "stressLevel": "Стресс деңгейі",
     "selectEmotion": "Эмоцияны таңдаңыз",
     "selectStressor": "Стресс себебін таңдаңыз",
-    "createJournal": "Жазба жасау"
+    "createJournal": "Жазба жасау",
+    "noEntries": "Жазбалар жоқ"
   },
   "placeholderTitle": "Бүгінгі көңіл күйім...",
   "placeholderEntry": "Бүгін қиын күн болды...",
@@ -443,7 +444,7 @@
   "insomniac": "Ұйқысыздық",
   "goToBedTime": "Орташа ұйықтау уақыты",
   "wakeUpTime": "Ояну уақыты",
-  "youSleptFor": "Сіз ұйықтадыңыз",
+  "youSleptFor": "Сіз бүгін ұйықтадыңыз",
   "weekAverage": "Апталық орташа",
   "hours": "{{value}} сағ.",
   "sleep": "Ұйқы",
@@ -479,13 +480,17 @@
   "total": "Барлығы",
   "meditateHours": "{{hours}} сағ.",
   "meditationRecommendations": "Медитация ұсыныстары",
-  
-    "mindfulHourHistory": "Медитациялар тарихы",
-    "currentTime": "Қазіргі уақыт",
-    "totalTime": "Жалпы уақыт",
-    "play": "Ойнату",
-    "pause": "Тоқтату",
-    "category": "Санат",
-    "language": "Тіл"
-  
+  "mindfulHourHistory": "Медитациялар тарихы",
+  "currentTime": "Қазіргі уақыт",
+  "totalTime": "Жалпы уақыт",
+  "play": "Ойнату",
+  "pause": "Тоқтату",
+  "category": "Санат",
+  "language": "Тіл",
+  "sleep_record": "Ұйқы жазбасы",
+  "sleep_at": "Ұйықтау уақыты",
+  "wake_up_at": "Ояну уақыты",
+  "save": "Сақтау",
+  "normalSleep": "Қалыпты ұйқы",
+  "coreSleep": "Негізгі ұйқы"
 }

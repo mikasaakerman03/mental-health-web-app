@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import api from '../../shared/helpers/axiosConfig';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, CartesianGrid } from 'recharts';
 
 import skippedIcon from '../../shared/assets/icons/close_white.svg';
@@ -8,6 +9,11 @@ import positiveIcon from '../../shared/assets/icons/4emo_white.svg';
 
 export const JournalMonthly = () => {
   const { t, i18n } = useTranslation();
+  const [chartData, setChartData] = useState([
+    { label: t('skipped'), value: 0, color: '#4F3422', icon: skippedIcon },
+    { label: t('negative'), value: 0, color: '#F29142', icon: negativeIcon },
+    { label: t('positive'), value: 0, color: '#A8C379', icon: positiveIcon },
+  ]);
 
   const months = {
     ru: [
@@ -22,11 +28,38 @@ export const JournalMonthly = () => {
 
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth(i18n.language));
 
-  const data = [
-    { label: t('skipped'), value: 81, color: '#4F3422', icon: skippedIcon },
-    { label: t('negative'), value: 32, color: '#F29142', icon: negativeIcon },
-    { label: t('positive'), value: 44, color: '#A8C379', icon: positiveIcon },
-  ];
+  useEffect(() => {
+    const fetchMonthlyStatistics = async () => {
+      try {
+        const year = new Date().getFullYear();
+        const monthIndex = months[i18n.language]?.indexOf(selectedMonth) + 1 || 1;
+        const response = await api.get(`/chat/journal/yearly-statistics?year=${year}&month=${monthIndex}`);
+        const days = response.data.days || [];
+
+        let positive = 0;
+        let negative = 0;
+        let skipped = 0;
+
+        days.forEach(day => {
+          if (day.aiCategory === 1) positive++;
+          else if (day.aiCategory === 2) negative++;
+          else if (day.aiCategory === 0) skipped++;
+        });
+
+        setChartData([
+          { label: t('skipped'), value: skipped, color: '#4F3422', icon: skippedIcon },
+          { label: t('negative'), value: negative, color: '#F29142', icon: negativeIcon },
+          { label: t('positive'), value: positive, color: '#A8C379', icon: positiveIcon },
+        ]);
+      } catch (error) {
+        console.error('Ошибка загрузки месячной статистики:', error);
+      }
+    };
+
+    fetchMonthlyStatistics();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMonth, i18n.language]);
+
 
   return (
     <div className="bg-[#FAF7F4] w-full rounded-3xl p-6 flex flex-col">
@@ -54,12 +87,12 @@ export const JournalMonthly = () => {
       {/* График */}
       <div className="w-full">
         <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={data} margin={{ top: 0, right: 0, left: -30, bottom: 0 }} barCategoryGap="20%">
+          <BarChart data={chartData} margin={{ top: 0, right: 0, left: -30, bottom: 0 }} barCategoryGap="20%">
             <CartesianGrid strokeDasharray="6 6" vertical={false} stroke="#E4E2E0" />
             <XAxis dataKey="label" padding={{ left: 0, right: 0 }} tick={false} axisLine={false} tickLine={false} />
             <YAxis hide />
-            <Bar dataKey="value" barSize={70} shape={(props) => <CustomBar {...props} data={data} />}>
-              {data.map((entry, index) => (
+            <Bar dataKey="value" barSize={70} shape={(props) => <CustomBar {...props} data={chartData} />}>
+              {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Bar>

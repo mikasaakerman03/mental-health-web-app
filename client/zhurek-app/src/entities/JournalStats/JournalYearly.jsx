@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import api from '../../shared/helpers/axiosConfig';
 
 export const JournalYearly = () => {
   const { t, i18n } = useTranslation();
+  const [daysData, setDaysData] = useState([]);
 
   const months = {
     ru: [
@@ -15,23 +17,39 @@ export const JournalYearly = () => {
     ],
   };
 
-  const stats = [
-    'skipped', 'skipped', 'skipped', 'skipped', 'skipped', 'positive', 'positive',
-    'positive', 'positive', 'skipped', 'negative', 'skipped', 'positive', 'positive',
-    'skipped', 'skipped', 'skipped', 'skipped', 'skipped', 'skipped', 'skipped'
-  ];
+  const [selectedMonth, setSelectedMonth] = useState(months[i18n.language]?.[4] || 'Май');
 
-  const [selectedMonth, setSelectedMonth] = useState(months[i18n.language]?.[0] || 'Январь');
+  const getDaysInMonth = (monthName) => {
+    const year = new Date().getFullYear();
+    const monthIndex = months[i18n.language]?.indexOf(monthName);
+    if (monthIndex === -1 || monthIndex === undefined) return 31;
+    return new Date(year, monthIndex + 1, 0).getDate();
+  };
+
+  const daysInMonth = getDaysInMonth(selectedMonth);
+
+  const stats = Array.from({ length: daysInMonth }, (_, i) => {
+    const dayNumber = i + 1;
+    const dayData = daysData.find(d => d.day === dayNumber);
+    if (!dayData) return 'skipped';
+
+    switch (dayData.aiCategory) {
+      case 1: return 'positive';
+      case 2: return 'negative';
+      case 0: return 'skipped';
+      default: return 'skipped';
+    }
+  });
 
   const getColor = (status) => {
     switch (status) {
       case 'positive':
-        return 'bg-[#A8C379]'; // Зеленый
+        return 'bg-[#A8C379]';
       case 'negative':
-        return 'bg-[#F29142]'; // Оранжевый
+        return 'bg-[#F29142]';
       case 'skipped':
       default:
-        return 'bg-[#E5DED8]'; // Серый
+        return 'bg-[#E5DED8]';
     }
   };
 
@@ -39,6 +57,23 @@ export const JournalYearly = () => {
     ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
     kk: ['Дс', 'Сс', 'Ср', 'Бс', 'Жм', 'Сн', 'Жс'],
   };
+
+  useEffect(() => {
+    const fetchDaysData = async () => {
+      try {
+        const year = new Date().getFullYear();
+        const monthIndex = months[i18n.language]?.indexOf(selectedMonth) + 1 || 1;
+        const response = await api.get(`/chat/journal/yearly-statistics?year=${year}&month=${monthIndex}`);
+        setDaysData(response.data.days || []);
+      } catch (error) {
+        console.error('Ошибка загрузки данных за месяц:', error);
+        setDaysData([]);
+      }
+    };
+
+    fetchDaysData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMonth, i18n.language]);
 
   return (
     <div className="bg-[#FAF7F4] p-4 rounded-2xl shadow-sm w-full flex flex-col">

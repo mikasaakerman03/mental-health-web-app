@@ -13,7 +13,7 @@ export const MeditationDesktop = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full bg-[#FAF7F4] min-h-[100vh] overflow-y-auto">
+    <div className="w-full bg-[#FAF7F4] min-h-[100vh] h-max overflow-y-auto">
       <div className="w-full flex flex-row justify-between gap-x-10 overflow-y-auto">
         <div className="w-[75%] overflow-y-auto m-10">
           <div className="flex flex-row w-full justify-between">
