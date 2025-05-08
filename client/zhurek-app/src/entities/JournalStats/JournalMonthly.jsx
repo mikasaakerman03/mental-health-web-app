@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import api from '../../shared/helpers/axiosConfig';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, CartesianGrid } from 'recharts';
+import useIsMobile from '../../shared/helpers/useIsMobile';
+import api from '../../shared/helpers/axiosConfig';
 
 import skippedIcon from '../../shared/assets/icons/close_white.svg';
 import negativeIcon from '../../shared/assets/icons/2emo_white.svg';
@@ -9,6 +10,7 @@ import positiveIcon from '../../shared/assets/icons/4emo_white.svg';
 
 export const JournalMonthly = () => {
   const { t, i18n } = useTranslation();
+  const isMobile = useIsMobile(); // добавили
   const [chartData, setChartData] = useState([
     { label: t('skipped'), value: 0, color: '#4F3422', icon: skippedIcon },
     { label: t('negative'), value: 0, color: '#F29142', icon: negativeIcon },
@@ -16,14 +18,8 @@ export const JournalMonthly = () => {
   ]);
 
   const months = {
-    ru: [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ],
-    kk: [
-      'Қаңтар', 'Ақпан', 'Наурыз', 'Сәуір', 'Мамыр', 'Маусым',
-      'Шілде', 'Тамыз', 'Қыркүйек', 'Қазан', 'Қараша', 'Желтоқсан'
-    ],
+    ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+    kk: ['Қаңтар', 'Ақпан', 'Наурыз', 'Сәуір', 'Мамыр', 'Маусым', 'Шілде', 'Тамыз', 'Қыркүйек', 'Қазан', 'Қараша', 'Желтоқсан'],
   };
 
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth(i18n.language));
@@ -60,13 +56,14 @@ export const JournalMonthly = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth, i18n.language]);
 
-
   return (
-    <div className="bg-[#FAF7F4] w-full rounded-3xl p-6 flex flex-col">
+    <div className={`bg-[#FAF7F4] rounded-3xl p-4 ${isMobile ? 'gap-4' : 'p-6'} flex flex-col w-full`}>
       {/* Заголовок */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-4">
         <div>
-          <h2 className="text-2xl font-bold text-[#4F3422]">{t('monthly_stat')}</h2>
+          <h2 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-[#4F3422]`}>
+            {t('monthly_stat')}
+          </h2>
           <p className="text-sm text-[#948B84]">{t('your_journal_stats_for')} {selectedMonth} 2025</p>
         </div>
         <div className="flex items-center gap-2">
@@ -86,12 +83,12 @@ export const JournalMonthly = () => {
 
       {/* График */}
       <div className="w-full">
-        <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={chartData} margin={{ top: 0, right: 0, left: -30, bottom: 0 }} barCategoryGap="20%">
+        <ResponsiveContainer width="100%" height={isMobile ? 250 : 350}>
+          <BarChart data={chartData} margin={{ top: 0, right: 0, left: isMobile ? -10 : -30, bottom: 0 }} barCategoryGap={isMobile ? "10%" : "20%"}>
             <CartesianGrid strokeDasharray="6 6" vertical={false} stroke="#E4E2E0" />
             <XAxis dataKey="label" padding={{ left: 0, right: 0 }} tick={false} axisLine={false} tickLine={false} />
             <YAxis hide />
-            <Bar dataKey="value" barSize={70} shape={(props) => <CustomBar {...props} data={chartData} />}>
+            <Bar dataKey="value" barSize={isMobile ? 40 : 70} shape={(props) => <CustomBar {...props} data={chartData} />}>
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
@@ -124,7 +121,7 @@ const CustomBar = ({ x, y, width, height, payload, data }) => {
         textAnchor="middle"
         dominantBaseline="middle"
         fill="white"
-        fontSize="18"
+        fontSize="16"
         fontWeight="bold"
       >
         {current.value}
@@ -135,7 +132,7 @@ const CustomBar = ({ x, y, width, height, payload, data }) => {
         textAnchor="middle"
         dominantBaseline="middle"
         fill="white"
-        fontSize="12"
+        fontSize="10"
       >
         {current.label}
       </text>
@@ -152,14 +149,8 @@ const CustomBar = ({ x, y, width, height, payload, data }) => {
 
 function getCurrentMonth(lang) {
   const months = {
-    ru: [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ],
-    kk: [
-      'Қаңтар', 'Ақпан', 'Наурыз', 'Сәуір', 'Мамыр', 'Маусым',
-      'Шілде', 'Тамыз', 'Қыркүйек', 'Қазан', 'Қараша', 'Желтоқсан'
-    ],
+    ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+    kk: ['Қаңтар', 'Ақпан', 'Наурыз', 'Сәуір', 'Мамыр', 'Маусым', 'Шілде', 'Тамыз', 'Қыркүйек', 'Қазан', 'Қараша', 'Желтоқсан'],
   };
   const today = new Date();
   const monthIndex = today.getMonth();

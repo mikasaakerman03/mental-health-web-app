@@ -1,8 +1,8 @@
 export default function MeditationScoreList() {
   const items = [
-    { name: 'Breathing', time: '2.5h', percent: '20%', color: '#A7C17A' },
-    { name: 'Mindfulness', time: '1.7h', percent: '17%', color: '#F2A341' },
-    { name: 'Relax', time: '8h', percent: '40%', color: '#F8E07E' },
+    { name: 'Дем алу', time: '2.5 сағ.', percent: '20%', color: '#A7C17A' },
+    { name: 'Визуализация', time: '1.7 сағ.', percent: '17%', color: '#F2A341' },
+    { name: 'Тыныс алу', time: '1.3 сағ.', percent: '40%', color: '#F8E07E' },
   ];
 
   return (

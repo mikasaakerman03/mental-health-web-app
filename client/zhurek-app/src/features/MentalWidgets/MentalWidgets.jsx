@@ -4,7 +4,6 @@ import { HealthJournalCard } from '../../entities/HealthJournal/HealthJournal';
 import { AiChatbotCard } from '../../entities/AIChatbotCard/AiChatbotCard';
 import { MeditateCard } from '../../entities/MeditateCard/MeditateCard';
 import { AIRecsCard } from '../../entities/AIRecommendationsCard/AIRecsCard';
-import { ZhurekCard } from '../../entities/ZhurekCard/ZhurekCard';
 import './styles.css';
 
 export const MentalWidgetsCarousel = () => {
@@ -14,7 +13,6 @@ export const MentalWidgetsCarousel = () => {
   const cardWidth = 170;
 
   const cards = [
-    <ZhurekCard />,
     <HealthJournalCard />,
     <AiChatbotCard />,
     <AIRecsCard />,

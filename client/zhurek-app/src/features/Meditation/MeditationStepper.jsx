@@ -117,15 +117,15 @@ export default function MeditationStepperModal({ onClose }) {
               {t('selectMeditation')}
             </h3>
 
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-4 w-full h-[60vh] overflow-y-auto">
               {musicData
                 .filter((m) => m.categoryId === goalToCategoryId[goal])
                 .map((m) => (
                   <label
                     key={m.id}
                     className={`flex items-center gap-3 p-3 rounded-2xl border cursor-pointer ${selectedMeditationId === m.id
-                        ? 'bg-[#A7C17A] text-white border-[#A7C17A]'
-                        : 'border-[#e8e2de] text-[#4B3621]'
+                      ? 'bg-[#A7C17A] text-white border-[#A7C17A]'
+                      : 'border-[#e8e2de] text-[#4B3621]'
                       }`}
                   >
                     <input
@@ -167,7 +167,7 @@ export default function MeditationStepperModal({ onClose }) {
               (phase === 'breatheOut' || phase === 'holdAfterIn' || phase === 'holdAfterOut') && 'bg-[#A7C17A]',
               phase === 'breatheIn' && 'bg-[#eaa403]'
             )}
-            style={{  }}
+            style={{}}
           >
             <audio
               ref={audioRef}

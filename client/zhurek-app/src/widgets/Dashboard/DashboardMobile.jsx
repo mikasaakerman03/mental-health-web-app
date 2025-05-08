@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import { useNavigate } from 'react-router-dom';
 
 import { getUser } from '../../shared/api/getUser';
 import { MentalWidgetsCarousel } from '../../features/MentalWidgets/MentalWidgets';
-import { MindfulTracker } from '../../features/MindfulTracker/MindfulTracker';
-import { ResourceCarousel } from '../../entities/ResourcesCard/ResourcesCarousel';
+import { DailyGoals } from '../../entities/DailyGoals/DailyGoals';
 
 export const DashboardMobile = () => {
   const { t } = useTranslation();
@@ -39,11 +37,7 @@ export const DashboardMobile = () => {
         <MentalWidgetsCarousel />
       </div>
       <div className="my-4">
-        <MindfulTracker />
-      </div>
-      <div className="">
-        <h2 className="text-xl font-bold text-[#5A3E2B] mb-2">Mindful Resources</h2>
-        <ResourceCarousel />
+        <DailyGoals />
       </div>
     </div>
   )

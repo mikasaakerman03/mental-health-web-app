@@ -10,8 +10,8 @@ i18n
       ru: { translation: ruTranslation },
       kk: { translation: kkTranslation },
     },
-    lng: "ru",
-    fallbackLng: "ru",
+    lng: "kk",
+    fallbackLng: "kk",
     interpolation: { escapeValue: false },
     debug: false,
     backend: {

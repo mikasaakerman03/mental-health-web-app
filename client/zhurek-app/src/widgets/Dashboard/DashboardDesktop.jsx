@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import userIcon from '../../shared/assets/icons/user_brown.svg';
-import { ZhurekChart } from '../../entities/ZhurekChart/ZhurekChart';
 import { SleepLevelCard } from '../../entities/SleepChart/SleepChat';
 import { HealthJournalCard } from '../../entities/HealthJournal/HealthJournal';
 import { AiChatbotCard } from '../../entities/AIChatbotCard/AiChatbotCard';
 import { MeditateCard } from '../../entities/MeditateCard/MeditateCard';
 import { AIRecsCard } from '../../entities/AIRecommendationsCard/AIRecsCard';
 import { getUser } from '../../shared/api/getUser';
+import { DailyGoals } from '../../entities/DailyGoals/DailyGoals';
 
 export const DashboardDesktop = () => {
   const { t } = useTranslation();
@@ -50,7 +50,7 @@ export const DashboardDesktop = () => {
 
       <div className="h-[60%] w-full flex flex-row gap-x-10">
         <div className="w-2/3">
-          <ZhurekChart />
+          <DailyGoals/>
         </div>
         <div className='w-1/3 max-h-max'>
           <AIRecsCard />

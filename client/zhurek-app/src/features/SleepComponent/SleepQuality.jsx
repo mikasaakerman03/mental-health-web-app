@@ -43,7 +43,7 @@ export default function SleepQuality() {
   };
 
   return (
-    <div className="flex flex-row items-stretch justify-between gap-5 w-full">
+    <div className="flex flex-col md:flex-row items-stretch justify-between gap-5 w-full">
       {/* Card 1 — Sleep Category */}
       <div className="relative w-full h-[208px] rounded-3xl bg-[#b39ddb] overflow-hidden text-white flex flex-col items-center justify-center shadow-md">
         {/* Blobs */}

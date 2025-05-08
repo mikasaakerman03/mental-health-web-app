@@ -2,10 +2,9 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
 
 const data = [
-  { name: 'Breathing', value: 2.5 },
-  { name: 'Mindfulness', value: 1.7 },
-  { name: 'Relax', value: 8 },
-  { name: 'Sleep', value: 8 },
+  { name: 'Дем алу', value: 2.5 },
+  { name: 'Визуализация', value: 1.7 },
+  { name: 'Тыныс алу', value: 8 },
 ];
 
 const COLORS = ['#A7B86D', '#E18732', '#F7DD8C', '#4B3621']; // подобраны ближе к оригиналу
@@ -34,7 +33,7 @@ export default function MeditationDonutChart() {
 
       {/* Center Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <p className="text-3xl font-bold text-[#4B3621]">{t('meditateHours', {hours: 2})}</p>
+        <p className="text-3xl font-bold text-[#4B3621]">{t('meditateHours', {hours: 5.5})}</p>
         <p className="text-md text-[#4B3621] mt-1">{t('total')}</p>
       </div>
     </div>

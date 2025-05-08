@@ -1,7 +1,156 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import api from '../../shared/helpers/axiosConfig';
+
+import emo1 from '../../shared/assets/icons/1emo_white.svg';
+import emo2 from '../../shared/assets/icons/2emo_white.svg';
+import emo3 from '../../shared/assets/icons/3emo_white.svg';
+import emo4 from '../../shared/assets/icons/4emo_white.svg';
+import emo5 from '../../shared/assets/icons/5emo_white.svg';
 
 export const AddJournalMobile = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [entry, setEntry] = useState('');
+  const [stress, setStress] = useState(3);
+  const [emotion, setEmotion] = useState(1);
+  const [stressor, setStressor] = useState('');
+
+  const emotions = [
+    { id: 1, icon: emo1, bg: 'from-[#B79DF2] to-[#D5C4F8]' },
+    { id: 2, icon: emo2, bg: 'from-[#F1895C] to-[#F7B28D]' },
+    { id: 3, icon: emo3, bg: 'from-[#9C8876] to-[#C0B1A2]' },
+    { id: 4, icon: emo4, bg: 'from-[#F9D77E] to-[#FFF3C2]' },
+    { id: 5, icon: emo5, bg: 'from-[#A8C379] to-[#CFE6B3]' },
+  ];
+
+  const stressLevels = [
+    { id: 1, label: 'Relaxed', color: '#A8C379' },
+    { id: 2, label: 'Calm', color: '#C2CF75' },
+    { id: 3, label: 'Okay', color: '#F9D77E' },
+    { id: 4, label: 'Tense', color: '#F4A261' },
+    { id: 5, label: 'Very Stressed', color: '#E76F51' },
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      title,
+      entry,
+      stressLevel: stress,
+      emotionId: emotion,
+      stressor,
+    };
+
+    try {
+      const response = await api.post('/chat/journal/create-record', payload);
+      if (response.status === 201) {
+        navigate('/journal');
+      }
+      setTitle('');
+      setEntry('');
+      setStress(3);
+      setEmotion(1);
+      setStressor('');
+    } catch (error) {
+      console.error('Ошибка:', error);
+    }
+  };
+
   return (
-    <div>AddJournalMobile</div>
-  )
-}
+    <div className="w-full min-h-screen p-4 bg-[#FAF7F4]">
+      <h2 className="text-2xl font-bold text-[#4F3422] mb-6">{t('journalPage.addRecord')}</h2>
+
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+        {/* Заголовок */}
+        <div className="flex flex-col gap-2">
+          <span className="font-semibold text-lg">{t('journalForm.journalTitle')}</span>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder={t('journalForm.placeholderTitle')}
+            className="bg-white rounded-xl px-4 py-3 text-base outline-none border border-[#E2DDD9]"
+          />
+        </div>
+
+        {/* Запись */}
+        <div className="flex flex-col gap-2">
+          <span className="font-semibold text-lg">{t('journalForm.writeEntry')}</span>
+          <textarea
+            value={entry}
+            onChange={(e) => setEntry(e.target.value)}
+            rows={4}
+            placeholder={t('journalForm.placeholderEntry')}
+            className="bg-white rounded-xl px-4 py-3 text-base outline-none border border-[#D9D5D2]"
+          />
+        </div>
+
+        {/* Стресс уровень */}
+        <div className="flex flex-col gap-2">
+          <span className="font-semibold text-lg">{t('journalForm.stressLevel')}</span>
+          <input
+            type="range"
+            min={1}
+            max={5}
+            value={stress}
+            onChange={(e) => setStress(Number(e.target.value))}
+            className="accent-[#A8C379]"
+          />
+          <div className="flex justify-between text-sm font-semibold mt-2 text-[#4F3422]">
+            {stressLevels.map((s) => (
+              <div
+                key={s.id}
+                className="flex-1 text-center"
+                style={{ color: stress === s.id ? s.color : '#4F3422' }}
+              >
+                {s.id}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Эмоция */}
+        <div className="flex flex-col gap-2">
+          <span className="font-semibold text-lg">{t('journalForm.selectEmotion')}</span>
+          <div className="flex flex-wrap gap-3">
+            {emotions.map((e) => (
+              <button
+                key={e.id}
+                type="button"
+                onClick={() => setEmotion(e.id)}
+                className={`w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-br ${e.bg} ${emotion === e.id ? 'ring-2 ring-[#4F3422]' : ''}`}
+              >
+                <img src={e.icon} alt={`emo${e.id}`} className="w-8 h-8" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Стрессор */}
+        <div className="flex flex-col gap-2">
+          <span className="font-semibold text-lg">{t('journalForm.selectStressor')}</span>
+          <input
+            type="text"
+            value={stressor}
+            onChange={(e) => setStressor(e.target.value)}
+            placeholder={t('journalForm.stressor')}
+            className="bg-white rounded-xl px-4 py-3 text-base outline-none border border-[#E2DDD9]"
+          />
+        </div>
+
+        {/* Кнопка */}
+        <button
+          type="submit"
+          className="w-full bg-[#4F3422] text-white py-4 rounded-xl text-xl font-semibold flex justify-center items-center gap-2 mt-4"
+        >
+          {t('journalForm.createJournal')} +
+        </button>
+      </form>
+    </div>
+  );
+};
