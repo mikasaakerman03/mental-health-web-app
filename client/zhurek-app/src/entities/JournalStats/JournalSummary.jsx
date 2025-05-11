@@ -4,7 +4,7 @@ import api from '../../shared/helpers/axiosConfig';
 import { format } from 'date-fns';
 
 export const JournalSummary = ({ selectedDate }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,7 @@ export const JournalSummary = ({ selectedDate }) => {
       try {
         const formattedDate = format(selectedDate, 'yyyy-MM-dd');
         const response = await api.get(`/chat/journal/summary?date=${formattedDate}`);
-        setSummary(response.data.summaryText || '');
+        setSummary(i18n.language === "ru" ? response.data.summaryRu : response.data.summaryKk);
       } catch (error) {
         console.error('Ошибка загрузки саммари:', error);
         setSummary('');
@@ -23,7 +23,7 @@ export const JournalSummary = ({ selectedDate }) => {
     };
 
     fetchSummary();
-  }, [selectedDate]);
+  }, [selectedDate, i18n.language]);
 
   return (
     <div className="w-full bg-[#FAF7F4] p-4 rounded-2xl shadow my-5">

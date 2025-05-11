@@ -4,7 +4,7 @@ import { GraphicEq, FavoriteBorder, Thermostat, Bed, Hotel } from '@mui/icons-ma
 import api from '../../shared/helpers/axiosConfig';
 
 export const SleepSuggestions = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -57,6 +57,10 @@ export const SleepSuggestions = () => {
       ) : (
         recommendations.map((item) => {
           const iconInfo = iconAndBg[item.id] || {}; // fallback
+          const isRu = i18n.language === 'ru';
+          const title = isRu ? item.titleRu : item.titleKk;
+          const description = isRu ? item.descriptionRu : item.descriptionKk;
+        
           return (
             <div
               key={item.id}
@@ -67,8 +71,8 @@ export const SleepSuggestions = () => {
                   {iconInfo.icon}
                 </div>
                 <div className="w-full">
-                  <h3 className="font-semibold text-[#4e342e]">{item.title}</h3>
-                  <p className="text-md text-gray-500">{item.description}</p>
+                  <h3 className="font-semibold text-[#4e342e]">{title}</h3>
+                  <p className="text-md text-gray-500">{description}</p>
                 </div>
               </div>
             </div>

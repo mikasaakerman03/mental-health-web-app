@@ -496,5 +496,6 @@
   "dailyGoals": "Ежедневные цели",
   "chatbot": "Сообщения чатботу",
   "messages": "сообщений",
-  "hours2":"ч."
+  "hours2":"ч.",
+  "noSummaryAvailable":"Недоступно"
 }

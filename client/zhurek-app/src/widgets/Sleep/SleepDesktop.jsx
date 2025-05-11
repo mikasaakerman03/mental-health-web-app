@@ -12,8 +12,8 @@ export const SleepDesktop = () => {
 
   const [open, setOpen] = useState(false);
   return (
-    <div className="w-[94vw] min-h-screen overflow-y-auto bg-[#FAF7F4]">
-      <div className="w-[90%] my-6 mx-6 flex flex-row items-center justify-between">
+    <div className="bg-[#FAF7F4]">
+      <div className="w-[90%] my-6 ml-6 flex flex-row items-center justify-between">
         <h2 className="text-4xl font-bold text-[#4F3422]">{t('sleep')}</h2>
         <button
           className="bg-[#91AD75] px-3 py-2 rounded-full text-white"

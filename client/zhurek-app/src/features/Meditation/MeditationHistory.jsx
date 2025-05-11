@@ -2,13 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { musicData } from './Data';
 import './styles.css';
+import api from '../../shared/helpers/axiosConfig';
 
 export default function MeditationHistory() {
   const { t, i18n } = useTranslation();
-
-  const historyData = [
-    { meditationId: 2, position: 245, finished: false, lastPlayedAt: "2025-05-05T12:34:56Z" },
-  ];
 
   const meditationCategories = [
     { id: 1, titleRu: 'Осознанность', titleKk: 'Саналы болу', color: '#A0D8B3' },
@@ -21,20 +18,39 @@ export default function MeditationHistory() {
   const audioRefs = useRef({});
   const [playingId, setPlayingId] = useState(null);
   const [progress, setProgress] = useState({});
+  const [historyData, setHistoryData] = useState([]);
+  const [currentTimeMap, setCurrentTimeMap] = useState({});
 
   useEffect(() => {
     const interval = setInterval(() => {
       const newProgress = {};
+      const newCurrentTime = {};
       Object.entries(audioRefs.current).forEach(([meditationId, audio]) => {
         if (audio && audio.duration > 0) {
           newProgress[meditationId] = audio.currentTime / audio.duration;
+          newCurrentTime[meditationId] = audio.currentTime;
         }
       });
       setProgress(newProgress);
+      setCurrentTimeMap(newCurrentTime);
     }, 500);
-
+    
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const response = await api.get('/chat/meditation/meditation-history?page=0&size=5');
+        setHistoryData(response.data.content);
+      } catch (error) {
+        console.error('Ошибка загрузки истории медитаций:', error);
+      }
+    };
+
+    fetchHistory();
+  }, []);
+
 
   const togglePlay = (meditationId, position) => {
     const audio = audioRefs.current[meditationId];
@@ -54,25 +70,26 @@ export default function MeditationHistory() {
       setPlayingId(meditationId);
     }
   };
-
-  const history = historyData.map((h) => {
-    const meditation = musicData.find((m) => m.id === h.meditationId);
-    const category = meditationCategories.find((c) => c.id === meditation.categoryId);
-
-    return {
-      meditationId: h.meditationId,
-      title: meditation.title,
-      audioSrc: meditation.path,
-      lang: meditation.language.toUpperCase(),
-      category: i18n.language === 'kk' ? category.titleKk : category.titleRu,
-      categoryColor: category.color,
-      position: h.position,
-      totalDurationSeconds: meditation.duration * 60, // в секундах
-      finished: h.finished,
-      lastPlayedAt: h.lastPlayedAt,
-      totalTime: formatTime(meditation.duration * 60),
-    };
-  });
+    const history = historyData
+    .map((h) => {
+      const meditation = musicData.find((m) => m.id === h.meditationId);
+      if (!meditation) return null;
+      const category = meditationCategories.find(c => c.id === meditation.categoryId || c.id === h.categoryId);
+      return {
+        meditationId: h.meditationId,
+        title: meditation.title,
+        audioSrc: meditation.path,
+        lang: meditation.language?.toUpperCase() || 'RU',
+        category: i18n.language === 'kk' ? category?.titleKk : category?.titleRu,
+        categoryColor: category?.color || '#ccc',
+        position: h.position,
+        totalDurationSeconds: (meditation.duration || 0) * 60,
+        finished: h.finished,
+        lastPlayedAt: h.lastPlayedAt,
+        totalTime: formatTime((meditation.duration || 0) * 60),
+      };
+    })
+    .filter(Boolean);
 
   return (
     <div className="flex flex-col gap-4 mt-7">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiMapPin } from 'react-icons/fi';
 import { FaHeart, FaEye, FaExclamationTriangle } from 'react-icons/fa';
@@ -6,6 +6,7 @@ import { BsActivity } from 'react-icons/bs';
 import { Select, MenuItem, FormControl } from '@mui/material';
 import { format } from 'date-fns';
 import { ru, kk } from 'date-fns/locale';
+import api from '../../shared/helpers/axiosConfig';
 
 // Пример данных
 const sleepData = [
@@ -55,19 +56,60 @@ const formatDate = (date, language = 'kk', d = false) => {
   });
 };
 
+const sleepCategoryMap = {
+  0: { type: 'Normal', color: '#88b04b', icon: <FaEye /> },
+  1: { type: 'Core', color: '#4F3422', icon: <FaHeart /> },
+  2: { type: 'Insomniac', color: '#B79DF2', icon: <BsActivity /> },
+};
+
 export const SleepHistory = () => {
   const { t, i18n } = useTranslation();
 
   const [selectedWeekIndex, setSelectedWeekIndex] = useState('all');
+const [sleepData, setSleepData] = useState([]);
 
   const weeks = generateWeeks(2025);
 
-  const filteredData = sleepData.filter((item) => {
-    if (selectedWeekIndex === 'all') return true;
+  // const filteredData = sleepData.filter((item) => {
+  //   if (selectedWeekIndex === 'all') return true;
+  //   const week = weeks[Number(selectedWeekIndex)];
+  //   const itemDate = new Date(item.date);
+  //   return itemDate >= week.start && itemDate <= week.end;
+  // });
+
+  const fetchSleepData = async (start, end) => {
+    try {
+      const res = await api.get("/chat/sleep/weekly-history", {
+        params: {
+          startDate: format(start, 'yyyy-MM-dd'),
+          endDate: format(end, 'yyyy-MM-dd'),
+        },
+      });
+  
+      // Преобразование ответа в нужный формат
+      const newData = res.data.days.map((d) => {
+        const date = new Date(start);
+        date.setDate(start.getDate() + d.day - start.getDate()); // корректировка
+        return {
+          date: date.toISOString().split('T')[0],
+          hours: d.durationHours,
+          sleepCategory: d.sleepCategory
+        };
+      });
+  
+      setSleepData(newData);
+    } catch (e) {
+      console.error('Ошибка при получении данных сна:', e);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedWeekIndex === 'all') return;
+  
     const week = weeks[Number(selectedWeekIndex)];
-    const itemDate = new Date(item.date);
-    return itemDate >= week.start && itemDate <= week.end;
-  });
+    fetchSleepData(week.start, week.end);
+  }, [selectedWeekIndex]);
+  
 
   return (
     <div className="w-full">
@@ -112,10 +154,14 @@ export const SleepHistory = () => {
       </div>
 
       <div className="flex flex-col gap-4 w-full">
-        {filteredData.length === 0 ? (
+        {sleepData.length === 0 ? (
           <div className="text-center text-gray-400">{t('noData')}</div>
         ) : (
-          filteredData.map((item, idx) => (
+          sleepData.map((item, idx) => {
+            const category = sleepCategoryMap[item.sleepCategory] || {};
+  
+            return (
+          
             <div key={idx} className="bg-white rounded-3xl px-4 py-3 flex items-center justify-between shadow-sm">
               <div className="bg-[#FAF7F4] flex flex-col items-center p-3 rounded-2xl">
                 <span className="text-xs font-semibold text-[#C7BDB4]">
@@ -133,28 +179,24 @@ export const SleepHistory = () => {
                   </p>
                   <div
                     className="flex items-center gap-1 text-white text-xs font-semibold px-3 py-1 rounded-full"
-                    style={{ backgroundColor: item.color }}
+                    style={{ backgroundColor: category.color }}
                   >
-                    {item.icon}
-                    {item.type.toUpperCase()}
+                    {category.icon}
+                    {category.type?.toUpperCase()}
                   </div>
                 </div>
                 <div className="w-full bg-[#ECE7E3] h-[6px] rounded-full">
                   <div
                     className="h-[6px] rounded-full"
                     style={{
-                      width: `${(item.hours / 9) * 100}%`,
-                      backgroundColor: item.color,
+                      width: `${Math.min((item.hours / 9) * 100, 100)}%`,
+                      backgroundColor: category.color,
                     }}
                   />
                 </div>
-                <div className="text-[#948B84] text-xs mt-2 flex items-center gap-1">
-                  <FiMapPin className="text-base" />
-                  <span>{item.suggestion}</span>
-                </div>
               </div>
-            </div>
-          ))
+            </div>)}
+          )
         )}
       </div>
     </div>

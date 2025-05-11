@@ -13,10 +13,10 @@ export const MeditationDesktop = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full bg-[#FAF7F4] min-h-[100vh] h-max overflow-y-auto">
-      <div className="w-full flex flex-row justify-between gap-x-10 overflow-y-auto">
-        <div className="w-[75%] overflow-y-auto m-10">
-          <div className="flex flex-row w-full justify-between">
+    <div className="bg-[#FAF7F4]">
+      <div className="w-full flex flex-row justify-between gap-x-5">
+        <div className="w-[80%] p-10">
+          <div className="flex flex-row w-full justify-between mb-10">
             <div className="">
               <h2 className="mb-5 text-4xl font-bold text-[#4F3422]">{t('meditation')}</h2>
             </div>
@@ -29,8 +29,8 @@ export const MeditationDesktop = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-row gap-x-10">
-            <div className="w-1/2">
+          <div className="flex flex-row justify-between gap-x-10">
+            <div className="w-[60%]">
               <h2 className="mb-5 text-xl font-bold text-[#4F3422]">{t('todaysStatistics')}</h2>
               <div className="flex flex-row  gap-x-10">
                 <div className='w-1/2'>
@@ -41,7 +41,7 @@ export const MeditationDesktop = () => {
                 </div>
               </div>
             </div>
-            <div className="w-1/2">
+            <div className="w-[35%]">
               <MeditationRecommendations />
             </div>
           </div>
@@ -49,7 +49,7 @@ export const MeditationDesktop = () => {
             <MeditationHistory />
           </div>
         </div>
-        <div className="w-[20%] h-[95vh]">
+        <div className="w-[20%] h-full">
           <MeditationStats />
         </div>
       </div>

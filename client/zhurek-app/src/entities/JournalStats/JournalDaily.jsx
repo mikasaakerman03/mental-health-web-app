@@ -44,14 +44,6 @@ export const DayCarousel = ({ selectedDate, setSelectedDate, entries }) => {
   const { i18n } = useTranslation();
   const today = new Date();
 
-  const checkHasEntry = (fullDate) => {
-    const formattedDay = format(fullDate, 'yyyy-MM-dd');
-    return entries.some(entry => {
-      const entryDate = format(new Date(entry.createdAt), 'yyyy-MM-dd');
-      return entryDate === formattedDay;
-    });
-  };
-
   const weekDays = {
     ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
     kk: ['Дс', 'Сс', 'Ср', 'Бс', 'Жм', 'Сн', 'Жс'],
@@ -92,11 +84,6 @@ export const DayCarousel = ({ selectedDate, setSelectedDate, entries }) => {
             <span className="text-xs">{weekDays[i18n.language]?.[dayItem.dayIndex] || ''}</span>
             <span className="text-lg font-bold">{dayItem.date}</span>
             <span className="text-xs">{getMonthName(dayItem.fullDate)}</span>
-            {/* Маленькая точка */}
-            <div
-              className={`w-2 h-2 rounded-full mt-1 ${checkHasEntry(dayItem.fullDate) ? 'bg-[#A8C379]' : 'bg-[#C4C4C4]'
-                }`}
-            ></div>
           </div>
         ))}
       </div>

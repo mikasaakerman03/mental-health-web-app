@@ -25,8 +25,9 @@ export const SignInDesktop = () => {
       });
 
       if (res?.status===200 && res?.data?.statusCode===200) {
-        localStorage.setItem('authToken', res?.data.accessToken);
-        localStorage.setItem('refreshToken', res?.data.refreshToken);
+        console.log(res.data);
+        localStorage.setItem('authToken', res.data.accessToken);
+        localStorage.setItem('refreshToken', res.data.refreshToken);
   
         navigate('/dashboard')
   

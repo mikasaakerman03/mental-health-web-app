@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { musicData } from './Data';
 import clsx from 'clsx';
+import api from '../../shared/helpers/axiosConfig';
 
 export default function MeditationStepperModal({ onClose }) {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
+  const lastSavedRef = useRef(0);
   const [goal, setGoal] = useState('');
   const [selectedMeditationId, setSelectedMeditationId] = useState(null);
   const [phase, setPhase] = useState('breatheIn');
@@ -83,7 +85,16 @@ export default function MeditationStepperModal({ onClose }) {
           <h2 className="text-[#4B3621] font-bold text-lg">{t('newMeditationSession')}</h2>
           <div className="w-10">
             <button
-              onClick={onClose}
+            onClick={() => {
+              saveMeditationProgress({
+                categoryId: goalToCategoryId[goal],
+                meditationId: selectedMeditationId,
+                position: Math.floor(audioRef.current?.duration || 0),
+                finished: false,
+              });
+              onClose?.();
+            }}
+            
               className="text-[#4B3621] text-2xl"
             >
               ✖️
@@ -179,8 +190,16 @@ export default function MeditationStepperModal({ onClose }) {
                   setCurrentTime(audio.currentTime);
                   setAudioProgress(audio.currentTime / audio.duration);
                 }
-              }}
-              onEnded={() => setIsPlaying(false)}
+              }}              
+              onEnded={() => {
+                setIsPlaying(false);
+                saveMeditationProgress({
+                  categoryId: goalToCategoryId[goal],
+                  meditationId: selectedMeditationId,
+                  position: Math.floor(audioRef.current?.duration || 0),
+                  finished: true,
+                });
+              }}             
             />
 
             <button className="mb-4 bg-white text-[#4B3621] rounded-full px-4 py-2 text-sm">
@@ -209,15 +228,23 @@ export default function MeditationStepperModal({ onClose }) {
 
             <div className="flex items-center justify-center gap-8 mt-8">
               <button
-                onClick={() => {
-                  if (!audioRef.current) return;
-                  if (isPlaying) {
-                    audioRef.current.pause();
-                  } else {
-                    audioRef.current.play();
-                  }
-                  setIsPlaying(prev => !prev);
-                }}
+               onClick={() => {
+                if (!audioRef.current) return;
+              
+                if (isPlaying) {
+                  audioRef.current.pause();
+                  saveMeditationProgress({
+                    categoryId: goalToCategoryId[goal],
+                    meditationId: selectedMeditationId,
+                    position: Math.floor(audioRef.current.currentTime),
+                    finished: false,
+                  });
+                } else {
+                  audioRef.current.play();
+                }
+              
+                setIsPlaying(prev => !prev);
+              }}
                 className="w-16 h-16 bg-white text-[#4B3621] rounded-full flex items-center justify-center text-3xl"
               >
                 {isPlaying ? '⏸️' : '▶️'}
@@ -255,4 +282,21 @@ function formatTime(seconds) {
     .toString()
     .padStart(2, '0');
   return `${mins}:${secs}`;
+}
+
+async function saveMeditationProgress({ categoryId, meditationId, position, finished }) {
+  try {
+    const payload = {
+      categoryId,
+      meditationId,
+      position,
+      finished,
+      lastPlayedAt: new Date().toISOString(),
+    };
+
+    const res = await api.post('chat/meditation/meditation-history', payload);
+    console.log(res.data.message); // "Progress saved successfully"
+  } catch (error) {
+    console.error('Ошибка при сохранении истории медитации:', error);
+  }
 }

@@ -31,10 +31,10 @@ export const SleepOverview = () => {
   const averagePercent = Math.min(averageSleepHours / 9, 1); 
 
   return (
-    <div className="flex flex-col md:flex-row gap-4">
+    <div className="flex flex-col md:flex-row gap-3">
       {/* REM Card */}
-      <div className="w-[50%] py-4 bg-[#fff] rounded-xl flex flex-col items-center justify-center shadow-sm relative">
-        <div className="text-2xl text-[#5d4037] font-bold mb-4 flex items-center gap-1">
+      <div className="sm:w-[50%] py-4 bg-[#fff] rounded-xl flex flex-col items-center justify-center shadow-sm relative">
+        <div className="text-2xl text-[#5d4037] font-bold text-center mb-4 flex items-center gap-1">
           {t("youSleptFor")}
         </div>
         <div className="relative w-40 h-40">
@@ -68,7 +68,7 @@ export const SleepOverview = () => {
       </div>
 
       {/* CORE Card */}
-      <div className="w-[50%] py-4 bg-[#fff] rounded-xl flex flex-col items-center justify-center shadow-sm relative">
+      <div className="sm:w-[50%] py-4 bg-[#fff] rounded-xl flex flex-col items-center justify-center shadow-sm relative">
         <div className="text-2xl text-[#5d4037] font-bold mb-4 flex items-center gap-1">
           {t("weekAverage")}
         </div>

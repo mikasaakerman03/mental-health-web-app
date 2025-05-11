@@ -12,21 +12,29 @@ export const SignInMobile = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSignIn = async () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('refreshToken');
 
     try {
-      const { data } = await api.post('/auth/signin', {
+      const res = await api.post('/auth/signin', {
         email,
         password,
       });
 
-      localStorage.setItem('authToken', data.access_token);
-      localStorage.setItem('refreshToken', data.refresh_token);
+      if (res?.status===200 && res?.data?.statusCode===200) {
+        console.log(res.data);
+        localStorage.setItem('authToken', res.data.accessToken);
+        localStorage.setItem('refreshToken', res.data.refreshToken);
+  
+        navigate('/dashboard')
+  
+      } else {
+        setErrorMsg('Неправильный логин или пароль')
+      }
 
-      navigate('/dashboard')
     } catch (err) {
       console.log('Sign-in error:', err.response?.status, err.response?.data);
     }
@@ -83,6 +91,8 @@ export const SignInMobile = () => {
                 </label>
                 <button className="text-[#9BB167] self-start hover:underline">{t("signin.forgot")}</button>
               </div>
+
+              {errorMsg && <p className="text-sm my-3 text-[red]">{errorMsg}</p>}
 
               <button className="w-full bg-[#9BB167] hover:opacity-90 text-white py-3 rounded-full font-semibold text-lg mb-6"
                 onClick={handleSignIn}>

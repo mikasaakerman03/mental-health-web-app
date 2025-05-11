@@ -7,7 +7,7 @@ const data = [
   { name: 'Тыныс алу', value: 8 },
 ];
 
-const COLORS = ['#A7B86D', '#E18732', '#F7DD8C', '#4B3621']; // подобраны ближе к оригиналу
+const COLORS = ['#A7B86D', '#E18732', '#F7DD8C', '#4B3621'];
 
 export default function MeditationDonutChart() {
   const { t } = useTranslation();
