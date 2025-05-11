@@ -33,7 +33,7 @@ export const DashboardDesktop = () => {
   }, []);
 
   return (
-    <div className="h-screen w-full flex flex-col gap-y-5 p-5">
+    <div className="h-full w-full flex flex-col gap-y-5 p-5">
       <div className="h-[7%] flex flex-row justify-between items-center">
         <div>
           <p className='text-5xl font-bold text-[#4F3422]'>
@@ -48,7 +48,7 @@ export const DashboardDesktop = () => {
         </div>
       </div>
 
-      <div className="h-[60%] w-full flex flex-row gap-x-10">
+      <div className="h-full w-full flex flex-row gap-x-10">
         <div className="w-2/3">
           <DailyGoals/>
         </div>
@@ -57,7 +57,7 @@ export const DashboardDesktop = () => {
         </div>
       </div>
 
-      <div className="h-[30%] w-full flex flex-row justify-between gap-x-10">
+      <div className="h-[40%] pb-10 w-full flex flex-row justify-between gap-x-10">
         <div className="w-2/3 h-full flex flex-row justify-between gap-x-10">
           <SleepLevelCard />
           <HealthJournalCard />

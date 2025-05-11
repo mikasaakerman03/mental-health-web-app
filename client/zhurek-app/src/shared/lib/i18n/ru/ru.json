@@ -497,5 +497,8 @@
   "chatbot": "Сообщения чатботу",
   "messages": "сообщений",
   "hours2":"ч.",
-  "noSummaryAvailable":"Недоступно"
+  "noSummaryAvailable":"Недоступно",
+  "loading": "Загрузка",
+  "setGoal": "Поставить цель",
+  "entries":"записей"
 }

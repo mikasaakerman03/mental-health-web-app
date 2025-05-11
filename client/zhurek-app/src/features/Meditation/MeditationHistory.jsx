@@ -21,6 +21,14 @@ export default function MeditationHistory() {
   const [historyData, setHistoryData] = useState([]);
   const [currentTimeMap, setCurrentTimeMap] = useState({});
 
+  const goalToCategoryId = {
+    [t('category1')]: 1,
+    [t('category2')]: 2,
+    [t('category3')]: 3,
+    [t('category4')]: 4,
+    [t('category5')]: 5,
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newProgress = {};
@@ -56,10 +64,18 @@ export default function MeditationHistory() {
     const audio = audioRefs.current[meditationId];
     if (!audio) return;
 
+    const meditation = musicData.find(m => m.id === meditationId);
+    const categoryId = meditation.categoryId;
     if (playingId === meditationId) {
       audio.pause();
+      saveMeditationProgress({
+        categoryId,      
+        meditationId,
+        position: Math.floor(audio.currentTime),
+        finished: false,
+      });
       setPlayingId(null);
-    } else {
+       }   else {
       if (playingId !== null && audioRefs.current[playingId]) {
         audioRefs.current[playingId].pause();
       }
@@ -173,11 +189,8 @@ export default function MeditationHistory() {
 
                 {/* Times */}
                 <div className="flex items-center justify-between text-xs text-gray-400 mt-1">
-                  <span>
-                    {audioRefs.current[item.meditationId]
-                      ? formatTime(audioRefs.current[item.meditationId].currentTime)
-                      : '00:00'}
-                  </span>
+                <span>{formatTime(currentTimeMap[item.meditationId] || item.position)}</span>
+
                   <span>{item.totalTime}</span>
                 </div>
               </div>
@@ -199,4 +212,21 @@ function formatTime(seconds) {
     .toString()
     .padStart(2, '0');
   return `${mins}:${secs}`;
+}
+
+async function saveMeditationProgress({ categoryId, meditationId, position, finished }) {
+  try {
+    const payload = {
+      categoryId,
+      meditationId,
+      position,
+      finished,
+      lastPlayedAt: new Date().toISOString(),
+    };
+
+    const res = await api.post('chat/meditation/meditation-history', payload);
+    console.log(res.data.message); // "Progress saved successfully"
+  } catch (error) {
+    console.error('Ошибка при сохранении истории медитации:', error);
+  }
 }

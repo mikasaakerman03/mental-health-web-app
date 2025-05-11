@@ -29,11 +29,11 @@ export const MeditationDesktop = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-row justify-between gap-x-10">
-            <div className="w-[60%]">
+          <div className="flex flex-col mb-10 justify-between gap-x-10">
+            <div className="w-full mb-10">
               <h2 className="mb-5 text-xl font-bold text-[#4F3422]">{t('todaysStatistics')}</h2>
               <div className="flex flex-row  gap-x-10">
-                <div className='w-1/2'>
+                <div className='w-1/3'>
                   <MeditationDonutChart />
                 </div>
                 <div className="w-1/2">
@@ -41,7 +41,7 @@ export const MeditationDesktop = () => {
                 </div>
               </div>
             </div>
-            <div className="w-[35%]">
+            <div className="w-full">
               <MeditationRecommendations />
             </div>
           </div>

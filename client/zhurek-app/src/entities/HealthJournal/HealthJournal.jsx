@@ -6,8 +6,8 @@ import arrowRightIcon from '../../shared/assets/icons/arrowright_orange.svg';
 import bookIcon from '../../shared/assets/icons/book2_white.svg';
 import useIsMobile from '../../shared/helpers/useIsMobile';
 
-const totalDays = 25;
-const activeDays = 16;
+const totalDays = 10;
+const activeDays = 5;
 
 export const HealthJournalCard = () => {
   const { t } = useTranslation();

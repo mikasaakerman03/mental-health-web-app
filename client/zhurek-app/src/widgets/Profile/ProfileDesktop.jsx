@@ -10,6 +10,7 @@ import { AiChatbotCard } from '../../entities/AIChatbotCard/AiChatbotCard';
 import { HealthJournalCard } from '../../entities/HealthJournal/HealthJournal';
 import { MeditateCard } from '../../entities/MeditateCard/MeditateCard';
 import { getUser } from '../../shared/api/getUser';
+import { CustomDailyGoals } from '../../entities/DailyGoals/CreateGoals';
 
 export const ProfileDesktop = () => {
   const { t } = useTranslation();
@@ -33,8 +34,8 @@ export const ProfileDesktop = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-[#F5F5F5] flex justify-center items-start">
-      <div className="bg-white rounded-3xl shadow-xl w-full h-full overflow-hidden">
+    <div className="w-full h-screen overflow-y-auto bg-[#F5F5F5] flex justify-center items-start">
+      <div className="bg-white rounded-3xl shadow-xl w-full pb-10">
         {/* Header */}
         <div
           className="h-[250px] bg-cover bg-center relative"
@@ -71,13 +72,17 @@ export const ProfileDesktop = () => {
           </div>
 
           {/* Cards */}
-          <div className="w-2/3 flex flex-row gap-x-10 mx-auto mt-10 min-h-full">
+          <div className="w-[80%] flex flex-row gap-x-10 mx-auto my-10 h-[200px]">
             <SleepLevelCard />
             <HealthJournalCard />
             <AiChatbotCard />
-            <div className="w-full min-h-full">
+            {/* <div className="w-full min-h-full"> */}
               <MeditateCard />
-            </div>
+            {/* </div> */}
+          </div>
+
+          <div className="w-[80%] mx-auto">
+            <CustomDailyGoals/>
           </div>
         </div>
       </div>
