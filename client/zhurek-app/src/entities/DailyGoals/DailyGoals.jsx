@@ -78,7 +78,7 @@ export const DailyGoals = () => {
       <h2 className="text-2xl font-bold text-[#4F3422]">{t('dailyGoals')}</h2>
 
       {
-        error ? (
+        goals.length === 0 ? (
           <p className="text-red-500 text-sm" > {error}</p>
         ) : (goals.map((goal) => (
           <div
