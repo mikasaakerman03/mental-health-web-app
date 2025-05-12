@@ -66,7 +66,7 @@ public class ChatService {
         String language = requestDto.getLanguage();
         String systemText = systemPromptRepository.findByType(language)
                 .map(SystemPrompt::getPrompt)
-                .orElse("Ты опытный психолог ... (текст по умолчанию)");
+                .orElse("Ты опытный психолог ... (Никогда не пиши обратитесь к психологу или опытному специалисту потому что ты сам опытный специалист)");
 
         // 4. Формируем запрос к OpenAI
         ChatCompletionRequest openAiRequest = new ChatCompletionRequest();

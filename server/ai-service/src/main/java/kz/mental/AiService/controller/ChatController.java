@@ -1,20 +1,26 @@
 package kz.mental.AiService.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import kz.mental.AiService.dto.*;
 import kz.mental.AiService.entity.ChatHistory;
 import kz.mental.AiService.entity.ChatbotCategory;
 import kz.mental.AiService.entity.Topic;
-import kz.mental.AiService.service.ChatService;
-import kz.mental.AiService.service.ChatbotCategoryService;
-import kz.mental.AiService.service.ProfileService;
-import kz.mental.AiService.service.TopicService;
+import kz.mental.AiService.service.*;
 import kz.mental.AiService.utils.JwtParserUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,11 +29,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequestMapping("api/v1/chat")
 public class ChatController {
-
+    private final JournalService journalService;
     private final ChatService chatService;
     private final ChatbotCategoryService service;
     private final TopicService topicService;
     private final ProfileService profileService;
+    private final SleepService sleepService;
+    private final JournalSummaryService summaryService;
+    private final MeditationHistoryService meditationHistoryService;
+    private final GoalService goalService;
 
     @GetMapping("/categories")
     public List<CategoryWithCountDto> getAllCategories(@RequestHeader("Authorization") String authHeader) {
@@ -114,5 +124,202 @@ public class ChatController {
     ) {
         ProfileResponse updatedProfile = profileService.updateUserProfile(authHeader, request);
         return ResponseEntity.ok(updatedProfile);
+    }
+
+    @Operation(summary = "Создать запись в журнале")
+    @PostMapping("/journal/create-record")
+    public ResponseEntity<JournalCreateResponseDto> create(
+            @RequestHeader("Authorization") String authHeader,
+            @Valid @RequestBody JournalCreateRequestDto dto
+    ) {
+        var resp = journalService.createRecord(authHeader,dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+    }
+
+
+
+    @Operation(summary = "Получить записи за день")
+    @GetMapping("/journal")
+    public ResponseEntity<List<JournalDayRecordDto>> byDate(
+            @RequestParam("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate date
+    ) {
+        var list = journalService.getRecordsForDate(date);
+        if (list.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/journal/ai-record-suggestion")
+    public ResponseEntity<AiRecordSuggestionDto> getAiRecordSuggestion(
+            @RequestParam("recordId") Integer recordId,
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        // можно по authHeader извлечь userId/email
+        AiRecordSuggestionDto dto = journalService.getAiRecordSuggestion(recordId);
+        return ResponseEntity.ok(dto);
+    }
+    @Operation(summary = "Годовая статистика журнала")
+    @GetMapping("/journal/yearly-statistics")
+    public ResponseEntity<?> getYearlyStatistics(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam("year")  int year,
+            @RequestParam("month") int month
+    ) {
+        try {
+            YearlyStatisticsResponse resp =
+                    journalService.getYearlyStatistics(authHeader, year, month);
+            return ResponseEntity.ok(resp);
+
+        } catch (IllegalArgumentException ex) {
+            // 400 Bad Request
+            return ResponseEntity
+                    .badRequest()
+                    .body(Collections.singletonMap("error", ex.getMessage()));
+
+        } catch (Exception ex) {
+            // 500 Internal Server Error
+            return ResponseEntity
+                    .status(500)
+                    .body(Collections.singletonMap("error", "Server error"));
+        }
+    }
+
+    @PostMapping("/sleep/sleep-entry")
+    public ResponseEntity<SleepEntryResponseDto> createSleepEntry(
+            @RequestHeader("Authorization") String authHeader,
+            @Valid @RequestBody SleepEntryRequestDto dto
+    ) {
+        SleepEntryResponseDto resp = sleepService.createEntry(authHeader,dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+    }
+
+    @GetMapping("/sleep/average-start-time")
+    public ResponseEntity<AverageTimeResponseDto> getAverageStartTime(
+            @RequestHeader("Authorization") String authHeader) {
+        AverageTimeResponseDto dto = sleepService.getAverageStartTime(authHeader);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/sleep/average-end-time")
+    public ResponseEntity<AverageTimeResponseDto> getAverageEndTime(
+            @RequestHeader("Authorization") String authHeader) {
+        AverageTimeResponseDto dto = sleepService.getAverageEndTime(authHeader);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/sleep/today-duration")
+    public ResponseEntity<TodayDurationResponseDto> getTodayDuration(
+            @RequestHeader("Authorization") String authHeader) {
+        TodayDurationResponseDto dto = sleepService.getTodayDuration(authHeader);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/sleep/average-weekly-duration")
+    public ResponseEntity<AverageWeeklyDurationResponseDto> getAverageWeeklyDuration(
+            @RequestHeader("Authorization") String authHeader) {
+        AverageWeeklyDurationResponseDto dto = sleepService.getAverageWeeklyDuration(authHeader);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/sleep/weekly-history")
+    public ResponseEntity<WeeklyHistoryResponseDto> getWeeklyHistory(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate")   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        WeeklyHistoryResponseDto dto = sleepService.getWeeklyHistory(authHeader, startDate, endDate);
+        return ResponseEntity.ok(dto);
+    }
+
+    // в kz.mental.AiService.controller.ChatController (или SleepController)
+    @Operation(summary = "Получить AI-рекомендации для сна")
+    @GetMapping("/sleep/ai-sleep-suggestion")
+    public ResponseEntity<SleepAiSuggestionResponseDto> getAiSleepSuggestion(
+            @RequestParam("recordId") String recordId,
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        var dto = sleepService.getAiSleepSuggestion(recordId, authHeader);
+        return ResponseEntity.ok(dto);
+    }
+    @Operation(summary = "Получить AI-сводку записей за день (для текущего пользователя)")
+    @GetMapping("/journal/summary")
+    public ResponseEntity<JournalSummaryDto> getSummary(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate date
+    ) {
+        JournalSummaryDto dto = summaryService.getDailySummary(authHeader, date);
+        return ResponseEntity.ok(dto);
+    }
+    @Operation(summary = "Получить все категории сна")
+    @GetMapping("/sleep/categories")
+    public ResponseEntity<List<SleepCategoryDto>> getAllCategories() {
+        List<SleepCategoryDto> categories = sleepService.getAllCategories();
+        return ResponseEntity.ok(categories);
+    }
+
+    @PostMapping("/meditation/meditation-history")
+    public ResponseEntity<MessageResponseDto> saveProgress(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody MeditationHistoryRequestDto dto
+    ) {
+        meditationHistoryService.saveOrUpdate(authHeader, dto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new MessageResponseDto("Progress saved successfully"));
+    }
+    @GetMapping("/meditation/meditation-history")
+    public ResponseEntity<Page<MeditationHistoryResponseDto>> getHistory(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        // по умолчанию сортируем по updatedAt (или createdAt) в порядке убывания
+        var pageable = PageRequest.of(page, size, Sort.by("updatedAt").descending());
+        Page<MeditationHistoryResponseDto> result = meditationHistoryService.getHistory(authHeader, pageable);
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/meditation/meditation-statistics")
+    public ResponseEntity<MeditationStatisticsDto> stats(
+            @RequestHeader("Authorization") String auth) {
+        return ResponseEntity.ok(meditationHistoryService.getStatistics(auth));
+    }
+    @GetMapping("/meditation/meditation-ai-suggestion")
+    public ResponseEntity<MeditationAiSuggestionDto> getAiSuggestion(
+            @RequestHeader("Authorization") String auth,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        MeditationAiSuggestionDto dto = meditationHistoryService.getAiSuggestion(auth, startDate, endDate);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/goals/daily")
+    public ResponseEntity<GoalsResponseDto> getDailyGoals(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        return ResponseEntity.ok(goalService.getDailyGoals(authHeader, date));
+    }
+
+    @PostMapping("/goals/create")
+    public ResponseEntity<Void> createGoal(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody CreateGoalRequestDto dto
+    ) {
+        goalService.createGoal(authHeader, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/goals/update")
+    public ResponseEntity<Void> updateGoal(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody UpdateGoalRequestDto dto
+    ) {
+        goalService.updateGoal(authHeader, dto);
+        return ResponseEntity.ok().build();
     }
 }
