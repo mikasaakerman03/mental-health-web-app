@@ -1,3 +1,4 @@
+id,date,goal_type,goal_value,user_id,done
 1,2025-05-08,chatbot,20,11,false
 2,2025-05-10,chatbot,20,11,false
 3,2025-05-11,chatbot,20,11,false

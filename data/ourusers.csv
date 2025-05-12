@@ -1,3 +1,4 @@
+id,email,password,role,name,device_token,expo_token,address,birth_date,gender,height,weight
 1,ivan.ivanov42@example.com,$2a$10$HyKVUZhNaBjYWiL6DFL/0u9iSqBiB4TtSFJMeCi3oW2p3bHyCq9.W,USER,Иван Иванов,,,,,,,
 2,aigerimok@example.com,$2a$10$pD0PRdYewm8KzJlgYVAtnOYJfbily2P0q31d87sXcU8kUzhfIbJ3S,USER,Aigerim,,,,,,,
 4,ivan.ivanov422@example.com,$2a$10$x6OCS5uu36Ysm.xoQIrOIu7f0v7KbwpE8DPjYEoeEqOVr5gMX2nBu,USER,Иван Иванов,,,,,,,

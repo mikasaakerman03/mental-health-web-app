@@ -1,3 +1,4 @@
+userid,email,expo_token,name,balance,balance_id
 1,example@example.com,ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx],John Doe,1,
 5,example@example.com,your_expo_token,John Doe,,1
 10,example@example.com,your_expo_token,John Doe,,2
