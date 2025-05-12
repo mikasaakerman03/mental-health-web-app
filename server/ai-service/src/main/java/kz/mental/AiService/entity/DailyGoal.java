@@ -5,20 +5,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-
 @Entity
 @Table(name = "daily_goals",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "date", "goal_type"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "date", "goalType"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailyGoal {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // связь на пользователя
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private OurUsers user;
@@ -26,9 +23,12 @@ public class DailyGoal {
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column(name = "goal_type", nullable = false, length = 50)
+    @Column(nullable = false)
     private String goalType;
 
     @Column(nullable = false)
     private Double goalValue;
+
+    @Column(nullable = false)
+    private Boolean done = false;      // <— новоe поле
 }

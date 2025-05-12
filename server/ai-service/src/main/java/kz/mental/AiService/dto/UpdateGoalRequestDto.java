@@ -3,5 +3,6 @@ package kz.mental.AiService.dto;
 
 public record UpdateGoalRequestDto(
         String goalType,
-        Double newGoalValue
+        Double newGoalValue,
+        Boolean done
 ) {}

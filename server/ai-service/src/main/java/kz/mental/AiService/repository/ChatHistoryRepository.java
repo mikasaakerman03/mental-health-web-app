@@ -17,4 +17,5 @@ public interface ChatHistoryRepository extends JpaRepository<ChatHistory, Long> 
 
     List<ChatHistory> findAllByTopic_IdAndUser_Id(UUID topicId, Integer userId);
 
+
 }

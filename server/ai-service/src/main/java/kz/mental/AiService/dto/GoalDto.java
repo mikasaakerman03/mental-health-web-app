@@ -4,5 +4,5 @@ package kz.mental.AiService.dto;
 public record GoalDto(
         String goalType,
         Double goalValue,
-        Double currentValue
+        Boolean done
 ) {}

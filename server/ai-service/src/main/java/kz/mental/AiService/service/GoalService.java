@@ -38,7 +38,7 @@ public class GoalService {
                         .map(g -> new GoalDto(
                                 g.getGoalType(),
                                 g.getGoalValue(),
-                                0.0        // <-- здесь нужно дернуть другие сервисы и посчитать текущее значение
+                                g.getDone()      // <-- здесь нужно дернуть другие сервисы и посчитать текущее значение
                         ))
                         .collect(Collectors.toList())
         );
@@ -74,6 +74,7 @@ public class GoalService {
                 .orElseThrow(() -> new IllegalArgumentException("Goal not found for today: " + dto.goalType()));
 
         goal.setGoalValue(dto.newGoalValue());
+        goal.setDone(dto.done());
         goalRepo.save(goal);
     }
 }
